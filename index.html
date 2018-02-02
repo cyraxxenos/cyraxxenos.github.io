@@ -1,493 +1,286 @@
-﻿<!DOCTYPE html><!--Calc-->
+<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html; charset=windows-1251">
-<style type="text/css">
-html * {max-height:1000000px; -moz-text-size-adjust:none; -ms-overflow-style:none}
-body * {max-height:1000000px; -moz-text-size-adjust:none}
-body::-webkit-scrollbar, div::-webkit-scrollbar {display:none}
-:target {display:none}
-button, input[type=button] {width:65pt; margin:0}
-input[type=checkbox] {position:absolute; width:20pt; height:20pt}
-.b,.bDeg,.bF,.bM {padding:0}
-.b    {font-size:12pt; height:50pt}
-.bDeg {font:18pt Calibri; height:50pt; border:3px outset Red; border-radius:4px}
-.bF   {font-size:14pt; height:50pt; border:1px outset DimGray; border-radius:3px; background:Orange}
-.bM   {font-size:12pt; height:40pt; border:1px outset DimGray; border-radius:3px}
-.mem  {font:bold 22pt Calibri; border:none; border-radius:5px; vertical-align:middle; padding-right:3px; margin-top:1px; letter-spacing:-1}
-.field	{width:55pt; font:12pt Calibri; height:20pt; border:0; text-align:center; color:White; background:transparent}
-table.calc {border:1px dotted White}
-td {width:55pt}
-
-input[type=radio]:before {content:''; display:block; width:100%; height:100%; border-radius:50%; background:Red}
-input[type=radio]:checked:before {background:LimeGreen}
-
-[f12],[f16],[f18],[f20],[f22]{height:50pt}
-[f11],[f14]{height:25pt}
-[f11]{font-size:11pt} [f12]{font-size:12pt} [f14]{font-size:14pt} [f16]{font-size:16pt} [f18]{font-size:18pt} [f20]{font-size:20pt}
-[f22]{font-size:22pt; font-family:Allerta Stencil, Calibri}
-[bB] {background:Bisque} [bP] {background:Pink} [cP] {color:DeepPink} [cC] {color:Chocolate}
-
-.checkbox:not(checked) + label:before {content:'';
-	position:absolute; top:-4px; left:0; width:50px; height:26px;
-	border-radius:13px; background:Silver; box-shadow:inset 0 2px 3px rgba(0,0,0,.2);
-}
-.checkbox:not(checked) + label:after {content:'';
-	position:absolute; top:-2px; left:2px; width:22px; height:22px;
-	border-radius:10px; background:#FFF; box-shadow:0 2px 5px rgba(0,0,0,.3); transition:all .2s;
-}
-.checkbox:checked + label:before {background:SpringGreen}
-.checkbox:checked + label:after {left:26px}
-</style>
-
-<script type="text/javascript">
-var shift = 0, LEDfocus = 0, MEMF = 0, Crm = function() {if (navigator.appVersion.indexOf('Chrome')>-1) return true}
-var LSM = function() { var elem, types;
-	if (['Chrome','.NET'].some(function(a){return navigator.appVersion.indexOf(a)>-1})){document.calculator.style.display =''; ID("title").innerHTML =''}
-	else {ID("title").innerHTML="Для работы калькулятора рекомендуется браузер Chrome или IE11+"; return false}
-	elem = document.getElementsByTagName('button');
-	for (var i=elem.length-1; i>=0; i--) {elem[i].type ="button"}
-	elem = document.getElementsByTagName('input');
-	for (var i=elem.length-1; i>=0; i--) {types = elem[i].getAttribute("type");
-	if ('checkbox,radio,button,text'.split(',').every(function(a){return types!=a})) {elem[i].type ="button"}}
-	if (Crm()) {
-		while (localStorage['MEM'+MEMF]) {inMEM(localStorage['MEM'+MEMF]); MEMF++}
-		if (MEMF>0) ID('MC').style.display =''
-	} Click('C')
-}
-var OnF = function(a){
-	ID('DRG').style.display = a.checked ? '':'none'; if (a.checked == false) {ID('Deg').checked = true; DMS_IO(1)}
-	ID('Page').disabled = a.checked ? false:true
-}
-var inMEM = function(a){ var c = document.calculator;
-	c.MEM.options[c.MEM.options.length] = new Option(a, a, true, true);
-	c.MEM.insertBefore(c.MEM.options[c.MEM.options.length-1], c.MEM.options[0]);
-	c.MEM.options.selectedIndex = 0
-}
-
- function hotkeydown(event) {var e = event.keyCode;
-	if (e == 16) {shift = 1; f2()}
-	if (e == 27) {window.close()}
-	document.calculator.K.value = e;
-	if ((e<45 || e>57) && (e<96 || e>110) && (e<188 || e>191) && e!=9 && e!=32 && e!=83) {event = stop(event)}
- }
-
- function hotkeyup(event) {var e = event.keyCode;
-    if (LEDfocus==0){
-	for(var i = 0; i<10; i++){if (e == 48+i || e == 96+i) {Click(i+"")}}
-	if (e == 110 || e == 191) {Click('.')}
-	if (e == 107 || e == 187) {Click('+')}
-	if (e == 109 || e == 189) {Click(shift == 1 ?'+/-':'-')}
-	if (e == 106) {Click('*')}
-	if (e == 111 || e == 220) {Click(shift == 1 ?'1/x':'/')}
-    }
-	if (e == 77) {Click(shift == 1 ?'M':'MR')}
-	if (e == 81) {Click(shift == 1 ?'sqrt':'x^2')}
-	if (e == 80) {Click('pi')}
-	if (e == 83) {Click('sin')}
-	if (e == 67) {Click('cos')}
-	if (e == 84) {Click('tan')}
-	if (e == 82) {Click('RoNUM')}
-	if (e == 13) {Click('=')}
-	if (e == 8) {CurV = ID("LED").value.slice(0,-1); cmp()}
-	if (e == 8 || e == 46 && ID("LED").value.length == 0) {ID("LED").value = 0}
-	if (e == 16) {shift = 0; f2()}
- }
-
- function f2() {
-	var Ar1 = ["sin","cos","tan","asin","acos","atan","Mod360","2nd F"];
-	var Ar2 = ["sinh","cosh","tanh","asinh","acosh","atanh","Mod","2nd F"];
-    for(var i = 0; i<Ar1.length; i++){
-	var elem = ID(Ar1[i]);	elem.style.opacity = shift ? 0.8:1;
-	if (i==6) {elem.title = shift ? 'Возвращает остаток от деления':'Аналог функции Mod 360'};
-	if (i==7) {elem.style.color = elem.style.borderColor = shift ?'Red':'Green'};
-	elem.value = (shift ? Ar2[i] : Ar1[i])}
- }
-
- function stop(e) {
-	if (e.preventDefault) {e.preventDefault(); e.stopPropagation()} // стандарт
-	else {e.returnValue = false; e.cancelBubble = true} // IE8-
- }
-
-var Symbols = function() { var str ='';
-	for (var i=1; i<65526; i++){
-		if ((i<1524 || i>5483) && (i<13312 || i>57343) && (i<58111 || i>65071))
-		str += ('<div class="cell" align="center"><span class="code">&amp;#'+i+';</span><br><span class="symbol">&#'+i+';</span></div>')
-	}
-	window.open('','','scrollbars=1,width=1200,height=800').document.write('<title>Коды символов"</title> <style>.cell{background:AliceBlue; padding:5px; margin:3px; float:left; border:Blue 1px solid; width:40pt; height:30pt}\n.code{font-size:12px}\n.symbol{font-size:18px}</style> <body onkeydown="if (event.keyCode == 27) {window.close()}"></body>'+str)
-}
-
-var ID = function(a) {return document.getElementById(a)}
-var hid = function(a) {ID(a).style.display = ID(a).style.display ? '':'none'; return false}
-
-var DMS_IO = function(a){['DMS_D','DMS_M','DMS_S','DMS'].forEach(function(e) {ID(e).disabled = a ? false:true})};
-
-var degSigns = function(a) {return (a.indexOf('*')>-1 || a.indexOf("'")>-1 || a.indexOf('"')>-1) ? true:false}
-
-var deg = function(a,b,c) { var sign, g, m, s, t; if (!a || a.match("e")) {return a}
-	sign = a<0 ? -1 : 1;	t = Math.abs(a) +"";
-	g = t.split(".")[0];	t = ("0."+ (t.split(".")[1] || 0)) * (b=="deg" ? 100:60) +"";
-	m = c ? t.split(".")[0] : t;
-	s = c ? ("0."+ (t.split(".")[1] || 0)) * (b=="deg" ? 100:60) : 0;
-	if (Math.round(parseFloat(s)*100000)/100000==60) {s=0; m++}
-	if (Math.round(parseFloat(m)*100000)/100000==60) {m=0; g++}
-	return {r:sign*(g/1 + m/(b=="deg" ? 60:100) + s/(b=="deg" ? 3600:10000)).toFixed(13), g:g, m:m, s:s, DM:g + (m<10?'*0':'*') + (m*1).toFixed(5)+"'", DMS:g + (m<10?"*0":"*") + m + (s<10?"'0":"'") + s.toFixed(5) +'"'}
-}
-
-var DMS_D = function(a,c) {
-    var DMS = a, D = 0, M = 0, S = 0, t, sign = ''; if (!DMS || DMS.match("e")) {return DMS}
-        if (a.indexOf('-')==0) {sign = '-'; DMS = DMS.slice(1)}
-    if (degSigns(a)) {
-	if (DMS.indexOf('*')>-1) {D = DMS.split('*')[0]; DMS = DMS.split('*')[1]}
-	if (DMS.indexOf("'")>-1) {M = DMS.split("'")[0] / 60; DMS = DMS.split("'")[1]}
-	if (DMS.indexOf('"')>-1) {S = DMS.split('"')[0] / 3600}
-	DMS = D*1+M*1+S*1
-    } else {
-	DMS = c ? deg(a,"dms","s").DMS : deg(a,"dm").DM
-    }	return sign+DMS
-}
-
-var angle = function(a,b) {if (document.calculator.angle[0].checked) a *= (b?180/Math.PI:Math.PI/180);
-			   if (document.calculator.angle[2].checked) a *= (b?200/Math.PI:Math.PI/200); return a}
-var toRad = function(a) {return (degSigns(a) ? DMS_D(a):a)*Math.PI/180}
-var round_3 = function(a) {return Math.round(parseFloat(a)*1000)/1000}
-var fix_repl = function(a,n) {return parseFloat(a).toFixed(n).replace('.',',')}
-var deg_dms = function(val) {
-	var val_s = (val<0 ?'-':''), val_u = Math.abs(val);
-	var g = Math.floor(val_u);
-	var m = Math.floor((val_u - g)*60);
-	var s = round_3((val_u - g - m/60)*3600);
-	if (s==60) {s=0; m++}
-	if (m==60) {m=0; g++}
-	return [(val_s+g)*1, m, s, val_s]
- }
-var deg_dms3 = function(val) {var R = deg_dms(val); return (R[0]==0?R[3]:"") + R[0] +"&#176; "+ (Math.round(R[1])<10?"0":"") + R[1] + "&#8242; "+ (Math.round(R[2])<10?"0":"") + fix_repl(R[2],3) +"&#8243;"}
-
-var Result=0, Operator=0, Second=0, Ready=0, Done=1, Complete=0, Integer, CurV;
-var cmp = function() {ID("LED").value = CurV; Complete = 1}
-
-function reset(value) {if (value){ID("LED").value = value} Result = Operator = Second = Ready = Complete = 0; Done = 1}
-
-function SetValue(NewValue) {Integer = 1;
-	if (Second || Done) {Second = Done = 0; CurV = NewValue}
-	for (var i=0; i<CurV.length; i++) if (CurV[i]=='.') Integer=0
-}
-
-function Click(Caption){ var c = document.calculator; CurV = c.LED.value;
-
- ['*',"'",'"','.'].forEach(function(a) {if (CurV.indexOf(a)==CurV.length-1 && (Caption.indexOf('DMS_')==0 || Caption=='.')) {CurV = CurV.slice(0,-1)} });
- if (CurV.indexOf('"')>-1 && Caption.length==1 && ((Caption>='0' && Caption<='9') || Caption=='.') && Complete==1) {return cmp()}
-
- if (Caption=='.') { SetValue('0'); if (Integer) {c.LED.value = CurV += Caption; Complete=0} }
-
- if (Caption.length==1 && Caption>=0 && Caption<=9) {
- 	SetValue('');
- 	if (CurV=='0') {CurV =''}
- 	CurV += Caption; cmp()
- } else {
- 	if (Caption.indexOf('DMS')==-1 && degSigns(c.LED.value)) {CurV = DMS_D(c.LED.value,"s")}
- }
-
-// Блокировка некоторых кнопок, если их сейчас не применить
-["%"].forEach(function(e) {ID(e).disabled = (Caption!='%' && CurV && Result && Caption!='=' && !degSigns(c.LED.value)) ? false : true});
-
-c.FF.value = Caption;
-
- if (Caption=='Page')
- { if (degSigns(c.LED.value)) {return} if (CurV==false) {return Symbols()}
-	var S = ['<br><br>B&#8242;:<br>','<br><br>A:<br>','<br><br>B:<br>'], NPage = Math.ceil(Math.abs(CurV)/4)*4; if (NPage>20000) {return}
-  for (var i=1; i<(NPage/4)+1; i++) {
-	S[1] += (i==1?'':',')+(NPage - (i-1)*2) +','+ (1 + (i-1)*2);
-	S[2] += (i==1?'':',')+(NPage/2 - (i-1)*2) +','+ (NPage/2 + (i-1)*2 + 1);
-	S[0] += (i==1?'':',')+(2 + (i-1)*2) +','+ (NPage - (i-1)*2 - 1);
-  }	var t = '<title>Последовательности</title><body onkeydown="if (event.keyCode == 27) window.close()"></body>Всего: '+ NPage;
-	window.open('','','scrollbars=1,width=800,height=250').document.write(t+S[1]+S[2]+S[0])
- }
-
- if (Caption=='M') {
-	if (c.LED.value.length>0) {inMEM(c.LED.value)} if (!Second) reset()
-	if (Crm()) {localStorage['MEM'+MEMF] = c.LED.value; MEMF++}
- }
- if (Caption=='MR') {c.LED.value = c.MEM.value; Complete = 1}
- if (Caption=='MC') {c.MEM.options.length = 0; if (Crm()) for (var i=0; i<MEMF; i++) {localStorage.removeItem('MEM'+i)} MEMF = 0}
- if (Caption=='M+') {c.MEMp.value = 1*c.MEMp.value + 1*(degSigns(c.LED.value)? DMS_D(c.LED.value) : CurV); if (!Second) reset()}
- if (Caption=='MR+') {c.LED.value = c.MEMp.value; Complete = 1}
- if (Caption=='MC+') {c.MEMp.value =''}
- if (Caption=='2nd F') {shift = (shift ? 0:1); f2()}
-	ID('MC').style.display = c.MEM.options.length>0?'':'none';
-	ID('MC+').style.display = c.MEMp.value.length>0?'':'none';
-
- if (Caption=='gAS') // ОГЗ
- { if (!c.MEM.value || !c.MEMp.value || degSigns(c.MEM.value) || degSigns(c.MEMp.value)) {return}
-	var X = 1*c.MEM.value, Y = 1*c.MEMp.value, A, S;
-	S = Math.sqrt(X*X + Y*Y);
-	p = Y<0?-1:1;
-	A = S==0 ? "NaN": p * Math.acos(X/S) * (180/Math.PI);
-	A %= 360; if (A<0) {A += 360}
-	c.MEMp.value = S.toFixed(11)*1;
-	inMEM(A.toFixed(11)*1)
- }
-
- if (Caption=='gXY') // ПГЗ
- { if (!c.MEM.value || !c.MEMp.value || degSigns(c.MEMp.value)) {return}
-	var A = toRad(c.MEM.value), S = c.MEMp.value;
-	c.MEMp.value = (S * Math.sin(A)).toFixed(11)*1;
-	inMEM((S * Math.cos(A)).toFixed(11)*1)
- }
-
- if (Caption=='gK' ) // Параметры круговой кривой
- { if (!c.MEM.value || !c.MEMp.value || degSigns(c.MEMp.value)) {return}
-	var kl = {U:toRad(c.MEM.value), pl:'', R:c.MEMp.value}
-	if (kl.U<0) {kl.pl =' (левый)'} if (kl.U>0) {kl.pl =' (правый)'}
-	if (kl.U % Math.PI == 0) {kl.U = 0; kl.pl =""} kl.U %= (Math.PI*2);
-	kl.t = Math.abs(kl.R * Math.tan(kl.U/2));
-	kl.k = Math.abs(kl.R * kl.U);
-	kl.b = Math.abs(kl.R * (1/Math.cos(kl.U/2)-1));
-	kl.str = '<title>Параметры круговой кривой</title><body onkeydown="if (event.keyCode == 27) window.close()"></body>'+
-	"<br>   Угол поворота &#966; = "+ deg_dms3(Math.abs(kl.U)*180/Math.PI) + kl.pl+
-	"<br>   Горизонтальный угол (слева) = "+ deg_dms3((Math.PI+kl.U)*180/Math.PI)+
-	"<br>   Горизонтальный угол (справа) = "+ deg_dms3((Math.PI-kl.U)*180/Math.PI)+
-	"<br>   R = "+ kl['R']+
-	"<br>   Т = "+ fix_repl(kl.t,3)+
-	"<br>   К = "+ fix_repl(kl.k,3)+
-	"<br>   Б = "+ fix_repl(kl.b,3)+
-	"<br>   Д = "+ fix_repl(2*kl.t-kl.k,3);
-	window.open('','','scrollbars=1,width=400,height=200').document.write(kl.str)
- }
-
- if (CurV) {
-	if (Caption=='DMS_D') {CurV = CurV+( !degSigns(c.LED.value) ? '*':'' ); cmp()}
-	if (Caption=='DMS_M') {CurV = CurV+( (CurV.indexOf("'")==-1 && CurV.indexOf('"')==-1) ? "'":'' ); cmp()}
-	if (Caption=='DMS_S') {CurV = CurV+( CurV.indexOf('"')==-1 ? '"':'' ); cmp()}
-	if (Caption=='DMSs') {CurV = DMS_D(c.LED.value,"s"); cmp()}
-	if (Caption=='DMS')  {CurV = DMS_D(c.LED.value); cmp()}
-
-	if (Caption=='dm-deg')	{CurV = deg(CurV,"deg").r; cmp()}
-	if (Caption=='deg-dm')	{CurV = deg(CurV,"dm").r; cmp()}
-	if (Caption=='dms-deg')	{CurV = deg(CurV,"deg","s").r; cmp()}
-	if (Caption=='deg-dms')	{CurV = deg(CurV,"dms","s").r; cmp()}
-	if (Caption=='Mod360')	{CurV %= 360; if (CurV < 0) {CurV += 360}; CurV = CurV.toFixed(12)*1; cmp()}
-	if (Caption=='1/x')	{CurV = eval('1/'+ CurV); cmp()}
-	if (Caption=='x^2')	{CurV *= CurV; cmp()}
-	if (Caption=='sqrt')	{CurV = Math.sqrt(CurV); cmp()}
-	if (!degSigns(c.LED.value)) {
-		if (Caption=='RoNUM')	{CurV = (eval(CurV)).toFixed(c.RoNUM.value)*1; cmp()}
-		if (Caption=='rad-deg')  {CurV *= 180/Math.PI; cmp()}
-		if (Caption=='rad-grad') {CurV *= 200/Math.PI; cmp()}
-		if (Caption=='deg-rad')  {CurV *= Math.PI/180; cmp()}
-		if (Caption=='deg-grad') {CurV /= 0.9; cmp()}
-		if (Caption=='grad-deg') {CurV *= 0.9; cmp()}
-		if (Caption=='grad-rad') {CurV *= 0.9 * Math.PI/180; cmp()}
-		if (Caption=='F<>E')	{CurV = ( CurV.match("e") ? parseFloat(CurV) : (CurV*1).toExponential() ); cmp()}
-		if (Caption=='exp')	{CurV = Math.exp(CurV); cmp()}
-		if (Caption=='log')	{CurV = Math.log(CurV)/Math.LN10; cmp()}
-		if (Caption=='ln')	{CurV = Math.log(CurV); cmp()}
-	}
-	if (Caption=='sin') {CurV = (Math.sin(angle(CurV))).toFixed(15)*1; cmp()}
-	if (Caption=='cos') {CurV = (Math.cos(angle(CurV))).toFixed(15)*1; cmp()}
-	if (Caption=='tan') {CurV = (Math.tan(angle(CurV))).toFixed(15)*1; cmp()}
-	if (Caption=='asin') {CurV = angle(Math.asin(CurV),"a").toFixed(13)*1; cmp()}
-	if (Caption=='acos') {CurV = angle(Math.acos(CurV),"a").toFixed(13)*1; cmp()}
-	if (Caption=='atan') {CurV = angle(Math.atan(CurV),"a").toFixed(13)*1; cmp()}
-	if (Caption=='sec')  {CurV = (1/Math.cos(angle(CurV))).toFixed(15)*1; cmp()}
-	if (Caption=='csec') {CurV = (1/Math.sin(angle(CurV))).toFixed(15)*1; cmp()}
-	if (Caption=='ctan') {CurV = (1/Math.tan(angle(CurV))).toFixed(15)*1; cmp()}
-
-	if (Caption=='sinh') {CurV = Math.exp(CurV); CurV = (CurV - 1/CurV) / 2; cmp()}
-	if (Caption=='cosh') {CurV = Math.exp(CurV); CurV = (CurV + 1/CurV) / 2; cmp()}
-	if (Caption=='tanh') {CurV = Math.exp(CurV); CurV = (CurV - 1/CurV) / (CurV + 1/CurV); cmp()}
-	if (Caption=='asinh') {CurV = CurV / Math.abs(CurV) * Math.log(Math.abs(CurV) + Math.sqrt(CurV*CurV+1)); cmp()}	// sign(x) * log(|x| + sqrt(x*x+1))
-	if (Caption=='acosh') {CurV = 2*Math.log( Math.sqrt((CurV+1)/2) + Math.sqrt((CurV-1)/2) ); cmp()}		// 2 log (sqrt((x+1)/2) + sqrt((x-1)/2)) 
-	if (Caption=='atanh') {CurV = Math.log((CurV-1) / (CurV+1)) / 2; cmp()}						// 0.5*log((x-1)/(x+1))
-	if (Caption=='%' && Result) {CurV *= Result/100; cmp()}
-}
-	if (Caption=='pi') {CurV = Math.PI; cmp()}
-
- if (['+','-','*','/','^','^rt','Mod','RoundM'].some(function(a){return Caption==a}))
- { if (Second) {Operator = Caption}
-   else	{
-	 if (!Ready) {Operator = Caption; Result = CurV; Ready=1}
-	 else	{
-		 if (Operator=='^') {Result = Math.pow(Result, CurV)}
-		 else if (Operator=='^rt') {Result = Math.pow(Result, 1/CurV)}
-		   else if (Operator=='Mod') {Result = Result % CurV}
-		     else if (Operator=='RoundM') {Result = (CurV * Math.round(Result / CurV)).toFixed(13)*1}
-			else {Result = eval('('+ Result +')'+ Operator +'('+ CurV +')')}
-		 Operator = Caption; c.LED.value = Result;
-		} Complete=0; Second = 1;
-	}
- }
-
- if (Caption=='+/-' && c.LED.value !=='0' && c.LED.value !=='NaN') c.LED.value = CurV.indexOf('-')==0 ? c.LED.value.slice(1) : '-'+ c.LED.value;
- if (Caption=='=' && !Complete && Operator=='0' && c.LED.value == true) c.LED.value = eval(CurV);
-
- if (Caption=='=' && Complete && Operator!='0') {
-	if (Operator=='^') {Result = Math.pow(Result, CurV); reset(Result)}
-	   else if (Operator=='^rt') {Result = Math.pow(Result, 1/CurV); reset(Result)}
-	    else if (Operator=='Mod') {Result = Result % CurV; reset(Result)}
-	     else if (Operator=='RoundM') {Result = (CurV * Math.round(Result/CurV)).toFixed(13)*1; reset(Result)}
-	      else {reset(eval('('+ Result +')'+ Operator +'('+ CurV +')'))}
- }
-
- if (Caption=='BS') {c.LED.value = c.LED.value.slice(0,-1); Complete = 1}
- if (Caption=='C') reset('0');
-
- c.FF.style.borderColor = (Second ? 'Lime':'White');
- 'deg-rad,deg-grad,rad-deg,rad-grad,grad-deg,grad-rad,RoBTN,RoundM,deg-dms,dms-deg,deg-dm,dm-deg,log,ln,exp'.split(',').forEach(function(e){ID(e).disabled = degSigns(c.LED.value)?true:false})
- if (c.LED.value.length == 0) c.LED.value = 0
-}
-
-function validate(val) {
-	if (val.indexOf('-')!=0) {val = val.replace('-','')} else {val = val.replace('--','-')}
-	var reg = [/[^-\d,.]*/g, /([,.])[,.]+/g, /^[^-\d]*(-\d+([.,]\d{0,25})?).*$/g]; // только числа, одну точку и не более 25 цифр после точки
-	return val.replace(reg[0],'').replace(reg[1],'$1').replace(reg[2],'$1').replace(',', '.')
-}
-
-function val_int(val) {return val.value.replace(/[^\d]*/g,'').replace(/^[^\d]*(\d{0,2}).*$/g,'$1')}
-</script>
-
+    <meta http-equiv="content-type" content="text/html; charset=windows-1251"/>
+    <title>GeoJSON with Voronoi</title>
+    <style>
+        body {font:18px sans-serif}
+        path {cursor:pointer}
+    </style>
 </head>
-<body onkeyup="hotkeyup(event)" onkeydown="hotkeydown(event)" onload="LSM()" style="background-color:Black">
- <center>
- <div id='title' style="color:White; font:16px Consolas">Для работы калькулятора рекомендуется браузер Chrome или IE11+<br>(при запрете выполнения сценариев калькулятор работать не будет)</div>
- <form name="calculator" style="display:none">
-  <table class="calc" border="0" align="center" cellpadding="2" cellspacing="0">
-    <tr><td style="position:relative">
-	<input type="checkbox" class="checkbox" id="cb1" onchange="hid('tr_1')" hidden>
-	<label for="cb1" style="position:absolute; left:-40pt; top:10pt" title="Управляет отображением линии функций справа"></label></td>
-    </tr>
-    <tr id="tr_1" style="display:none">
-	<td><input f11 id="deg-rad" value="deg-rad" title="Переводит градусы в радианы" onclick="Click('deg-rad')"></td>
-	<td><input f11 id="deg-grad" value="deg-grad" title="Переводит градусы в грады" onclick="Click('deg-grad')"></td>
-	<td><input f11 id="rad-deg" value="rad-deg" title="Переводит радианы в градусы" onclick="Click('rad-deg')"></td>
-	<td><input f11 id="rad-grad" value="rad-grad" title="Переводит радианы в грады" onclick="Click('rad-grad')"></td>
-	<td><input f11 id="grad-deg" value="grad-deg" title="Переводит грады в градусы" onclick="Click('grad-deg')"></td>
-	<td><input f11 id="grad-rad" value="grad-rad" title="Переводит грады в радианы" onclick="Click('grad-rad')"></td>
-    </tr>
-    <tr>
-	<td colspan="6" height="60" align="center" style="position:relative">
-<input name="LED" id="LED" type="text" onfocus="LEDfocus=1" onblur="LEDfocus=0" oninput="this.value=validate(this.value)" 
-style="background:PaleGreen; width:98%; text-align:right; font:bold 33pt Calibri; letter-spacing:-0.5; padding-right:5px; border:none; border-radius:5px" value="0">
-	<input type="checkbox" id="Check" style="left:415pt; opacity:0.05" onchange="OnF(this)"></td>
-    </tr>
-    <tr>
-	<td height="60" align="left" style="font:12pt Consolas; color:White">
-		 <input name="angle" type="radio" id="Deg" onchange="DMS_IO(1)" checked>Deg
-		 <div id="DRG" style="display:none"> <input name="angle" type="radio" id="Rad" onchange="DMS_IO(0)">Rad<br>
-		 <input name="angle" type="radio" id="Grad" onchange="DMS_IO(0)">Grad</div></td>
-	<td><input class="b" id="2nd F" value="2nd F" style="color:Green; border:2px outset Green; border-radius:5px" title="Отображает альтернативные функции" onclick="Click('2nd F')"></td>
-	<td align="center"><input name="K" class="field" value="Key" disabled><br>
-		<input name="FF" class="field" title="Отображает название последней использованной функции" style="border-top:2px dotted White" value="Prev Fn" disabled></td>
-	<td colspan="3"><input f22 style="color:FireBrick; width:48.5%; border:2px outset FireBrick; border-radius:5px; flow:left" value="&#139;&#139;&#139;" onclick="Click('BS')">
-	<input f22 style="background:FireBrick; color:Azure; width:48.5%; border-radius:5px; flow:right" value="C" onclick="Click('C')"></td>
-    </tr>
-    <tr>
-	<td height="40"> <input class="bM" bP value="M" onclick="Click('M')"></td>
-	<td><input class="bM" bP value="MR" onclick="Click('MR')"></td>
-	<td colspan="4" style="position: relative"> <select name="MEM" class="mem" bP style="width:99.5%; height:38pt"></select>
-	<input class="bM" href="#MC" id="MC" bP value="MC" style="position:absolute; left:276pt; top:2pt; width:45pt; display:none" onclick="Click('MC')"></td>
-    </tr>
-    <tr>
-	<td height="40"> <input class="bM" bB value="M+" onclick="Click('M+')"></td>
-	<td><input class="bM" bB value="MR" onclick="Click('MR+')"></td>
-	<td colspan="4" style="position: relative"> <input name="MEMp" class="mem" type="text" onfocus="LEDfocus=1" onblur="LEDfocus=0" oninput="this.value=validate(this.value); ID('MC+').style.display = this.value.length>0 ?'':'none'" bB style="width:98.5%; height:36pt; text-align:right" value="">
-	<input class="bM" href="#MC+" id="MC+" bB value="MC" style="position:absolute; left:276pt; top:2pt; width:45pt; display:none" onclick="Click('MC+')"></td>
-    </tr>
-    <tr>
-	<td height="60" style="position: relative"> <input class="bF" id="sin" value="sin" onclick="Click(shift ? 'sinh':'sin')">
-		<input type="checkbox" class="checkbox" id="cb2" onchange="hid('tr_2')" hidden>
-		<label for="cb2" style="position:absolute; left:-40pt; top:46pt" title="Управляет отображением линии функций справа"></label></td>
-	<td><input class="bF" id="cos" value="cos" onclick="Click(shift ?'cosh':'cos')"></td>
-	<td><input class="bF" id="tan" value="tan" onclick="Click(shift ?'tanh':'tan')"></td>
-	<td width="85pt"><input f14 value="sec" onclick="Click('sec')"><input f14 value="csec" onclick="Click('csec')"></td>
-	<td width="85pt"><button f12 title="Решает прямую геодезическую задачу со значениями из полей памяти" onclick="Click('gXY')"><span cP>A&#176;</span><span cC>S</span>-<span cP>X</span><span cC>Y</span></button></td>
-	<td width="85pt"><button f12 title="Решает обратную геодезическую задачу со значениями из полей памяти" onclick="Click('gAS')"><span cP>X</span><span cC>Y</span>-<span cP>A&#176;</span><span cC>S</span></button></td>
-    </tr>
-    <tr id="tr_2" style="display:none">
-	<td height="60"> <input class="bF" id="asin" value="asin" onclick="Click(shift ? 'asinh':'asin')"></td>
-	<td><input class="bF" id="acos" value="acos" onclick="Click(shift ?'acosh':'acos')"></td>
-	<td><input class="bF" id="atan" value="atan" onclick="Click(shift ?'atanh':'atan')"></td>
-	<td><input f14 id="ctan" value="ctan" onclick="Click('ctan')"><br>
-		<input f11 value="F<>E" title="Экспоненциальное представление числа" onclick="Click('F<>E')"></td>
-	<td><input f12 id="RoundM" value="RoundM" title="Округление с заданной точностью до ближайшего значения" onclick="Click('RoundM')"></td>
-	<td><button f12 title="Получает параметры круговой кривой по значениям из полей памяти" onclick="Click('gK')"><span cP>&#966;&#176;</span><span cC>R</span>-К</button></td>
-    </tr>
-    <tr>
-	<td height="60"><input f11 id="deg-dms" value="deg-d.ms" title="Переводит десятичные градусы в формат угла 'Градусы.Минуты Секунды'" onclick="Click('deg-dms')"><br>
-	<input f11 id="dms-deg" value="d.ms-deg" title="Переводит формат угла 'Градусы.Минуты Секунды' в десятичные градусы" onclick="Click('dms-deg')"></td>
-	<td><button f18 onclick="Click('x^2')">x<sup f12>2</sup></button></td>
-	<td><button f18 onclick="Click('^')">x<sup f12>y</sup></button></td>
-	<td><button f18 onclick="Click('sqrt')">√x</button></td>
-	<td><button f18 onclick="Click('^rt')"><sup f12>y</sup>√x</button></td>
-	<td><input f11 id="deg-dm" value="deg-d.m" title="Переводит десятичные градусы в формат угла 'Градусы.Минуты'" onclick="Click('deg-dm')"><br>
-	<input f11 id="dm-deg" value="d.m-deg" title="Переводит формат угла 'Градусы.Минуты' в десятичные градусы" onclick="Click('dm-deg')"></td>
-    </tr>
-    <tr>
-	<td height="60"><input class="b" id="Mod360" value="Mod360" title="Аналог функции Mod 360" onclick="Click(shift ?'Mod':'Mod360')"></td>
-	<td><input class="bDeg" id="DMS_D" title="Ставит знак градуса" value="D" onclick="Click('DMS_D')"></td>
-	<td><input class="bDeg" id="DMS_M" title="Ставит знак минуты" value="M" onclick="Click('DMS_M')"></td>
-	<td><input class="bDeg" id="DMS_S" title="Ставит знак секунды" value="S" onclick="Click('DMS_S')"></td>
-	<td><input class="bDeg" style="border-color:LimeGreen" title="Меняет формат угла Deg<=>DMS" value="DMS" onclick="Click('DMSs')"></td>
-	<td><input class="bDeg" style="border-color:DeepSkyBlue" title="Меняет формат угла Deg<=>DM" value="DM" onclick="Click('DMS')"></td>
-    </tr>
-    <tr>
-	<td height="60"><input f20 value="π" style="font:20pt Times New Roman" onclick="Click('pi')"></td>
-	<td><input f22 value="7" onclick="Click('7')"></td>
-	<td><input f22 value="8" onclick="Click('8')"></td>
-	<td><input f22 value="9" onclick="Click('9')"></td>
-	<td><input f22 value="⁄" onclick="Click('/')"></td>
-	<td><button f20 onclick="Click('1/x')"><sup>1</sup>⁄<sub>x</sub></button></td>
-    </tr>
-    <tr>
-	<td width="85pt" height="60"><input f16 id="%" value="%" onclick="Click('%')" disabled></td>
-	<td><input f22 value="4" onclick="Click('4')"></td>
-	<td><input f22 value="5" onclick="Click('5')"></td>
-	<td><input f22 value="6" onclick="Click('6')"></td>
-	<td><input f22 value="×" onclick="Click('*')"></td>
-	<td style="position: relative"><input class="b" id="RoBTN" value="Round" title="Округление до заданного справа количества знаков после запятой" onclick="Click('RoNUM')">
-	<select id="RoNUM" f14 style="border-radius:4px; position:absolute; left:110%; top:16pt; width:30pt"><option value="0">0</option>
-		<option value="1">1</option><option value="2" selected>2</option><option value="3">3</option></select></td>
-    </tr>
-    <tr>
-	<td height="60"><input class="bM" id="log" value="log" style="height:25pt; background:Plum" onclick="Click('log')"><br>
-		<input class="bM" id="ln" value="ln" style="height:25pt; background:Plum" onclick="Click('ln')"></td>
-	<td><input f22 value="1" onclick="Click('1')"></td>
-	<td><input f22 value="2" onclick="Click('2')"></td>
-	<td><input f22 value="3" onclick="Click('3')"></td>
-	<td><input f22 value="–" onclick="Click('-')"></td>
-	<td rowspan="2"><input f22 value="=" style="background:Green; color:Azure; height:103pt; border-radius:3px" onclick="Click('=')"></td>
-    </tr>
-    <tr>
-	<td height="60"><input class="bM" id="exp" value="exp" style="height:25pt; background:Plum" onclick="Click('exp')"><br>
-	    <input f11 id="Page" onclick="Click('Page')" disabled></td>
-	<td><input f22 value="0" onclick="Click('0')"></td>
-	<td><button f22 onclick="Click('.')"><b>.</b></button></td>
-	<td><input f22 value="±" onclick="Click('+/-')"></td>
-	<td><input f22 value="+" onclick="Click('+')"></td>
-    </tr>
-  </table>
-</form>
-<script type="text/javascript">
-	document.addEventListener("click", function(event) {if (event.target.nodeName=="BUTTON") document.body.click()});
-	var ar = [];
-	ar[0] = "простота - гарантия надежности";
-	ar[1] = "простота спасет мир";
-	ar[2] = "простота - это то, что труднее всего на свете (Жорж Санд)";
-	ar[3] = "нет величия там, где нет простоты, добра и правды (Лев Толстой)";
-	ar[4] = "в красоте милей простота (Овидий)";
-	ar[5] = "знай же, художник, что нужны во всем простота и единство (Квинт Гораций Флакк)";
-	ar[6] = "простота - есть необходимое условие прекрасного";
-	ar[7] = "простота есть ближайшая родственница ума и дарований (Федор Глинка)";
-	ar[8] = "все гениальное - просто";
-	ar[9] = "на всякого мудреца довольно простоты (русская народная пословица)";
-	ar[10] = "простите за глупости, не осудите на простоте (русская народная пословица)";
-	ar[11] = "простота - это признак истины (античный афоризм)";
-	ar[12] = "простота есть главное условие красоты моральной (Лев Толстой)";
-	ar[13] = "воистину, быть простым - значит быть великим (Р. Эмерсон)";
-	ar[14] = "показная простота - это утонченное лицемерие (Ф. Ларошфуко)";
-	ar[15] = "все люди, занятые истинно важным делом, всегда просты, потому что не имеют времени придумывать лишнее (Лев Толстой)";
-	//document.write(ar[Math.round(Math.random()*15)]);
-</script>
-</center>
+<body>
+    <div style="position:absolute;top:455px">
+      <input type="checkbox" id="voronoi">
+      <label for="voronoi" style="position:relative;top:2px;">Voronoi</label>
+	<output id="ou"></output>
+    </div>
+
+    <script src='us-states.js'></script>
+    <script src='d3.v3.min.js'></script>
+    <script>
+
+function Rnd(min,max,n) {var R = Math.abs((Math.random()*100000) % 1); return 1*(((max-min)*R + min).toFixed(n))}
+function pif_c(a,b) {return Math.sqrt(a*a + b*b)}
+
+for (var num=1; num<2; num++){
+
+var dataset = [], k = 0.05, lim = 12000, X, Y, ok, ar_X = [30,50,30,50], ar_Y = [-120,-120,-75,-75]; //ar_X = [25,48,25,48], ar_Y = [-118,-118,-75,-75];
+	for (var j=0; j<lim; j++){
+	     X = Rnd(ar_X[0],ar_X[1],2);
+	     Y = Rnd(ar_Y[1],ar_Y[2],2); ok = 0;
+	     for (var i=0; i<ar_X.length; i++){if (pif_c(ar_X[i]-X, ar_Y[i]-Y) >= k) ok++}
+	     if (ok == ar_X.length) {ar_X.push(X); ar_Y.push(Y); dataset.push({"f_scale": "EF"+Rnd(0,1,0), "latitude": X, "longitude": Y})}
+	}
+
+
+        // Define the dimensions of the visualization.
+        var margin = {top: 20, right: 20, bottom: 20, left: 20},
+            width = 800 - margin.left - margin.right,
+            height = 500 - margin.top - margin.bottom;
+
+        // Create the SVG container for the visualization and define its dimensions.
+        var svg = d3.select("body").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom);
+
+        // Within the main SVG container, add a group element (<g>) that can be transformed via
+        // a translation to account for the margins.
+        // Within that group create another group element that can be used to zoom and pan the map.
+        var g = svg.append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+            .append("g");
+
+        // Define a variable that tracks which state is currently zoomed (if any) and a variable that
+        // indicates if the Voronoi diagram is visible.
+        var active = d3.select(null),
+            voronoi = false;
+
+        // Set up an event handler to respond to the
+        // Voronoi checkbox.
+        d3.select("input[type=checkbox]").on("change", function() {toggle();});
+
+        // Define the properties of the map projection.
+        var projection = d3.geo.albers()
+            .scale(900)
+            .translate([width / 2, height / 2]);
+
+        // Define a function that returns the SVG path based on the projection. This
+        // function accepts, as input, a selection with an associated array of longitude and latitude values.
+        var path = d3.geo.path()
+            .projection(projection);
+
+        // Draw the map within the SVG container. Each state is a separate SVG path.
+        g.selectAll("path")
+            .data(map.features)
+          .enter().append("path")
+            .attr("id", function(d) {
+                return d.properties.abbreviation;
+            })
+            .attr("d", path)
+            .attr("fill", "Silver")
+            .attr("stroke", "White")
+            .on("click", clicked);
+
+        // Only consider data points that have latitude and longitude values. While
+        // we're checking this condition, coerce the CSV strings into data types that we can work with directly.
+        var data = dataset.filter(function(d, i) {
+
+            if (d.latitude && d.longitude) {
+
+                // Convert the strings for latitude and longitude into numbers.
+                d.latitude = +d.latitude;
+                d.longitude = +d.longitude;
+
+                // Convert the F scale string to a number.
+                d.f_scale = +d.f_scale[2];
+
+                // Calculate the position of the point within the projection.
+                d.position = projection([
+                    d.longitude, d.latitude
+                ]);
+
+                return true;
+            }
+        });
+
+        // Compute the polygons for the Voronoi layout.
+        // Before we can use D3's Voronoi functions, we have to filter out any duplicate positions.
+        var positions = data.map(function(d) { return d.position;})
+            .reduce(function(positions, position) {
+                if (!positions.some(function(p) {
+                    return position[0] === p[0] && position[1] === p[1];
+                })) {
+                    positions.push(position);
+                }
+                return positions;
+            }, []);
+        var polygons = d3.geom.voronoi(positions);
+
+var POI = "Name"+"\t"+"X"+"\t"+"Y"+"\n", PLG = '';
+for (var i=0; i<positions.length; i++){
+	POI += i +"\t"+ positions[i][0].toFixed(3) +"\t"+ positions[i][1].toFixed(3) +"\n"
+}
+for (var i=0; i<polygons.length; i++){
+   for (var j=0; j<polygons[i].length; j++){
+	PLG += polygons[i][j][0].toFixed(3) +"\t"+ polygons[i][j][1].toFixed(3) +"\n"
+   } PLG += "\n"
+}
+document.getElementById("ou").innerHTML = '<br><br>Всего: '+ positions.length;
+//CoorJ(POI);
+CoorLine(PLG,'Polygon');
+//window.open('','','scrollbars=1,width=885,height=650').document.write(PLG)
+
+        // Now we can add the Voronoi polygons to the graph. Initially they're invisible because the stroke opacity is set to zero.
+        g.selectAll(".cell")
+            .data(polygons)
+          .enter().append("path")
+            .attr("class", "cell")
+            .attr("d", function(d) { return "M" + d.join("L") + "Z"; })
+            .attr("stroke", "Green")
+            .attr("stroke-opacity", 0)
+            .attr("fill", "none");
+
+        // Draw circles on the map for each data point.
+        g.selectAll("circle")
+            .data(data)
+          .enter().append("circle")
+            .attr("cx", function(d) { return d.position[0]; })
+            .attr("cy", function(d) { return d.position[1]; })
+            .attr("r", function(d)  { return 4 + 2*d.f_scale; })
+            .attr("stroke", "Magenta")
+            .attr("fill", "Cyan")
+            .attr("fill-opacity", "0.8");
+
+        // Event handlers.
+
+        // Click on a state.
+        function clicked(d) {
+
+            // If clicked on state is already active, reset the map to its initial condition.
+            if (active.node() === this) return reset();
+
+            // Otherwise, remove the highlighting from the currently active state.
+            active.attr("fill", "#cccccc");
+
+            // And add highlighting to the newly active state.
+            active = d3.select(this)
+                .attr("fill", "#F77B15");
+
+            // Calculate the bounds for the map that will contain the newly active state.
+            var bounds = path.bounds(d),
+                dx = bounds[1][0] - bounds[0][0],
+                dy = bounds[1][1] - bounds[0][1],
+                x = (bounds[0][0] + bounds[1][0]) / 2,
+                y = (bounds[0][1] + bounds[1][1]) / 2,
+                scale = .9 / Math.max(dx / width, dy / height),
+                translate = [width / 2 - scale * x, height / 2 - scale * y];
+
+            // Transition to the newly active state by translation and scaling.
+            g.transition()
+                .duration(750)
+                .style("stroke-width", 1.5 / scale + "px")
+                .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
+
+            // To keep the circles from changing size, also transition their radii.
+            g.selectAll("circle")
+                .transition()
+                .duration(750)
+                .attr("r", function(d)  { return (4 + 2*d.f_scale)/scale; });
+        };
+
+        // Reset to initial condition.
+        function reset() {
+
+            // Remove highlighting from active state and note that no state is now active.
+            active.attr("fill", "#cccccc");
+            active = d3.select(null);
+
+            // Remove the translation and scale transform with a transition.
+            g.transition()
+                .duration(750)
+                .style("stroke-width", "1px")
+                .attr("transform", "");
+
+            // Also keep the circles the same size by transitioning their radii at the same time.
+            g.selectAll("circle")
+                .transition()
+                .duration(750)
+                .attr("r", function(d)  { return (4 + 2*d.f_scale); });
+        };
+
+        // Toggle the visibility of the Voronoi overlay.
+        function toggle() {
+            g.selectAll(".cell")
+                .transition()
+                .duration(750)
+                .attr("stroke-opacity", voronoi ? 0 : 1);
+
+            voronoi = !voronoi;
+        };
+}
+function isNum(n) {return !isNaN(parseFloat(n)) && isFinite(n)}
+function toNum(n) {if (isNum(n)) {n = parseFloat(n.replace(",","."))}; return n}
+
+function CoorJ(J) { var Row, Co, P, X=[], Y=[],
+	str = '{"crs":{"type":"name","properties":{"name":"EPSG:3857"}},"type":"FeatureCollection","features":[';
+	if (J[0]=='\n') {J = J.slice(1)} // Убирает перенос строки в начале
+	Row = J.split("\n"); Co = Row[0].split("\t");
+	if (Co.length>500) {alert("Колонок более 500, выполнение прервано"); return false}
+	for (var i=1; i<Row.length-1; i++){
+		X[i] = toNum(Row[i].split("\t")[Co.length-2]);
+		Y[i] = toNum(Row[i].split("\t")[Co.length-1]);
+		if (X[i]=='' || Y[i]=='') {continue}
+		str +="\n"+'{"type":"Feature","properties":{';
+		for (var j=0; j<Co.length-2; j++){
+			P = Row[i].split('\t')[j];
+			if (isNum(P)) {P = toNum(P)} else {P ='"'+P+'"'} // Преобразование атрибутива в число (для QGIS необязательно, но не лишнее)
+			str += '"'+ Row[0].split('\t')[j] +'":'+ P + (j<Co.length-3 ? ',':'') +"\n"
+		}
+		str +='},"geometry":{"type":"Point","coordinates":['+ X[i].toFixed(3) +','+ Y[i].toFixed(3) +']}}'+ (i<Row.length-2 ? ',':'')
+	} str+=']}';
+	if (navigator.appVersion.indexOf("Chrome")>-1){
+		var lnk = document.createElement("a"); lnk.download ="geo_Points.geojson";
+		lnk.href = "data:text/plain;charset=utf-8,"+ str; lnk.click()
+	}
+}
+
+function CoorLine(s,f) {
+	while (s[s.length-1]=="\n") {s = s.slice(0,-1)} // Убирает перенос строки в конце
+	while (s.match("\n\n")) {s = s.split("\n\n").join("\n\t\n")}
+	var a='', b='', X=[], Y=[], XY=[], n=1, cr, lines = s.split('\n\t\n'),
+	str ='{"crs":{"type":"name","properties":{"name":"EPSG:3857"}},"type":"FeatureCollection","features":[';
+	for (var i=0; i<lines.length; i++){
+		a = "\n"+'{"type":"Feature","properties":{"R":"'+ Rnd(5,500,2) +'"},"geometry":{"type":"'+ f +'","coordinates":['+"\n"; b='';
+		for (var j=0; j<lines[i].split("\n").length; j++){ if (a=='') {continue}
+			a += ((f=='Polygon' && j==0)?'[':'');
+			if (j==lines[i].split("\n").length) {k=j; j=0}
+			cr = (lines[i].split("\n")[j]).split('\t');
+			X[j] = toNum(cr[cr.length-2]); Y[j] = toNum(cr[cr.length-1]);
+			if (X[j]=='' || Y[j]=='' || X[j]<150 || Y[j]<50 || X[j]>600 || Y[j]>330) {a=''; b=''; continue}
+			a += '['+ (X[j]*50-15000).toFixed(2) +','+ (Y[j]*50-8500).toFixed(2) +']'+ (j<lines[i].split('\n').length-1 ? ",\n":",\n["+ (X[0]*50-15000).toFixed(2) +','+ (Y[0]*50-8500).toFixed(2) +']]');
+			if(j==0) {b += '<tr><td>'+ n +'</td><td>'+ Rnd(5,95,0) +'</td><td><br>'}
+			b += (X[j]*50-15000).toFixed(2) +' ; '+ (Y[j]*50-8500).toFixed(2) + (j<lines[i].split('\n').length-1 ? '<br>':'<br><br></td></tr>');
+		} if(a) {str+= a +']}}'+ (i<lines.length-1 ? ',':''); XY.push(b); n++}
+	} str+=']}';
+	if (navigator.appVersion.indexOf("Chrome")>-1){
+	//	var lnk = document.createElement("a"); lnk.download = "geo_Polygons "+ num +".geojson"; lnk.href = "data:text/plain;charset=utf-8,"+ str; lnk.click();
+		var lns = document.createElement("a"); lns.download = "geo_Polygons "+ num +".html"; lns.href = "data:text/plain;charset=utf-8,"+
+	"<meta http-equiv='content-type' content='text/html; charset=utf-8'/>"+
+	"<style>th{padding:5pt} td{text-align:center; vertical-align:middle}</style>"+
+	"<body onkeydown='if (event.keyCode==27) window.close()' style='font:12pt Consolas'>"+
+	' Задание на лабораторную работу № 3 (текущий вариант задания предназначен для студента под номером '+ num +' в списке состава группы ФЭБЗ по журналу):'+
+	'<p>1) Нанести площадные объекты ('+ (n-1) +') по данным, представленным в таблице ниже, на слой ГИС по координатам вершин поворотных точек границы (ГСК). Сохранить результат в составе слоя "file P" формата shapefile;</p>'+
+	'<p>2) Установить стиль нанесённых объектов (граница: 0.3 мм, HTML код цвета заливки: "#4fc71f", HTML код цвета границы: "#0e150c");</p>'+
+	'<p>3) Вычислить площадь нанесённых объектов в формате "0.0 м&#178;" и поместить её в созданную для этого третью колонку;</p>'+
+	'<p>4) Вычислить средние координаты нанесённых объектов (X и Y, м) в формате "0.000" и поместить их в созданные для этого колонки 4 и 5;</p>'+
+	'<p>5) Создать точечные объекты по вычисленным средним координам на отдельном слое "file PM" (маркер свободный);</p>'+
+	'<p>6) Создать выборку объектов слоя "file P" по наличию цифры "'+ Rnd(0,9,0) +'" как последнего символа в составе номера объекта. Сохранить результат в составе слоя "file PS" формата shapefile;</p>'+
+	'<p>7) Создать выборку объектов слоя "file P" по номеру объекта, кратного "'+ Rnd(3,8,0) +'". Сохранить результат в составе слоя "file PSM" формата shapefile;</p>'+
+	'<p>8) Составить отчёт (на 7-8 страниц, шрифт: 14pt TNR) в формате А5 (печать книжкой) о выполненной работе с описанием задания, процесса выполнения и результатов (сопуствующие иллюстрации обязательны). Отчёт в формате *.doc и созданные слои следует поместить в zip-архив (с номером варианта в качестве его имени), сдать на проверку и подготовиться к защите работы.</p>'+
+	"<table border=1 cellpadding=3 style='border:1px solid Grey; border-collapse:collapse; margin:5pt'><tr><th>Номер<br>объекта</th><th>Параметр</th><th>Координаты вершин в ГСК<br>(Восток ; Север)</th></tr>"+ XY.join('') +"</table>Таблица окончена</body>"; lns.click()
+	}
+}
+
+    </script>
 </body>
 </html>
