@@ -1,15 +1,12 @@
 <!DOCTYPE html>
 <meta http-equiv="content-type" content="text/html; charset=windows-1251"/>
-<style>
-html {font:16px Consolas}
-a, a:focus, a:hover, a:active {color:Blue; text-decoration:none; outline:none}
-</style>
+<style>html {font:16px Consolas}</style>
+
 <script type="text/javascript">
-	var s = ["Варианты для лабораторной работы №1 по фамилиям:<br>",
+	var s = ["Варианты для лабораторной работы №1 по фамилиям: ",
 	"Бараева Виктория Сергеевна",
 	"Головина Юлия Сергеевна",
 	"Евсейчик Полина Алексеевна",
-	"Ерохина Светлана Викторовна",
 	"Ершова Наталия Евгеньевна",
 	"Костылева Дарина Александровна",
 	"Краева Ольга Николаевна",
@@ -19,6 +16,7 @@ a, a:focus, a:hover, a:active {color:Blue; text-decoration:none; outline:none}
 	"Лисицинская Дарья Александровна",
 	"Лучина Ольга Юрьевна",
 	"Маклакова Екатерина Анатольевна",
+	"Миронова Светлана Викторовна",
 	"Мирохина Вера Игоревна",
 	"Озорнина Наталья Николаевна",
 	"Паршева Наталия Дмитриевна",
@@ -30,6 +28,8 @@ a, a:focus, a:hover, a:active {color:Blue; text-decoration:none; outline:none}
 	"Сысоева Анастасия Александровна",
 	"Чикмасова Ирина Валерьевна",
 	"Щукина Яна Ивановна"]
-	for (var i=1; i<s.length; i++){s[0] += '<br><a href="\A\\Polygons_'+ i +'.html">'+ s[i] +'</a>'}
-	document.write(s[0])
+	var str ='<select onchange="top.location = this.value; this.value=0"><option value=0 selected> </option>';
+	for (var i=1; i<s.length; i++){
+		str += '<option value="\A\\'+ i +'.html">'+ (i<10?'  ':'') + i +') '+ s[i] +'</option>'
+	}	document.write(s[0]+str+"</select>")
 </script>
