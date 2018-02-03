@@ -3,9 +3,7 @@
 <style>html {font:16px Consolas}</style>
 <div id="r"></div>
 <script src="\sel.js" type="text/javascript"></script>
-<script src="\NTP.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script type="text/javascript">
-	var time = new Date();
-	time = Date(NTP.fixTime(time.getTime()));
-	alert(time)
+	alert($.now())
 </script>
