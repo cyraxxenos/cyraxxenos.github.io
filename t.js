@@ -67,7 +67,7 @@ if(o[0]!=null){
 for(var ic in o)o[ic].innerHTML=d;
 c["p"]=d
 }}}}
-      document.getElementById("ti").innerHTML = t.getUTCHours()
+      document.getElementById("ti").innerHTML = t.getUTCHours() + ":" + t.getUTCMinutes()
 tout=setTimeout('time100.tick("")',updint-tU%updint)
 }
 function l0(n){return n>9?n:"0"+n}
