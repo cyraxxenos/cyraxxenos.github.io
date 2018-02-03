@@ -70,7 +70,7 @@ c["p"]=d
 }}}}
       jade.hr = t.getUTCHours()
       jade.mn = t.getUTCMinutes()
-      document.getElementById("ti").innerHTML = jade.mn>33 ? 1:0
+      document.getElementById("ti").innerHTML = jade.mn>36 ? 1:0
 tout=setTimeout('time100.tick("")',updint-tU%updint)
 }
 function l0(n){return n>9?n:"0"+n}
