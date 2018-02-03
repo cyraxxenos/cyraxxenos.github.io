@@ -2,18 +2,3 @@
 <meta http-equiv="content-type" content="text/html; charset=windows-1251"/>
 <style>html {font:16px Consolas}</style>
 <div id="r"></div>
-<script src="\sel.js" type="text/javascript"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){
-  var timezone = "Europe/Berlin";
-  $.getJSON("http://json-time.appspot.com/time.json?tz="+timezone+"&callback=?",
-    function(data){
-      if (data.hour < 12) {
-        alert ("Good morning in "+timezone);
-      } else {
-        alert ("Good afternoon in "+timezone);
-      }
-    })
-});
-</script>
