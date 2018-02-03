@@ -27,9 +27,9 @@
 	"Славская Виктория Андреевна",
 	"Сысоева Анастасия Александровна",
 	"Чикмасова Ирина Валерьевна",
-	"Щукина Яна Ивановна"], f = ["","A","B","C"], lnk,
-	str ='<select onchange="top.location = this.value; this.value=0"><option value=0 selected> </option>';
-	for (var j=1; j<4; j++){s[f[j]] = "<br>"+ j +") "+ str;
+	"Щукина Яна Ивановна"], f = ["","A","B","C"], lnk = 'https://cyraxxenos.github.io',
+	str ='<select onchange="top.location = this.value; this.value=0"><option value='+ lnk +' selected> </option>';
+	for (var j=1; j<5; j++){s[f[j]] = "<br>"+ j +") "+ str;
 		for (var i=1; i<s.length; i++){
 			lnk = '&#92;'+ f[j] +"\\"+ i +'.html'; if(j>1){lnk = 'https://cyraxxenos.github.io'}
 			s[f[j]] += '<option value="'+ lnk +'">'+ (i<10?'  ':'') + i +') '+ s[i] +'</option>';
