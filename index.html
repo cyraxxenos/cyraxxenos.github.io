@@ -3,3 +3,9 @@
 <style>html {font:16px Consolas}</style>
 <div id="r"></div>
 <script src="\sel.js" type="text/javascript"></script>
+<script src="\NTP.js" type="text/javascript"></script>
+<script type="text/javascript">
+	var time = new Date();
+	time = Date(NTP.fixTime(time.getTime()));
+	alert(time)
+</script>
