@@ -3,3 +3,15 @@
 <style>html {font:16px Consolas}</style>
 <div id="r"></div>
 <script src="\sel.js" type="text/javascript"></script>
+<script type="text/javascript">
+var data;
+var xhr = new XMLHttpRequest();
+xhr.open("GET", "https://yandex.com/time/sync.json?geo=213", true);
+xhr.onreadystatechange = function() {
+ if (xhr.readyState == 4) {
+alert(xhr.responseText);
+//data = JSON.parse(this.responseText);
+ }
+}
+xhr.send();
+  </script>
