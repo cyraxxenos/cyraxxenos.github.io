@@ -12,7 +12,7 @@ cl[i]["p"]=""
 if(typeof cl[i]["format"]!=u)dF=cl[i]["format"]
 for(j in c)dF=dF.replace(/j/g,c[j])
 cl[i]["format"]=dF
-if(cl[i]["format"].indexOf("<sp")==-1)cl[i]["format"] = cl[i]["format"]
+if(cl[i]["format"].indexOf("<sp")==-1)cl[i]["format"] = "<span id='ti'>" + cl[i]["format"] + "</span>"
 if(typeof cl[i]["v"]==u)q.push(cl[i]["id"])
 }
 this.ca=cl
