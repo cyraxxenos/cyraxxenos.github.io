@@ -1,3 +1,4 @@
+var jade = {d:0, m:0, hr:0, mn:0}
 var time100=new time100()
 function time100(){
 var ca=0,tD=0,tout=0,updint=1000,tl="",u="undefined",i
@@ -67,7 +68,9 @@ if(o[0]!=null){
 for(var ic in o)o[ic].innerHTML=d;
 c["p"]=d
 }}}}
-      document.getElementById("ti").innerHTML = t.getUTCHours() + ":" + t.getUTCMinutes()
+      jade.hr = t.getUTCHours()
+      jade.mn = t.getUTCMinutes()
+      document.getElementById("ti").innerHTML = jade.mn>33 ? 1:0
 tout=setTimeout('time100.tick("")',updint-tU%updint)
 }
 function l0(n){return n>9?n:"0"+n}
