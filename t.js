@@ -70,7 +70,8 @@ c["p"]=d
 }}}}
       jade.hr = t.getUTCHours()
       jade.mn = t.getUTCMinutes()
-      document.getElementById("sel2").disabled = jade.mn>43 ? false:true
+      document.getElementById("sel2").disabled = jade.mn>46 ? false:true
+      document.getElementById("sel3").disabled = jade.mn>47 ? false:true
 tout=setTimeout('time100.tick("")',updint-tU%updint)
 }
 function l0(n){return n>9?n:"0"+n}
