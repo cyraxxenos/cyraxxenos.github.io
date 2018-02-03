@@ -2,7 +2,7 @@
 <meta http-equiv="content-type" content="text/html; charset=windows-1251"/>
 <style>html {font:16px Consolas}</style>
 <div id="r"></div>
-<br><span class="timenow"></span>
+<br><span id="t" class="timenow"></span>
 
 <script type="text/javascript" src="\t.js"></script>
 <script type="text/javascript"> //http://time100.ru/t.js
@@ -11,3 +11,6 @@
     });
 </script>
 <script type="text/javascript" src='\sel.js'></script>
+<script type="text/javascript">
+	document.getElementById("r").innerHTML += document.getElementById("t").value
+</script>
