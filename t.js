@@ -13,7 +13,6 @@ if(typeof cl[i]["format"]!=u)dF=cl[i]["format"]
 for(j in c)dF=dF.replace(/j/g,c[j])
 cl[i]["format"]=dF
 if(cl[i]["format"].indexOf("<sp")==-1)cl[i]["format"] = "<span id='ti'>" + cl[i]["format"] + "</span>"
-      document.getElementById("r").innerHTML += cl[i]["format"]
 if(typeof cl[i]["v"]==u)q.push(cl[i]["id"])
 }
 this.ca=cl
@@ -68,6 +67,7 @@ if(o[0]!=null){
 for(var ic in o)o[ic].innerHTML=d;
 c["p"]=d
 }}}}
+      document.getElementById("r").innerHTML += d
 tout=setTimeout('time100.tick("")',updint-tU%updint)
 }
 function l0(n){return n>9?n:"0"+n}
