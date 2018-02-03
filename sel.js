@@ -24,7 +24,7 @@
 	"Чикмасова Ирина Валерьевна",
 	"Щукина Яна Ивановна"], f = ["","A","B","C"], lnk = 'https://cyraxxenos.github.io', str, tru = 1;
 	for (var j=1; j<5; j++){
-		str ='<select onchange="top.location = this.value; this.value=0" '+ (j>tru?'disabled':'') +'><option value='+ lnk +' selected> </option>';
+		str ='<select id="sel'+ j +'" onchange="top.location = this.value; this.value=0" '+ (j>tru?'disabled':'') +'><option value='+ lnk +' selected> </option>';
 		s[f[j]] = "<br>"+ j +") "+ str;
 		for (var i=1; i<s.length; i++){
 			lnk = '&#92;'+ f[j] +"\\"+ f[j] + i +'.html'; if(j>tru){lnk = 'https://cyraxxenos.github.io'}
