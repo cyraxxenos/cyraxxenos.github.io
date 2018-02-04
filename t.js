@@ -70,11 +70,11 @@ c["p"]=d
 }}}}
       jade.w = t.getUTCDay()
       jade.hr = t.getUTCHours()
-      jade.mn = t.getUTCMinutes()
-      jade.sc = t.getUTCSeconds()
-      if(jade.sc<20) {ID("r").innerHTML = jade.w}
-      if(!ID("sel1") && jade.sc>20 && jade.sc<40) { ID("r").innerHTML = ("Варианты по фамилиям для ЛР:<br>"+ Sel(1)) }
-      if(!ID("sel2") && jade.sc>40) { ID("r").innerHTML = ("Варианты по фамилиям для ЛР:<br>"+ Sel(1)+Sel(2)) }
+      //jade.mn = t.getUTCMinutes()
+      //jade.sc = t.getUTCSeconds()
+      if(jade.hr<12 || jade.hr>18) {ID("r").innerHTML = ""}
+      if(!ID("sel1") && jade.w==0 && jade.hr>12 && jade.hr<15) { ID("r").innerHTML = ("Варианты по фамилиям для ЛР:<br>"+ Sel(1)) }
+      if(!ID("sel2") && jade.w==0 && jade.hr>15 && jade.hr<18) { ID("r").innerHTML = ("Варианты по фамилиям для ЛР:<br>"+ Sel(1)+Sel(2)) }
 tout=setTimeout('time100.tick("")',updint-tU%updint)
 }
 function l0(n){return n>9?n:"0"+n}
