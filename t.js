@@ -72,7 +72,7 @@ c["p"]=d
       jade.hr = t.getUTCHours()
       //jade.mn = t.getUTCMinutes()
       //jade.sc = t.getUTCSeconds()
-      if(jade.hr<12 || jade.hr>18) {ID("r").innerHTML = ""}
+      //if(jade.hr<12 || jade.hr>18) {ID("r").innerHTML = ""}
       if(!ID("S4_1") && jade.w==0 && jade.hr>12 && jade.hr<15) { ID("r").innerHTML = ("Варианты по фамилиям (4 курс) для ЛР:<br>"+ S4(1)) }
       if(!ID("S4_2") && jade.w==0 && jade.hr>15 && jade.hr<23) { ID("r").innerHTML = ("Варианты по фамилиям (4 курс) для ЛР:<br>"+ S4(1)+S4(2)) }
 tout=setTimeout('time100.tick("")',updint-tU%updint)
