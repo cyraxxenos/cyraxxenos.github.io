@@ -1,3 +1,4 @@
+var jade = {d:0, m:0, w:0, hr:0, mn:0, sc:0}
 var ID = function(a) {return document.getElementById(a)}
 var time100=new time100()
 function time100(){
