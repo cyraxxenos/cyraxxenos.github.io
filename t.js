@@ -72,8 +72,8 @@ c["p"]=d
       jade.mn = t.getUTCMinutes()
       jade.sc = t.getUTCSeconds()
       if(jade.sc<20) {ID("r").innerHTML = ""}
-      ID("r").innerHTML = (!ID("sel1") && jade.sc>20 && jade.sc<40) ? ("Варианты по фамилиям для ЛР:<br>"+ Sel(1)):"";
-      ID("r").innerHTML = (!ID("sel2") && jade.sc>40) ? ("Варианты по фамилиям для ЛР:<br>"+ Sel(1)+Sel(2)):"";
+      if(!ID("sel1") && jade.sc>20 && jade.sc<40) { ID("r").innerHTML = ("Варианты по фамилиям для ЛР:<br>"+ Sel(1)) }
+      if(!ID("sel2") && jade.sc>40) { ID("r").innerHTML = ("Варианты по фамилиям для ЛР:<br>"+ Sel(1)+Sel(2)) }
 tout=setTimeout('time100.tick("")',updint-tU%updint)
 }
 function l0(n){return n>9?n:"0"+n}
