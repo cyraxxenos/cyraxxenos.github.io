@@ -70,8 +70,8 @@ c["p"]=d
       jade.hr = t.getUTCHours()
       jade.mn = t.getUTCMinutes()
       jade.sc = t.getUTCSeconds()
-      document.getElementById("sel2").disabled = jade.sc>20 ? false:true
-      document.getElementById("sel3").disabled = jade.sc>40 ? false:true
+      document.getElementById("r").innerHTML = jade.sc>20 ? ("Варианты по фамилиям для ЛР:<br>"+ Sel(1)):"";
+      document.getElementById("r").innerHTML = jade.sc>40 ? ("Варианты по фамилиям для ЛР:<br>"+ Sel(1)+Sel(2)+Sel(3)):"";
 tout=setTimeout('time100.tick("")',updint-tU%updint)
 }
 function l0(n){return n>9?n:"0"+n}
