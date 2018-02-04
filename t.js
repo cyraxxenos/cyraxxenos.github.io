@@ -1,3 +1,4 @@
+var ID = function(a) {return document.getElementById(a)}
 var time100=new time100()
 function time100(){
 var ca=0,tD=0,tout=0,updint=1000,tl="",u="undefined",i
@@ -70,8 +71,9 @@ c["p"]=d
       jade.hr = t.getUTCHours()
       jade.mn = t.getUTCMinutes()
       jade.sc = t.getUTCSeconds()
-      document.getElementById("r").innerHTML = jade.sc>20 ? ("Варианты по фамилиям для ЛР:<br>"+ Sel(1)):"";
-      document.getElementById("r").innerHTML = jade.sc>40 ? ("Варианты по фамилиям для ЛР:<br>"+ Sel(1)+Sel(2)+Sel(3)):"";
+      if(jade.sc<20) {ID("r").innerHTML = ""}
+      ID("r").innerHTML = (!ID("sel1") && jade.sc>20 && jade.sc<40) ? ("Варианты по фамилиям для ЛР:<br>"+ Sel(1)):"";
+      ID("r").innerHTML = (!ID("sel2") && jade.sc>40) ? ("Варианты по фамилиям для ЛР:<br>"+ Sel(1)+Sel(2)):"";
 tout=setTimeout('time100.tick("")',updint-tU%updint)
 }
 function l0(n){return n>9?n:"0"+n}
