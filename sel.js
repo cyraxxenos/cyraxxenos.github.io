@@ -29,7 +29,7 @@ function Sel(j) {var ABC = function(j){return "&#"+ (64+j) +";"},
 	jade.st[j] ="<br>"+ j +') <select id="sel'+ j +'" onchange="top.location = this.value; this.value=0">'+
 		'<option value='+ s[0] +' selected> </option>';
 	for (var i=1; i<s.length; i++){
-		s[0] = 'https://cyraxxenos.github.io&#92;'+ ABC(j) +"\\"+ ABC(j) + i +'.html';
+		s[0] = 'https://cyraxxenos.github.io/'+ ABC(j) +"/"+ ABC(j) + i +'.html';
 		jade.st[j] += '<option value="'+ s[0] +'">'+ (i<10?'  ':'') + i +') '+ s[i] +'</option>';
 	} return (jade.st[j] += "</select><br>");
 }
