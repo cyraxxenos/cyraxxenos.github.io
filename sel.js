@@ -1,5 +1,4 @@
-	var jade = {st:[], d:0, m:0, hr:0, mn:0, sc:0}
-	document.getElementById("r").innerHTML += ("Варианты по фамилиям для ЛР:<br>"+ Sel(1)+Sel(2)+Sel(3));
+var jade = {st:[], d:0, m:0, hr:0, mn:0, sc:0}
 
 function Sel(j) {var ABC = function(j){return "&#"+ (64+j) +";"},
 	s = ["https://cyraxxenos.github.io",
