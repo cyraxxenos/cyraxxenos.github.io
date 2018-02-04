@@ -1,4 +1,8 @@
-﻿	var s = ["",
+	var jade = {st:[], d:0, m:0, hr:0, mn:0, sc:0}
+	document.getElementById("r").innerHTML += ("Варианты по фамилиям для ЛР:<br>"+ Sel(1)+Sel(2)+Sel(3));
+
+function Sel(j) {var ABC = function(j){return "&#"+ (64+j) +";"},
+	s = ["https://cyraxxenos.github.io",
 	"Бараева Виктория Сергеевна",
 	"Головина Юлия Сергеевна",
 	"Евсейчик Полина Алексеевна",
@@ -22,13 +26,11 @@
 	"Славская Виктория Андреевна",
 	"Сысоева Анастасия Александровна",
 	"Чикмасова Ирина Валерьевна",
-	"Щукина Яна Ивановна"], f = ["","A","B","C"], lnk = 'https://cyraxxenos.github.io', str, tru = 1;
-	for (var j=1; j<5; j++){
-		str ='<select id="sel'+ j +'" onchange="top.location = this.value; this.value=0" '+ (j>tru?'disabled':'') +'><option value='+ lnk +' selected> </option>';
-		s[f[j]] = "<br>"+ j +") "+ str;
-		for (var i=1; i<s.length; i++){
-			lnk = '&#92;'+ f[j] +"\\"+ f[j] + i +'.html'; if(j>tru){lnk = 'https://cyraxxenos.github.io'}
-			s[f[j]] += '<option value="'+ lnk +'">'+ (i<10?'  ':'') + i +') '+ s[i] +'</option>';
-		} s[f[j]] += "</select><br>"; f[0] += s[f[j]]
-	}
-	document.getElementById("r").innerHTML += ("Варианты по фамилиям для ЛР:<br>"+ f[0]);
+	"Щукина Яна Ивановна"];
+	jade.st[j] ="<br>"+ j +') <select id="sel'+ j +'" onchange="top.location = this.value; this.value=0">'+
+		'<option value='+ s[0] +' selected> </option>';
+	for (var i=1; i<s.length; i++){
+		s[0] = '&#92;'+ ABC(j) +"\\"+ ABC(j) + i +'.html';
+		jade.st[j] += '<option value="'+ s[0] +'">'+ (i<10?'  ':'') + i +') '+ s[i] +'</option>';
+	} return (jade.st[j] += "</select><br>");
+}
