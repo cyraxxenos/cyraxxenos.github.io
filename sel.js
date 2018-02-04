@@ -1,6 +1,5 @@
-var jade = {st:[], d:0, m:0, w:0, hr:0, mn:0, sc:0}
-function S4(j) {var ABC = function(j){return "&#"+ (64+j) +";"},
-	s = ["",
+var jade = {d:0, m:0, w:0, hr:0, mn:0, sc:0}
+function S4(j) {var s = ["",
 	"Бараева Виктория Сергеевна",
 	"Головина Юлия Сергеевна",
 	"Евсейчик Полина Алексеевна",
@@ -25,10 +24,10 @@ function S4(j) {var ABC = function(j){return "&#"+ (64+j) +";"},
 	"Сысоева Анастасия Александровна",
 	"Чикмасова Ирина Валерьевна",
 	"Щукина Яна Ивановна"];
-	jade.st[j] ="<br>"+ j +') <select id="S4_'+ j +'" onchange="top.location = this.value; this.value=0">'+
-		'<option value='+ s[0] +' selected> </option>';
+	s[0] ="<br>"+ j +') <select id="S4_'+ j +'" onchange="top.location = this.value; this.value=0">'+
+		'<option value=0 selected> </option>';
 	for (var i=1; i<s.length; i++){
-		s[0] = "https://cyraxxenos.github.io/A4/A"+ j +"_"+ i +'.html';
-		jade.st[j] += '<option value="'+ s[0] +'">'+ (i<10?'  ':'') + i +') '+ s[i] +'</option>';
-	} return (jade.st[j] += "</select><br>");
+		s[0] += '<option value="https://cyraxxenos.github.io/A4/A'+ j +"_"+ i +'.html">'+
+			(i<10?'  ':'') + i +') '+ s[i] +'</option>';
+	} return (s[0] += "</select><br>")
 }
