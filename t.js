@@ -74,9 +74,9 @@ c["p"]=d
       //jade.mn = t.getUTCMinutes()
       //jade.sc = t.getUTCSeconds()
       //if(jade.hr<12 || jade.hr>18) {ID("r").innerHTML = ""}
-      if(!ID("S4_1") && jade.w==0 && jade.hr>12 && jade.hr<15) { ID("r").innerHTML = ("Варианты по фамилиям (4 курс) для ЛР:<br>"+ S4(1)) }
-      if(!ID("S4_2") && jade.w==0 && jade.hr>15 && jade.hr<18) { ID("r").innerHTML = ("Варианты по фамилиям (4 курс) для ЛР:<br>"+ S4(1)+S4(2)) }
-      if(!ID("S2_1") && jade.w==0 && jade.hr>22 && jade.hr<24) { ID("r").innerHTML = ("Варианты по фамилиям (2 курс) для ЛР:<br>"+ S2(1)) }
+      if(!ID("S4_1") && jade.w==0 && jade.hr>=12 && jade.hr<15) { ID("r").innerHTML = ("Варианты по фамилиям (4 курс) для ЛР:<br>"+ S4(1)) }
+      if(!ID("S4_2") && jade.w==0 && jade.hr>=15 && jade.hr<18) { ID("r").innerHTML = ("Варианты по фамилиям (4 курс) для ЛР:<br>"+ S4(1)+S4(2)) }
+      if(!ID("S2_1") && jade.w==0 && jade.hr>=23 && jade.hr<24) { ID("r").innerHTML = ("Варианты по фамилиям (2 курс) для ЛР:<br>"+ S2(1)) }
 tout=setTimeout('time100.tick("")',updint-tU%updint)
 }
 function l0(n){return n>9?n:"0"+n}
