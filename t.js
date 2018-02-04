@@ -74,7 +74,7 @@ c["p"]=d
       //jade.sc = t.getUTCSeconds()
       if(jade.hr<12 || jade.hr>18) {ID("r").innerHTML = ""}
       if(!ID("S4_1") && jade.w==0 && jade.hr>12 && jade.hr<15) { ID("r").innerHTML = ("Варианты по фамилиям для ЛР:<br>"+ S4(1)) }
-      if(!ID("S4_2") && jade.w==0 && jade.hr>15 && jade.hr<18) { ID("r").innerHTML = ("Варианты по фамилиям для ЛР:<br>"+ S4(1)+S4(2)) }
+      if(!ID("S4_2") && jade.w==0 && jade.hr>15 && jade.hr<20) { ID("r").innerHTML = ("Варианты по фамилиям для ЛР:<br>"+ S4(1)+S4(2)) }
 tout=setTimeout('time100.tick("")',updint-tU%updint)
 }
 function l0(n){return n>9?n:"0"+n}
