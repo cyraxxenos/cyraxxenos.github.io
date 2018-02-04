@@ -2,7 +2,7 @@ var ID = function(a) {return document.getElementById(a)}
 var time100=new time100()
 function time100(){
 var ca=0,tD=0,tout=0,updint=1000,tl="",u="undefined",i
-var p={n:["%D0%92%D0%BE%D1%81%D0%BA%D1%80%D0%B5%D1%81%D0%B5%D0%BD%D1%8C%D0%B5.%D0%9F%D0%BE%D0%BD%D0%B5%D0%B4%D0%B5%D0%BB%D1%8C%D0%BD%D0%B8%D0%BA.%D0%92%D1%82%D0%BE%D1%80%D0%BD%D0%B8%D0%BA.%D0%A1%D1%80%D0%B5%D0%B4%D0%B0.%D0%A7%D0%B5%D1%82%D0%B2%D0%B5%D1%80%D0%B3.%D0%9F%D1%8F%D1%82%D0%BD%D0%B8%D1%86%D0%B0.%D0%A1%D1%83%D0%B1%D0%B1%D0%BE%D1%82%D0%B0.%D0%92%D1%81%D0%BA.%D0%9F%D0%BD%D0%B4.%D0%92%D1%82%D0%BE.%D0%A1%D1%80%D0%B4.%D0%A7%D1%82%D0%B2.%D0%9F%D1%82%D0%BD.%D0%A1%D1%83%D0%B1.%D0%AF%D0%BD%D0%B2%D0%B0%D1%80%D1%8C.%D0%A4%D0%B5%D0%B2%D1%80%D0%B0%D0%BB%D1%8C.%D0%9C%D0%B0%D1%80%D1%82.%D0%90%D0%BF%D1%80%D0%B5%D0%BB%D1%8C.%D0%9C%D0%B0%D0%B9.%D0%98%D1%8E%D0%BD%D1%8C.%D0%98%D1%8E%D0%BB%D1%8C.%D0%90%D0%B2%D0%B3%D1%83%D1%81%D1%82.%D0%A1%D0%B5%D0%BD%D1%82%D1%8F%D0%B1%D1%80%D1%8C.%D0%9E%D0%BA%D1%82%D1%8F%D0%B1%D1%80%D1%8C.%D0%9D%D0%BE%D1%8F%D0%B1%D1%80%D1%8C.%D0%94%D0%B5%D0%BA%D0%B0%D0%B1%D1%80%D1%8C.%D0%AF%D0%BD%D0%B2.%D0%A4%D0%B5%D0%B2.%D0%9C%D1%80%D1%82.%D0%90%D0%BF%D1%80.%D0%9C%D0%B0%D0%B9.%D0%98%D1%8E%D0%BD.%D0%98%D1%8E%D0%BB.%D0%90%D0%B2%D0%B3.%D0%A1%D0%B5%D0%BD.%D0%9E%D0%BA%D1%82.%D0%9D%D0%BE%D1%8F.%D0%94%D0%B5%D0%BA"],w:"%D0%BD%D0%B5%D0%B4%D0%B5%D0%BB%D1%8F ",W:"%D0%BD%D0%B5%D0%B4%D0%B5%D0%BB%D1%8F .n",dy:" %D0%B4%D0%B5%D0%BD%D1%8C"}
+var p={n:["Воскресенье.Понедельник.Вторник.Среда.Четверг.Пятница.Суббота.Вск.Пнд.Вто.Срд.Чтв.Птн.Суб.Январь.Февраль.Март.Апрель.Май.Июнь.Июль.Август.Сентябрь.Октябрь.Ноябрь.Декабрь.Янв.Фев.Мрт.Апр.Май.Июн.Июл.Авг.Сен.Окт.Ноя.Дек"],w:"неделя ",W:"неделя .n",dy:" день"}
 for(i in p)p[i]=decodeURIComponent(p[i])
 p["n"]=p["n"].split(".")
 this.init=function(cl){
