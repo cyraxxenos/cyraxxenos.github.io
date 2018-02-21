@@ -76,7 +76,7 @@ c["p"]=d
       if(jade.hr<11 || jade.hr>=15) {ID("r").innerHTML = ""}
       if(!ID("S2_1") && jade.w==2 && jade.hr==11 && jade.mn==35) { ID("r").innerHTML = ("Варианты по фамилиям (2 курс) для ЛР:<br>"+ S2(1)) }
       if(!ID("S4_2") && jade.w==4) {
-            if(jade.hr>11 && jade.hr<15) { ID("r").innerHTML = ("Варианты по фамилиям (4 курс) для ЛР:<br>"+ S4(1)+S4(2)) }
+            if(jade.hr>11 && jade.hr<15) { ID("r").innerHTML = ("Варианты по фамилиям (4 курс) для ЛР:<br>"+ S4(1)+S4("sec2")) }
       }
 tout=setTimeout('time100.tick("")',updint-tU%updint)
 }
