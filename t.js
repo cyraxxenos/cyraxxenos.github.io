@@ -2,7 +2,7 @@ var jade = {d:0, m:0, w:0, hr:0, mn:0, sc:0}
 var ID = function(a) {return document.getElementById(a)}
 var time100=new time100()
 function time100(){
-var ca=0,tD=0,tout=0,updint=1000,tl="",u="undefined",i
+var ca=0,tD=0,tout=0,updint=60000,tl="",u="undefined",i
 var p={n:["Воскресенье.Понедельник.Вторник.Среда.Четверг.Пятница.Суббота.Вск.Пнд.Вто.Срд.Чтв.Птн.Суб.Январь.Февраль.Март.Апрель.Май.Июнь.Июль.Август.Сентябрь.Октябрь.Ноябрь.Декабрь.Янв.Фев.Мрт.Апр.Май.Июн.Июл.Авг.Сен.Окт.Ноя.Дек"],w:"неделя ",W:"неделя .n",dy:" день"}
 for(i in p)p[i]=decodeURIComponent(p[i])
 p["n"]=p["n"].split(".")
@@ -73,9 +73,8 @@ c["p"]=d
       jade.hr = t.getUTCHours()
       jade.mn = t.getUTCMinutes()
       //jade.sc = t.getUTCSeconds()
-      if(jade.hr<11 || jade.hr>=25) {ID("r").innerHTML = ""}
-      if(!ID("S2") && jade.w==2 && jade.hr==11 && jade.mn==35) { ID("r").innerHTML = ("Варианты по фамилиям (2 курс) для ПР:<br>"+ S2()) }
-      if(!ID("S2") && jade.w==0) { ID("r").innerHTML = ("Варианты по фамилиям (2 курс) для ПР:<br>"+ S2()) }
+      if(jade.hr<11 || jade.hr>=15) {ID("r").innerHTML = ""}
+      //if(!ID("S2") && jade.w==2 && jade.hr>11 && jade.hr<15) { ID("r").innerHTML = ("Варианты по фамилиям (2 курс) для ПР:<br>"+ S2()) }
       if(!ID("S4_sec2") && jade.w==4) {
             if(jade.hr>11 && jade.hr<15) { ID("r").innerHTML = ("Варианты по фамилиям (4 курс) для ЛР:<br>"+ S4("1")+S4("sec2")) }
       }
