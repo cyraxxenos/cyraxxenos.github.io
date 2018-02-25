@@ -21,7 +21,7 @@ function S2() {var s = ["",
 	"Цветкова Валерия Дмитриевна",
 	"Шабанова Юлия Андреевна",
 	"Шушкова Алёна Николаевна"];
-	s[0] ="<br>"+ ' <select onchange="top.location = this.value; this.value=0">'+
+	s[0] ="<br>"+ ' <select id="S2" onchange="top.location = this.value; this.value=0">'+
 		'<option value=0 selected> </option>';
 	for (var i=1; i<s.length; i++){
 		s[0] += '<option value="https://cyraxxenos.github.io/A2/'+ i +'.html">'+
