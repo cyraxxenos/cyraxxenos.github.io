@@ -60,7 +60,7 @@ function S4(j) {var s = ["",
 	s[0] ="<br>"+ j.slice(-1) +') <select id="S4_'+ j +'" onchange="fr(this.value); this.value=0">'+
 		'<option value=0 selected> </option>';
 	for (var i=1; i<s.length; i++){
-		s[0] += '<option value="https://cyraxxenos.github.io/A4/A'+ j +"_"+ i +'.html">'+
+		s[0] += '<option value="A4/A'+ j +"_"+ i +'.html">'+
 			(i<10?'  ':'') + i +') '+ s[i] +'</option>';
 	} return (s[0] += "</select><br>")
 }
