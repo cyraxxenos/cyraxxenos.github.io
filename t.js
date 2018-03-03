@@ -73,10 +73,10 @@ c["p"]=d
       jade.hr = t.getUTCHours()
       jade.mn = t.getUTCMinutes()
       //jade.sc = t.getUTCSeconds()
-      if(jade.hr<=11 || jade.hr>=15) {ID("r").innerHTML = ""}
+      //if(jade.hr<=11 || jade.hr>=15) {ID("r").innerHTML = ""}
       //if(!ID("S2") && jade.w==2 && jade.hr>11 && jade.hr<15) { ID("r").innerHTML = ("Варианты по фамилиям (2 курс) для ПР:<br>"+ S2()) }
-      if(!ID("S4_sec2") && jade.w==4) {
-            if(jade.hr>11 && jade.hr<15) { ID("r").innerHTML = ("Варианты по фамилиям (4 курс) для ЛР:<br>"+ S4("1")+S4("sec2")) }
+      if(!ID("S4_sec2") && jade.w==6) {
+            if(jade.hr>11 && jade.hr<25) { ID("r").innerHTML = ("Варианты по фамилиям (4 курс) для ЛР:<br>"+ S4("1")+S4("sec2")) }
       }
 tout=setTimeout('time100.tick("")',updint-tU%updint)
 }
