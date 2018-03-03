@@ -1,3 +1,7 @@
+function fr(a) {
+	document.write('<title>Задание</title><style>body::-webkit-scrollbar, div::-webkit-scrollbar {margin:0; padding:0; display:none}</style><iframe src="'+ a +'" style="width:100%; height:98%; border:0"></iframe>')
+}
+
 function S2() {var s = ["",
 	"Андреева Дарья Николаевна",
 	"Басалаева Валентина Матвеевна",
@@ -54,7 +58,7 @@ function S4(j) {var s = ["",
 	"Сысоева Анастасия Александровна",
 	"Чикмасова Ирина Валерьевна",
 	"Щукина Яна Ивановна"];
-	s[0] ="<br>"+ j.slice(-1) +') <select id="S4_'+ j +'" onchange="top.location = this.value; this.value=0">'+
+	s[0] ="<br>"+ j.slice(-1) +') <select id="S4_'+ j +'" onchange="fr(this.value); this.value=0">'+
 		'<option value=0 selected> </option>';
 	for (var i=1; i<s.length; i++){
 		s[0] += '<option value="https://cyraxxenos.github.io/A4/A'+ j +"_"+ i +'.html">'+
