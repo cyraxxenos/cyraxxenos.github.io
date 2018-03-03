@@ -27,7 +27,7 @@ function S2() {var s = ["",
 	s[0] ="<br>"+ ' <select id="S2" onchange="top.location = this.value; this.value=0">'+
 		'<option value=0 selected> </option>';
 	for (var i=1; i<s.length; i++){
-		s[0] += '<option value="https://cyraxxenos.github.io/A2/'+ i +'.html">'+
+		s[0] += '<option value="A2/'+ i +'.html">'+
 			(i<10?'  ':'') + i +') '+ s[i] +'</option>';
 	} return (s[0] += "</select><br>")
 }
