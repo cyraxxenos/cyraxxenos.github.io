@@ -1,8 +1,4 @@
-function fr(a) {
-	var iframe = document.getElementsByTagName('iframe')[0];
-	var iframeDoc = iframe.contentWindow.document;
-	iframeDoc.write('<title>Задание</title><style>body::-webkit-scrollbar, div::-webkit-scrollbar {margin:0; padding:0; display:none}</style><iframe src="'+ a +'" style="width:100%; height:98%; border:0"></iframe>');
-}
+function fr(a) {window.open('','','scrollbars=1,width=1280,height=720').document.write('<title>Задание</title><style>body::-webkit-scrollbar, div::-webkit-scrollbar {margin:0; padding:0; display:none}</style><iframe src="'+ a +'" style="width:100%; height:98%; border:0"></iframe>')}
 function ns() {return false} document.ondragstart = document.onselectstart = document.oncontextmenu = ns;
 
 function S2() {var s = ["",
