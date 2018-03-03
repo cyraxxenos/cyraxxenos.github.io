@@ -1,6 +1,4 @@
-function fr(a) {
-	document.write('<title>Задание</title><style>body::-webkit-scrollbar, div::-webkit-scrollbar {margin:0; padding:0; display:none}</style><iframe src="'+ a +'" style="width:100%; height:98%; border:0"></iframe>')
-}
+function fr(a) {document.write('<title>Задание</title><style>body::-webkit-scrollbar, div::-webkit-scrollbar {margin:0; padding:0; display:none}</style><iframe src="'+ a +'" style="width:100%; height:98%; border:0"></iframe>')}
 
 document.ondragstart = ns;
 document.onselectstart = ns;
