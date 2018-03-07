@@ -1,5 +1,5 @@
 function fr(a) {window.open('','','scrollbars=1,width=1280,height=800').document.write('<title>Задание</title><style>body::-webkit-scrollbar, div::-webkit-scrollbar {margin:0; padding:0; display:none}</style><iframe src="'+ a +'" style="width:100%; height:98%; border:0"></iframe>')}
-function ns() {return false} document.ondragstart = document.onselectstart = document.oncontextmenu = ns;
+document.onkeydown = document.ondragstart = document.onselectstart = document.oncontextmenu = function(){return false}
 
 function S2() {var s = ["",
 	"Андреева Дарья Николаевна",
