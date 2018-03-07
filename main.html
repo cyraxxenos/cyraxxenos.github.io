@@ -11,6 +11,5 @@
     time100.init({
         timenow:{zone:"Europe/Moscow",format:"%Y-%m-%d (%w) %H:%i"}
     });
-    document.onkeydown=function(){return false}
-    document.oncontextmenu=function(){return false}
+    document.onkeydown = document.ondragstart = document.onselectstart = document.oncontextmenu = function(){return false}
 </script>
