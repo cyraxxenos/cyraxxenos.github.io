@@ -75,7 +75,7 @@ c["p"]=d
       //jade.sc = t.getUTCSeconds()
       if(jade.hr<10 || jade.hr>15) {ID("r").innerHTML = ""}
       if(!ID("S2") && jade.w==6 && jade.hr>=10 && jade.hr<=15) { ID("r").innerHTML = ("Варианты по фамилиям (2 курс) для ПР:<br>"+ S2()) }
-      if(!ID("S4_1") && jade.w==0) {
+      if(!ID("S4_1") && jade.w==4) {
             if(jade.hr>=12 && jade.hr<=18) { ID("r").innerHTML = ("Варианты по фамилиям (4 курс) для ЛР:<br>"+ S4("1") + S4("sec2") + '<br>3) <a href="A4/A3.html"><i>для всех</i></a><br>') }
       }
 tout=setTimeout('time100.tick("")',updint-tU%updint)
