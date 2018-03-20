@@ -1,136 +1,23 @@
 <!DOCTYPE html>
-<!-- saved from url=(0068)https://yandex.github.io/mapsapi-examples-old/html/mapgroupmenu.html -->
-<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Примеры. Построение меню списка групп.</title>
-    
-    <script src="./Примеры. Построение меню списка групп._files/index.xml.Без названия" type="text/javascript"></script><link rel="stylesheet" href="./Примеры. Построение меню списка групп._files/_YMaps.css"><script type="text/javascript" charset="utf-8" src="./Примеры. Построение меню списка групп._files/_YMaps.js.Без названия"></script>
-    <script type="text/javascript">
-        // Создание обработчика для события window.onLoad
-        YMaps.jQuery(function () {
-            // Создание экземпляра карты и его привязка к созданному контейнеру
-            var map = new YMaps.Map(YMaps.jQuery("#YMapsID")[0]);
+<html lang="ru">
+<head>
+    <title>Примеры. Добавление на карту объектов с разной геометрией.</title>
+    <meta charset="utf-8">
 
-            // Установка для карты ее центра и масштаба
-            map.setCenter(new YMaps.GeoPoint(30.530946,50.443705), 14);
-
-            // Добавление элементов управления
-            map.enableScrollZoom();
-            map.addControl(new YMaps.ToolBar());
-            map.addControl(new YMaps.TypeControl());
-            map.addControl(new YMaps.Zoom());
-
-            // Группы объектов
-            var groups = [
-                createGroup("Известные памятники", [
-                    createPlacemark(new YMaps.GeoPoint(30.563022,50.426472), "Монумент \"Родина-Мать\""),
-                    createPlacemark(new YMaps.GeoPoint(30.516489,50.45351), "Памятник \"Богдану Хмельницкому\""),
-                    createPlacemark(new YMaps.GeoPoint(30.529874,50.454433), "Арка Дружбы народов")
-                ], "default#redPoint"),
-                createGroup("Покушайки", [
-                    createPlacemark(new YMaps.GeoPoint(30.60791,50.50955), "Ресторан \"Калинка-Малинка\"", "пр.Владимира Маяковского, 47"),
-                    createPlacemark(new YMaps.GeoPoint(30.521708,50.429083), "Бар \"Сало-бар\"", "ул. Анри Барбюса, 5а"),
-                    createPlacemark(new YMaps.GeoPoint(30.498271,50.450843), "Абсент-бар \"Палата №6\"", "бульвар Воровского, 31а"),
-                    createPlacemark(new YMaps.GeoPoint(30.516498,50.454834), "Ресторан \"Спотыкач\"", "Владимирская,16")
-                ], "default#greenPoint"),
-                createGroup("Оригинальные музейчики", [
-                    createPlacemark(new YMaps.GeoPoint(30.520163,50.443334), "Музей грамзаписи и старинных музыкальных инструментов"),
-                    createPlacemark(new YMaps.GeoPoint(30.505269,50.446977), "Музей истории медицины или Анатомический театр"),
-                    createPlacemark(new YMaps.GeoPoint(30.530889,50.452512), "Музей воды. Водно-информационный центр")
-                ], "default#orangePoint"),
-                createGroup("Красивости", [
-                    createPlacemark(new YMaps.GeoPoint(30.516174,50.45987), "Замок Ричарда-Львиное сердце"),
-                    createPlacemark(new YMaps.GeoPoint(30.528598,50.445049), "\"Дом с химерами\""),
-                    createPlacemark(new YMaps.GeoPoint(30.511809,50.449156), "Дом Рыцаря")
-                ])
-            ];
-
-            // Создание списка групп
-            for (var i = 0; i < groups.length; i++) {
-                addMenuItem(groups[i], map, YMaps.jQuery("#menu"));
-            }
-        })
-
-        // Добавление одного пункта в список
-        function addMenuItem (group, map, menuContainer) {
-
-            // Показать/скрыть группу на карте
-            YMaps.jQuery("<a class=\"title\" href=\"#\">" + group.title + "</a>")
-                .bind("click", function () {
-                    var link = YMaps.jQuery(this);
-
-                    // Если пункт меню "неактивный", то добавляем группу на карту,
-                    // иначе - удаляем с карты
-                    if (link.hasClass("active")) {
-                        map.removeOverlay(group);
-                    } else {
-                        map.addOverlay(group);
-                    }
-
-                    // Меняем "активность" пункта меню
-                    link.toggleClass("active");
-
-                    return false;
-                })
-
-                // Добавление нового пункта меню в список
-                .appendTo(
-                    YMaps.jQuery("<li></li>").appendTo(menuContainer)
-                )
-        };
-
-        // Создание группы
-        function createGroup (title, objects, style) {
-            var group = new YMaps.GeoObjectCollection(style);
-
-            group.title = title;
-            group.add(objects);
-            
-            return group;
-        };
-
-        // Создание метки
-        function createPlacemark (point, name, description) {
-            var placemark = new YMaps.Placemark(point);
-
-            placemark.name = name;
-            placemark.description = description;
-
-            return placemark
+    <style>
+        html, body, .map {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
         }
-    </script>
-
-    <style type="text/css">
-        /* Оформление меню (начало)*/
-
-            #menu {
-                list-style: none;
-
-                margin: 0;
-                padding: 0;
-            }
-
-            #menu a {
-                text-decoration: none;
-
-                border-bottom: dashed 1px;
-            }
-            
-            a.active {
-                color: #000;
-            }
-
-        /* Оформление меню (конец)*/
     </style>
 
+    <script src="https://yastatic.net/jquery/2.2.3/jquery.min.js"></script>
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU"></script>
+    <script src="object_manager_spatial.js"></script>
 </head>
-
 <body>
-    <table>
-    <tbody><tr>
-        <td><div id="YMapsID" style="width:800px;height:700px" class="YMaps YMaps-cursor-grab"><div class="YMaps-layer-container" style="z-index: 1;"><div class="YMaps-map-type-layer-container"><div class="YMaps-layer" style="z-index: 5; left: 7px; top: 115px;"><div style="z-index:6;" class="YMaps-tile-container"><img src="./Примеры. Построение меню списка групп._files/tiles" style="position: absolute; width: 256px; height: 256px; left: -239px; top: -281px;"><img src="./Примеры. Построение меню списка групп._files/tiles(1)" style="position: absolute; width: 256px; height: 256px; left: 17px; top: -281px;"><img src="./Примеры. Построение меню списка групп._files/tiles(2)" style="position: absolute; width: 256px; height: 256px; left: 273px; top: -281px;"><img src="./Примеры. Построение меню списка групп._files/tiles(3)" style="position: absolute; width: 256px; height: 256px; left: 529px; top: -281px;"><img src="./Примеры. Построение меню списка групп._files/tiles(4)" style="position: absolute; width: 256px; height: 256px; left: 785px; top: -281px;"><img src="./Примеры. Построение меню списка групп._files/tiles(5)" style="position: absolute; width: 256px; height: 256px; left: -239px; top: -25px;"><img src="./Примеры. Построение меню списка групп._files/tiles(6)" style="position: absolute; width: 256px; height: 256px; left: 17px; top: -25px;"><img src="./Примеры. Построение меню списка групп._files/tiles(7)" style="position: absolute; width: 256px; height: 256px; left: 273px; top: -25px;"><img src="./Примеры. Построение меню списка групп._files/tiles(8)" style="position: absolute; width: 256px; height: 256px; left: 529px; top: -25px;"><img src="./Примеры. Построение меню списка групп._files/tiles(9)" style="position: absolute; width: 256px; height: 256px; left: 785px; top: -25px;"><img src="./Примеры. Построение меню списка групп._files/tiles(10)" style="position: absolute; width: 256px; height: 256px; left: -239px; top: 231px;"><img src="./Примеры. Построение меню списка групп._files/tiles(11)" style="position: absolute; width: 256px; height: 256px; left: 17px; top: 231px;"><img src="./Примеры. Построение меню списка групп._files/tiles(12)" style="position: absolute; width: 256px; height: 256px; left: 273px; top: 231px;"><img src="./Примеры. Построение меню списка групп._files/tiles(13)" style="position: absolute; width: 256px; height: 256px; left: 529px; top: 231px;"><img src="./Примеры. Построение меню списка групп._files/tiles(14)" style="position: absolute; width: 256px; height: 256px; left: 785px; top: 231px;"><img src="./Примеры. Построение меню списка групп._files/tiles(15)" style="position: absolute; width: 256px; height: 256px; left: -239px; top: 487px;"><img src="./Примеры. Построение меню списка групп._files/tiles(16)" style="position: absolute; width: 256px; height: 256px; left: 17px; top: 487px;"><img src="./Примеры. Построение меню списка групп._files/tiles(17)" style="position: absolute; width: 256px; height: 256px; left: 273px; top: 487px;"><img src="./Примеры. Построение меню списка групп._files/tiles(18)" style="position: absolute; width: 256px; height: 256px; left: 529px; top: 487px;"><img src="./Примеры. Построение меню списка групп._files/tiles(19)" style="position: absolute; width: 256px; height: 256px; left: 785px; top: 487px;"></div></div></div><div class="YMaps-layer YMaps-common-object-layer" style="z-index: 50; left: 7px; top: 115px;"><div class="YMaps-placemark YMaps-Default YMaps-cursor-pointer" style="z-index: 110; left: 766.713px; top: 636.359px;"><img src="./Примеры. Построение меню списка групп._files/pmrds.png" style="width: 28px; height: 29px;"></div><div class="YMaps-placemark YMaps-Default YMaps-cursor-pointer" style="z-index: 110; left: 224.564px; top: 143.09px;"><img src="./Примеры. Построение меню списка групп._files/pmrds.png" style="width: 28px; height: 29px;"></div><div class="YMaps-placemark YMaps-Default YMaps-cursor-pointer" style="z-index: 110; left: 380.51px; top: 126.246px;"><img src="./Примеры. Построение меню списка групп._files/pmrds.png" style="width: 28px; height: 29px;"></div><div class="YMaps-placemark YMaps-Default YMaps-cursor-pointer" style="z-index: 110; left: 1289.7px; top: -880.184px;"><img src="./Примеры. Построение меню списка групп._files/pmgns.png" style="width: 28px; height: 29px;"></div><div class="YMaps-placemark YMaps-Default YMaps-cursor-pointer" style="z-index: 110; left: 285.369px; top: 588.738px;"><img src="./Примеры. Построение меню списка групп._files/pmgns.png" style="width: 28px; height: 29px;"></div><div class="YMaps-placemark YMaps-Default YMaps-cursor-pointer" style="z-index: 110; left: 12.3086px; top: 191.758px;"><img src="./Примеры. Построение меню списка групп._files/pmgns.png" style="width: 28px; height: 29px;"></div><div class="YMaps-placemark YMaps-Default YMaps-cursor-pointer" style="z-index: 110; left: 224.668px; top: 118.928px;"><img src="./Примеры. Построение меню списка групп._files/pmgns.png" style="width: 28px; height: 29px;"></div><div class="YMaps-placemark YMaps-Default YMaps-cursor-pointer" style="z-index: 110; left: 267.369px; top: 328.77px;"><img src="./Примеры. Построение меню списка групп._files/pmors.png" style="width: 28px; height: 29px;"></div><div class="YMaps-placemark YMaps-Default YMaps-cursor-pointer" style="z-index: 110; left: 93.8418px; top: 262.301px;"><img src="./Примеры. Построение меню списка групп._files/pmors.png" style="width: 28px; height: 29px;"></div><div class="YMaps-placemark YMaps-Default YMaps-cursor-pointer" style="z-index: 110; left: 392.336px; top: 161.303px;"><img src="./Примеры. Построение меню списка групп._files/pmors.png" style="width: 28px; height: 29px;"></div><div class="YMaps-placemark YMaps-Default YMaps-cursor-pointer" style="z-index: 110; left: 220.895px; top: 27.0195px;"><img src="./Примеры. Построение меню списка групп._files/pmlbs.png" style="width: 28px; height: 29px;"></div><div class="YMaps-placemark YMaps-Default YMaps-cursor-pointer" style="z-index: 110; left: 365.645px; top: 297.479px;"><img src="./Примеры. Построение меню списка групп._files/pmlbs.png" style="width: 28px; height: 29px;"></div><div class="YMaps-placemark YMaps-Default YMaps-cursor-pointer" style="z-index: 110; left: 170.037px; top: 222.541px;"><img src="./Примеры. Построение меню списка групп._files/pmlbs.png" style="width: 28px; height: 29px;"></div></div></div><div style="background-color: transparent !important;border: none !important;float: none !important;z-index: 1001 !important;position: absolute !important;overflow: undefined !important;padding: 0 !important;display: block !important;margin-top: 0 !important;margin-right: 0 !important;margin-bottom: 0 !important;margin-left: 0 !important;height: 20px !important;width: 51px !important;" class="YMaps-logo"><a href="http://maps.yandex.ru/?origin=jsapi&amp;ll=30.530345197767026,50.450007721451904&amp;z=14&amp;l=map" target="_blank" class="YMaps-logo-link" style="background-color: transparent !important;border: none !important;float: none !important;z-index: 1001 !important;position: absolute !important;overflow: undefined !important;padding: 0 !important;display: block !important;margin-top: 0 !important;margin-right: 0 !important;margin-bottom: 0 !important;margin-left: 0 !important;height: 20px !important;width: 51px !important;"><i style="background-color: transparent !important;border: none !important;float: none !important;z-index: 1001 !important;position: absolute !important;overflow: undefined !important;padding: 0 !important;margin-top: 0 !important;margin-right: 0 !important;margin-bottom: 0 !important;margin-left: 0 !important;height: 106px !important;width: 56px !important;"></i></a></div><div class="YMaps-copyrights" style="background-color: transparent !important; border: none !important; float: none !important; z-index: 1001 !important; position: absolute !important; overflow: visible !important; padding: 0px !important; display: block !important; margin: 0px !important; height: auto !important; width: auto !important; color: rgb(68, 68, 68);"><span style="background-color: transparent !important; border: none !important; float: none !important; z-index: 1001 !important; position: static !important; padding: 0px !important; display: inline !important; font-family: Arial, sans-serif !important; font-size: 10px !important; text-indent: 0px !important; text-align: left !important; white-space: nowrap !important; line-height: normal !important; text-decoration: none !important; text-size-adjust: none !important; margin: 0px !important; height: auto !important; width: auto !important; color: rgb(68, 68, 68);">© Яндекс&nbsp;–&nbsp;</span><a href="http://maps.yandex.ru/agreement.xml" target="_blank" style="background-color: transparent !important; border: none !important; float: none !important; z-index: 1001 !important; position: static !important; padding: 0px !important; display: inline !important; font-family: Arial, sans-serif !important; font-size: 10px !important; text-indent: 0px !important; text-align: left !important; white-space: nowrap !important; line-height: normal !important; text-decoration: underline !important; text-size-adjust: none !important; margin: 0px !important; height: auto !important; width: auto !important; color: rgb(68, 68, 68);">Условия использования</a></div><div class="YMaps-buttons" style="z-index: 999; left: 5px; top: 5px;"><div class="YMaps-button YMaps-button_active" title="Переместить карту"><i class="YMaps-button-c YMaps-button-l"><i></i></i><i class="YMaps-button-m" style="width: 19px;"><i></i><img class="YMaps-icon YMaps-icon_move" alt="Переместить карту" title="Переместить карту" src="./Примеры. Построение меню списка групп._files/zero.gif"></i><i class="YMaps-button-c YMaps-button-r"><i></i></i></div><div class="YMaps-button" title="Увеличить"><i class="YMaps-button-c YMaps-button-l"><i></i></i><i class="YMaps-button-m YMaps-cursor-pointer" style="width: 19px;"><i></i><img class="YMaps-icon YMaps-icon_magnifier" alt="Увеличить" title="Увеличить" src="./Примеры. Построение меню списка групп._files/zero.gif"></i><i class="YMaps-button-c YMaps-button-r"><i></i></i></div><div class="YMaps-button" title="Измерение расстояний на карте"><i class="YMaps-button-c YMaps-button-l"><i></i></i><i class="YMaps-button-m YMaps-cursor-pointer" style="width: 19px;"><i></i><img class="YMaps-icon YMaps-icon_ruler" alt="Измерение расстояний на карте" title="Измерение расстояний на карте" src="./Примеры. Построение меню списка групп._files/zero.gif"></i><i class="YMaps-button-c YMaps-button-r"><i></i></i></div></div><div class="YMaps-buttons" style="z-index: 999; right: 5px; top: 5px;"><div class="YMaps-button YMaps-button_active"><i class="YMaps-button-c YMaps-button-l"><i></i></i><i class="YMaps-button-m"><i></i><span class="YMaps-button-caption">Схема</span></i><i class="YMaps-button-c YMaps-button-r"><i></i></i></div><div class="YMaps-button"><i class="YMaps-button-c YMaps-button-l"><i></i></i><i class="YMaps-button-m YMaps-cursor-pointer"><i></i><span class="YMaps-button-caption">Спутник</span></i><i class="YMaps-button-c YMaps-button-r"><i></i></i></div><div class="YMaps-button"><i class="YMaps-button-c YMaps-button-l"><i></i></i><i class="YMaps-button-m YMaps-cursor-pointer"><i></i><span class="YMaps-button-caption">Гибрид</span></i><i class="YMaps-button-c YMaps-button-r"><i></i></i></div></div><div class="YMaps-slider" style="z-index: 1000; left: 5px; top: 75px; height: 190px;"><div class="YMaps-slider-content"><a class="YMaps-slider-minus" href="javascript:void(0)"><i class="YMaps-slider-btn"><i></i></i></a><div class="YMaps-slider-scale" style="height: 140px; padding-bottom: 0px;"><i class="YMaps-slider-grab" type="button" style="margin-top: 97px;"><i></i><input type="button"></i><i class="YMaps-slider-marks" style="height: 140px;"><i></i></i><div class="YMaps-slider-tips" style="visibility: hidden; height: 140px;"><a href="javascript:void(0)" class="YMaps-button-tip YMaps-cursor-pointer" style="top: 8px;"><i class="YMaps-button-tip-l"><i></i></i><i class="YMaps-button-tip-r"><i></i></i><b class="YMaps-button-tip-container"><i class="YMaps-button-tip-text">мир</i><i class="YMaps-button-tip-m"></i></b></a><a href="javascript:void(0)" class="YMaps-button-tip YMaps-cursor-pointer" style="top: 29px;"><i class="YMaps-button-tip-l"><i></i></i><i class="YMaps-button-tip-r"><i></i></i><b class="YMaps-button-tip-container"><i class="YMaps-button-tip-text">страна</i><i class="YMaps-button-tip-m"></i></b></a><a href="javascript:void(0)" class="YMaps-button-tip YMaps-cursor-pointer" style="top: 57px;"><i class="YMaps-button-tip-l"><i></i></i><i class="YMaps-button-tip-r"><i></i></i><b class="YMaps-button-tip-container"><i class="YMaps-button-tip-text">город</i><i class="YMaps-button-tip-m"></i></b></a><a href="javascript:void(0)" class="YMaps-button-tip YMaps-cursor-pointer" style="top: 85px;"><i class="YMaps-button-tip-l"><i></i></i><i class="YMaps-button-tip-r"><i></i></i><b class="YMaps-button-tip-container"><i class="YMaps-button-tip-text">улица</i><i class="YMaps-button-tip-m"></i></b></a><a href="javascript:void(0)" class="YMaps-button-tip YMaps-cursor-pointer" style="top: 106px;"><i class="YMaps-button-tip-l"><i></i></i><i class="YMaps-button-tip-r"><i></i></i><b class="YMaps-button-tip-container"><i class="YMaps-button-tip-text">дом</i><i class="YMaps-button-tip-m"></i></b></a></div></div><a class="YMaps-slider-plus" href="javascript:void(0)"><i class="YMaps-slider-btn"><i></i></i></a></div></div></div></td>
-        <td valign="top"><ul id="menu"><li><a class="title active" href="https://yandex.github.io/mapsapi-examples-old/html/mapgroupmenu.html#">Известные памятники</a></li><li><a class="title active" href="https://yandex.github.io/mapsapi-examples-old/html/mapgroupmenu.html#">Покушайки</a></li><li><a class="title active" href="https://yandex.github.io/mapsapi-examples-old/html/mapgroupmenu.html#">Оригинальные музейчики</a></li><li><a class="title active" href="https://yandex.github.io/mapsapi-examples-old/html/mapgroupmenu.html#">Красивости</a></li></ul></td>
-    </tr>
-    </tbody></table><table>
-
-
-</table></body></html>
+    <div id="map" class="map"></div>
+</body>
+</html>
