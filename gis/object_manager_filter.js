@@ -70,10 +70,8 @@ function init() {
         }
     }
 
-    $.ajax({
-        url: "data.json"
-    }).done(function (data) {
-        objectManager.add(data);
-    });
+    $.ajax({url: "data1.json"}).done(function (data) { objectManager.add(data) });
+    $.ajax({url: "data2.json"}).done(function (data) { objectManager.add(data) });
+    $.ajax({url: "data3.json"}).done(function (data) { objectManager.add(data) });
 
 }
