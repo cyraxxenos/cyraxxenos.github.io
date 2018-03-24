@@ -30,7 +30,7 @@ function init() {
 	}),
         // Теперь создадим список, содержащий 5 пунктов.
 	listBoxControl = new ymaps.control.ListBox({
-		data: {content:'Фильтр', title:'Фильтр'},
+		data: {content:'Тематические слои', title:'Фильтр по тематическим слоям'},
 		items: listBoxItems,
 		state: {
 	                // Признак, развернут ли список.
