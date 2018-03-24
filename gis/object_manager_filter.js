@@ -11,11 +11,12 @@ function init() {
         }),
         objectManager = new ymaps.ObjectManager({
             // Чтобы метки начали кластеризоваться, выставляем опцию.
-            clusterize: false,
+		clusterize: true,
             // ObjectManager принимает те же опции, что и кластеризатор.
-            gridSize: 64,
+		gridSize: 64,
+		maxZoom: 17,
             // Макет метки кластера pieChart.
-            clusterIconLayout: "default#pieChart"
+		clusterIconLayout: "default#pieChart"
         });
     myMap.geoObjects.add(objectManager);
 
