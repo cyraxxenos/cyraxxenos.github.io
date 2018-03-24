@@ -24,13 +24,11 @@ function init() {
 
     var myPlacemark = new ymaps.Placemark(myMap.getCenter(), {
         balloonContentBody: [
-            '<address>',
             '<strong>Офис Яндекса в Москве</strong>',
             '<br/>',
             'Адрес: 119021, Москва, ул. Льва Толстого, 16',
             '<br/>',
-            'Подробнее: <a href="https://company.yandex.ru/">https://company.yandex.ru</a>',
-            '</address>'
+            'Подробнее: <a href="https://company.yandex.ru/">https://company.yandex.ru</a>'
         ].join('')
     }, {
         preset: 'islands#redDotIcon'
