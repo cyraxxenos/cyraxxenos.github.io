@@ -13,7 +13,7 @@ function init() {
             // Чтобы метки начали кластеризоваться, выставляем опцию.
             clusterize: true,
             // ObjectManager принимает те же опции, что и кластеризатор.
-            gridSize: 16,
+            gridSize: 64,
             // Макет метки кластера pieChart.
             clusterIconLayout: "default#pieChart"
         });
