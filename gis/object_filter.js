@@ -5,7 +5,7 @@ function init() {
 		center: [59.21156, 39.83260],
 		zoom: 17,
 		type: 'yandex#satellite',
-		controls: ['zoomControl', 'typeSelector', 'fullscreenControl']
+		controls: ['zoomControl','rulerControl','typeSelector','searchControl','fullscreenControl']
 	}, {
 		searchControlProvider: 'yandex#search'
 	}),
