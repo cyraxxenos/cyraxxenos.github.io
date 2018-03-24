@@ -20,7 +20,7 @@ function init() {
     myMap.geoObjects.add(objectManager);
 
     // Создадим 5 пунктов выпадающего списка.
-    var listBoxItems = ['Школа', 'Аптека', 'Магазин', 'Больница', 'Бар']
+    var listBoxItems = ['Вяз', 'Ясень', 'Липа', 'Ольха', 'Яблоня', 'Ива', 'Клён', 'Рябина', 'Тополь']
         .map(function(title) {
             return new ymaps.control.ListBoxItem({
                 data: {
@@ -70,8 +70,6 @@ function init() {
         }
     }
 
-    $.ajax({url: "data1.json"}).done(function (data) { objectManager.add(data) });
-    $.ajax({url: "data2.json"}).done(function (data) { objectManager.add(data) });
-    $.ajax({url: "data3.json"}).done(function (data) { objectManager.add(data) });
+    $.ajax({url: "data.json"}).done(function (data) { objectManager.add(data) });
 
 }
