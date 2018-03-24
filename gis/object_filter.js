@@ -20,24 +20,6 @@ function init() {
 	});
     myMap.geoObjects.add(objectManager);
 
-
-
-    var myPlacemark = new ymaps.Placemark(myMap.getCenter(), {
-        balloonContentBody: [
-            '<strong>Офис Яндекса в Москве</strong>',
-            '<br/>',
-            'Адрес: 119021, Москва, ул. Льва Толстого, 16',
-            '<br/>',
-            'Подробнее: <a href="https://company.yandex.ru/">https://company.yandex.ru</a>'
-        ].join('')
-    }, {
-        preset: 'islands#redDotIcon'
-    });
-
-    myMap.geoObjects.add(myPlacemark);
-
-
-
     // Создадим 5 пунктов выпадающего списка.
     var listBoxItems = ['Вяз','Ясень','Липа','Ольха','Яблоня','Ива','Клён','Рябина','Тополь','Другие']
 	.map(function(title) {
