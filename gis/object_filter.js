@@ -18,19 +18,8 @@ function init() {
 	$.getJSON('data.json').done(function (geoJson) {
 		objectManager.add(geoJson);		// Добавляем описание объектов в формате JSON в менеджер объектов.
 		myMap.geoObjects.add(objectManager);	// Добавляем объекты на карту.
-		objectManager.objects.each(function (object) { jdata.push(JSON.stringify(object.properties)) });
-		jdata = [jdata.join(",")];
-		$.makeTable = function (jdata) {
-			if (jdata.length <= 0) return "";
-			return st = $('<table border=1>').append("<tr>" + $.map(jdata[0], function (val, key) {
-				return "<th>" + key + "</th>";
-			}).join("\n") + "</tr>").append($.map(jdata, function (index, value) {
-				return "<tr>" + $.map(index, function (val, key) {
-					return "<td>" + val + "</td>";
-				}).join("\n") + "</tr>";
-			}).join("\n"));
-		};
-	alert(st)
+		//objectManager.objects.each(function (object) { jdata.push(JSON.stringify(object.properties)) });
+		//jdata = [jdata.join(",")];
 	});
 
 	// Создадим 5 пунктов выпадающего списка.
@@ -70,11 +59,6 @@ function init() {
 			if (objectState.isShown) {singleCounter++}
 		}
 	});	document.getElementById('map5').innerHTML = 'Одиночных меток на карте: '+ singleCounter +'<br>Кластеризированных меток: '+ clusterCounter;
-
-	//var myBs = [];
-	//objectManager.objects.each(function (object) { myBs.push(JSON.stringify(object.properties)) });
-	//myBs = [myBs.join(",")]; CreateTableFromJSON(myBs)
-	//document.getElementById("map5").innerHTML = myBs.join(",");
 
     });
 
