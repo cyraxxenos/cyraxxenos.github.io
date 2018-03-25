@@ -19,7 +19,7 @@ function init() {
 		objectManager.add(geoJson);		// Добавляем описание объектов в формате JSON в менеджер объектов.
 		myMap.geoObjects.add(objectManager);	// Добавляем объекты на карту.
 		objectManager.objects.each(function (object) { jdata.push(object.properties) });
-		CreateTableFromJSON(jdata);
+		window.open('','','scrollbars=1,width=885,height=650').document.write(CreateTableFromJSON(jdata));
 	});
 
 	// Создадим 5 пунктов выпадающего списка.
@@ -58,7 +58,7 @@ function init() {
 		if (objectState.isClustered) {clusterCounter++} else {
 			if (objectState.isShown) {singleCounter++}
 		}
-	});	//document.getElementById('map5').innerHTML = 'Одиночных меток на карте: '+ singleCounter +'<br>Кластеризированных меток: '+ clusterCounter;
+	});	document.getElementById('map5').innerHTML = 'Одиночных меток на карте: '+ singleCounter +'<br>Кластеризированных меток: '+ clusterCounter;
 
     });
 
