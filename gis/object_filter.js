@@ -18,8 +18,8 @@ function init() {
 	$.getJSON('data.json').done(function (geoJson) {
 		objectManager.add(geoJson);		// Добавляем описание объектов в формате JSON в менеджер объектов.
 		myMap.geoObjects.add(objectManager);	// Добавляем объекты на карту.
-		//objectManager.objects.each(function (object) { jdata.push(JSON.stringify(object.properties)) });
-		//jdata = [jdata.join(",")];
+		objectManager.objects.each(function (object) { jdata.push(object.properties) });
+		CreateTableFromJSON(jdata);
 	});
 
 	// Создадим 5 пунктов выпадающего списка.
