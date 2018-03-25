@@ -18,8 +18,8 @@ function init() {
 	$.getJSON('data.json').done(function (geoJson) {
 		objectManager.add(geoJson);		// Добавляем описание объектов в формате JSON в менеджер объектов.
 		myMap.geoObjects.add(objectManager);	// Добавляем объекты на карту.
-		objectManager.objects.each(function (object) { jdata.push(object.properties) });
-		myMap.events.add('dblclick', function(event) {window.open('','','scrollbars=1,width=885,height=650').document.body.appendChild(CreateTableFromJSON(jdata)); event.stopPropagation()});
+		objectManager.objects.each(function (object) { jdata.push(object.properties) }); jdata.splice(-1,1);
+		myMap.events.add('dblclick', function() {window.open('','','scrollbars=1,width=885,height=650').document.body.appendChild(CreateTableFromJSON(jdata))})
 	});
 
 	// Создадим 5 пунктов выпадающего списка.
