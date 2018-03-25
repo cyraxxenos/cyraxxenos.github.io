@@ -13,12 +13,13 @@ function init() {
 		gridSize: 128,		// ObjectManager принимает те же опции, что и кластеризатор.
 		maxZoom: 17,
 		clusterIconLayout: "default#pieChart"	// Макет метки кластера pieChart.
-	});
+	}), jdata = [];
 
 	$.getJSON('data.json').done(function (geoJson) {
 		objectManager.add(geoJson);		// Добавляем описание объектов в формате JSON в менеджер объектов.
 		myMap.geoObjects.add(objectManager);	// Добавляем объекты на карту.
-		alert(JSON.stringify(geoJson))
+		objectManager.objects.each(function (object) { jdata.push(JSON.stringify(object.properties)) });
+		alert(jdata[5])
 	});
 
 	// Создадим 5 пунктов выпадающего списка.
