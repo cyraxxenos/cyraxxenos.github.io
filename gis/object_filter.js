@@ -49,7 +49,18 @@ function init() {
 	var filters = ymaps.util.extend({}, listBoxControl.state.get('filters'));
 	filters[listBoxItem.data.get('content')] = listBoxItem.isSelected();
 	listBoxControl.state.set('filters', filters);
-		alert('Количество объектов в слое: ' + objectManager.objects.getLength());
+
+
+var singleCounter = 0, clusterCounter = 0;
+objectManager.objects.each(function (object) {
+    var objectState = objectManager.getObjectState(object.id);
+    if (objectState.isClustered) {clusterCounter++} else {
+	if (objectState.isShown) {singleCounter++}
+    }
+});	alert('Количество одиночных меток на карте: ' + singleCounter);
+	alert('Количество кластеризированных меток: ' + clusterCounter);
+
+
     });
 
     var filterMonitor = new ymaps.Monitor(listBoxControl.state);
