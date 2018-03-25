@@ -11,10 +11,12 @@
 <body>
 <div id="map"></div>
 <script>
-	document.addEventListener('mousedown', function(event) { 
-		var x = document.getElementsByTagName('ymaps');
-		for(var i=0; i<x.length; i++) {if (x[i].className.indexOf('copyright')>-1) x[i].parentNode.removeChild(x[i])}
-	});
+var elem  = document.getElementById("map"), click = 0;
+elem.addEventListener("mousedown", function h(e) { click++;
+	if (click > 0) {elem.removeEventListener("mousedown", h)}
+	var x = document.getElementsByTagName('ymaps');
+	for(var i=0; i<x.length; i++) {if (x[i].className.indexOf('copyright')>-1) x[i].parentNode.removeChild(x[i])}
+});
 </script>
 </body>
 </html>
