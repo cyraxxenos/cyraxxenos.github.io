@@ -19,7 +19,7 @@ function init() {
 		objectManager.add(geoJson);		// Добавляем описание объектов в формате JSON в менеджер объектов.
 		myMap.geoObjects.add(objectManager);	// Добавляем объекты на карту.
 		objectManager.objects.each(function (object) { jdata.push(JSON.stringify(object.properties)) });
-		alert(jdata[5])
+		jdata = [jdata.join(",")]; CreateTableFromJSON(jdata)
 	});
 
 	// Создадим 5 пунктов выпадающего списка.
