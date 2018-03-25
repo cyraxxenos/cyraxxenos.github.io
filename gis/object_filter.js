@@ -55,7 +55,7 @@ function init() {
 	var str = '';
 	objectManager.objects.each(function (object) {
 		var objectState = objectManager.getObjectState(object.id);
-		str = objectState.properties.balloonContent;
+		str = object.properties.balloonContent;
 		if (objectState.isClustered) {clusterCounter++} else {
 			if (objectState.isShown) {singleCounter++}
 		}
