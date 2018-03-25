@@ -66,7 +66,7 @@ function init() {
 
     });
 
-
+	myMap.events.add('click', function(e) {myMap.balloon.close()});
 
     var filterMonitor = new ymaps.Monitor(listBoxControl.state);
     filterMonitor.add('filters', function(filters) {
