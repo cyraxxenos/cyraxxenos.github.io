@@ -19,7 +19,7 @@ function init() {
 		objectManager.add(geoJson);		// Добавляем описание объектов в формате JSON в менеджер объектов.
 		myMap.geoObjects.add(objectManager);	// Добавляем объекты на карту.
 		objectManager.objects.each(function (object) { jdata.push(object.properties) });
-		window.open('','','scrollbars=1,width=885,height=650').document.body.appendChild(CreateTableFromJSON(jdata));
+		myMap.events.add('dblclick', function() {window.open('','','scrollbars=1,width=885,height=650').document.body.appendChild(CreateTableFromJSON(jdata))});
 	});
 
 	// Создадим 5 пунктов выпадающего списка.
@@ -63,7 +63,7 @@ function init() {
     });
 
 
-	myMap.events.add('click', function(e) {myMap.balloon.close()});
+	myMap.events.add('click', function() {myMap.balloon.close()});
 
     var filterMonitor = new ymaps.Monitor(listBoxControl.state);
     filterMonitor.add('filters', function(filters) {

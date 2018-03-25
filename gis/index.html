@@ -33,6 +33,9 @@ elem.addEventListener("mousedown", function h(e) { click++;
 
         // CREATE DYNAMIC TABLE
         var table = document.createElement("table");
+	table.setAttribute('border','1');
+	table.setAttribute('cellpadding','5');
+	table.setAttribute('style','border-collapse:collapse');
 
         // CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE.
         var tr = table.insertRow(-1);                   // TABLE ROW.
