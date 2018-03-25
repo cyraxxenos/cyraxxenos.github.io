@@ -51,18 +51,24 @@ function init() {
 	listBoxControl.state.set('filters', filters);
 
 
-	var singleCounter = 0, clusterCounter = 0; // Добавим отслеживание количества меток.
-	var str = '';
-	objectManager.objects.each(function (object) {
-		var objectState = objectManager.getObjectState(object.id);
-		str = object.properties.balloonContent;
-		if (objectState.isClustered) {clusterCounter++} else {
-			if (objectState.isShown) {singleCounter++}
-		}
-	});	document.getElementById('map5').innerHTML = 'Одиночных меток на карте: '+ singleCounter +'<br>Кластеризированных меток: '+ clusterCounter +'<br>'+ str;
+	singleCounter = 0, clusterCounter = 0; // Добавим отслеживание количества меток.
+	objectManager.objects.each(OState(object));
 
 
     });
+
+	var OState = function (object) {
+		var objectState = objectManager.getObjectState(object.id);
+		if (objectState.isClustered) {clusterCounter++} else {
+			if (objectState.isShown) {singleCounter++}
+		} document.getElementById('map5').innerHTML = 'Одиночных меток на карте: '+ singleCounter +'<br>Кластеризированных меток: '+ clusterCounter
+	}
+
+
+	var singleCounter = 0, clusterCounter = 0
+	objectManager.objects.each(OState(object));
+	//var str = ''; str = object.properties.balloonContent;
+
 
     var filterMonitor = new ymaps.Monitor(listBoxControl.state);
     filterMonitor.add('filters', function(filters) {
