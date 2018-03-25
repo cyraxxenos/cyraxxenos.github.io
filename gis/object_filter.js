@@ -9,25 +9,16 @@ function init() {
 	}, {	searchControlProvider: 'yandex#search'
 	}),
         objectManager = new ymaps.ObjectManager({
-	// Чтобы метки начали кластеризоваться, выставляем опцию.
-		clusterize: true,
-	// ObjectManager принимает те же опции, что и кластеризатор.
-		gridSize: 128,
+		clusterize: true,	// Чтобы метки начали кластеризоваться, выставляем опцию.
+		gridSize: 128,		// ObjectManager принимает те же опции, что и кластеризатор.
 		maxZoom: 17,
-	// Макет метки кластера pieChart.
-		clusterIconLayout: "default#pieChart"
+		clusterIconLayout: "default#pieChart"	// Макет метки кластера pieChart.
 	});
 
-
-    $.getJSON('data.json')
-        .done(function (geoJson) {
-            // Добавляем описание объектов в формате JSON в менеджер объектов.
-            objectManager.add(geoJson);
-            // Добавляем объекты на карту.
-            myMap.geoObjects.add(objectManager);
-        });
-
-	//myMap.geoObjects.add(objectManager);
+	$.getJSON('data.json').done(function (geoJson) {
+		objectManager.add(geoJson);		// Добавляем описание объектов в формате JSON в менеджер объектов.
+		myMap.geoObjects.add(objectManager);	// Добавляем объекты на карту.
+	});
 
 	// Создадим 5 пунктов выпадающего списка.
     var listBoxItems = ['Вяз','Ясень','Липа','Ольха','Яблоня','Ива','Клён','Рябина','Тополь','Другие']
@@ -89,7 +80,5 @@ function init() {
 		return categories[content]
 	}
     }
-
-	//$.ajax({url: "data.json"}).done(function (data) { objectManager.add(data) });
 
 }
