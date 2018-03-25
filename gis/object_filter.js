@@ -51,15 +51,14 @@ function init() {
 	listBoxControl.state.set('filters', filters);
 
 
-	singleCounter = 0, clusterCounter = 0; // Добавим отслеживание количества меток.
-	var str = '';
+	var singleCounter = 0, clusterCounter = 0; // Добавим отслеживание количества меток.
 	objectManager.objects.each(function (object) {
 		var objectState = objectManager.getObjectState(object.id);
 		str = object.properties.balloonContent;
 		if (objectState.isClustered) {clusterCounter++} else {
 			if (objectState.isShown) {singleCounter++}
 		}
-	});	document.getElementById('map5').innerHTML = 'Одиночных меток на карте: '+ singleCounter +'<br>Кластеризированных меток: '+ clusterCounter +'<br>'+ str;
+	});	document.getElementById('map5').innerHTML = 'Одиночных меток на карте: '+ singleCounter +'<br>Кластеризированных меток: '+ clusterCounter;
 
 
     });
@@ -81,12 +80,10 @@ function init() {
 
 	$.ajax({url: "data.json"}).done(function (data) { objectManager.add(data) });
 
-	var singleCounter = 0, clusterCounter = 0
+	var str = '';
 	objectManager.objects.each(function (object) {
 		var objectState = objectManager.getObjectState(object.id);
-		if (objectState.isClustered) {clusterCounter++} else {
-			if (objectState.isShown) {singleCounter++}
-		}
-	});	document.getElementById('map5').innerHTML = 'Одиночных меток на карте: '+ singleCounter +'<br>Кластеризированных меток: '+ clusterCounter;
+		str += object.properties.balloonContent +'<br>';
+	});	document.getElementById('map5').innerHTML = str;
 
 }
