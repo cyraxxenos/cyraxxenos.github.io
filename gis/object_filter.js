@@ -65,15 +65,6 @@ function init() {
     });
 
 
-	var singleCounter = 0, clusterCounter = 0
-	objectManager.objects.each(function (object) {
-		var objectState = objectManager.getObjectState(object.id);
-		if (objectState.isClustered) {clusterCounter++} else {
-			if (objectState.isShown) {singleCounter++}
-		}
-	});	document.getElementById('map5').innerHTML = 'Одиночных меток на карте: '+ singleCounter +'<br>Кластеризированных меток: '+ clusterCounter;
-
-
 
     var filterMonitor = new ymaps.Monitor(listBoxControl.state);
     filterMonitor.add('filters', function(filters) {
@@ -88,6 +79,14 @@ function init() {
 	}
     }
 
-    $.ajax({url: "data.json"}).done(function (data) { objectManager.add(data) });
+	$.ajax({url: "data.json"}).done(function (data) { objectManager.add(data) });
+
+	var singleCounter = 0, clusterCounter = 0
+	objectManager.objects.each(function (object) {
+		var objectState = objectManager.getObjectState(object.id);
+		if (objectState.isClustered) {clusterCounter++} else {
+			if (objectState.isShown) {singleCounter++}
+		}
+	});	document.getElementById('map5').innerHTML = 'Одиночных меток на карте: '+ singleCounter +'<br>Кластеризированных меток: '+ clusterCounter;
 
 }
