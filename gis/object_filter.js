@@ -49,6 +49,7 @@ function init() {
 	var filters = ymaps.util.extend({}, listBoxControl.state.get('filters'));
 	filters[listBoxItem.data.get('content')] = listBoxItem.isSelected();
 	listBoxControl.state.set('filters', filters);
+		alert('Количество объектов в слое: ' + objectManager.objects.getLength());
     });
 
     var filterMonitor = new ymaps.Monitor(listBoxControl.state);
