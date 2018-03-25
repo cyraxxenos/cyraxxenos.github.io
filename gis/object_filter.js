@@ -81,7 +81,7 @@ function init() {
 
 	var str = '';
 	objectManager.objects.each(function (object) {
-		str += JSON.stringify(object.properties) +'<br>';
-	});	document.getElementById('map5').innerHTML = str;
+		str += JSON.stringify(object) +'<br>';
+	});	document.getElementById('map5').innerHTML = str +'5';
 
 }
