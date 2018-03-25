@@ -57,8 +57,8 @@ objectManager.objects.each(function (object) {
     if (objectState.isClustered) {clusterCounter++} else {
 	if (objectState.isShown) {singleCounter++}
     }
-});	alert('Количество одиночных меток на карте: ' + singleCounter);
-	alert('Количество кластеризированных меток: ' + clusterCounter);
+});	document.getElementById('map5').innerHTML = 'Количество одиночных меток на карте: ' + singleCounter;
+	document.getElementById('map5').innerHTML = 'Количество кластеризированных меток: ' + clusterCounter;
 
 
     });
