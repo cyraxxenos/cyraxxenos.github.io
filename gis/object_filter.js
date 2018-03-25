@@ -62,8 +62,8 @@ function init() {
 	var myBs = [];
 	objectManager.objects.each(function (object) {
 		myBs.push(JSON.stringify(object.properties));
-	}); //myBs = [myBs.join(",")]; CreateTableFromJSON(myBs)
-	document.getElementById("map5").innerHTML = myBs.join(",");
+	}); myBs = [myBs.join(",")]; CreateTableFromJSON(myBs)
+	//document.getElementById("map5").innerHTML = myBs.join(",");
 
 
     });
