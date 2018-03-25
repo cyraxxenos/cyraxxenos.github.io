@@ -13,7 +13,7 @@ function init() {
 		gridSize: 128,		// ObjectManager принимает те же опции, что и кластеризатор.
 		maxZoom: 17,
 		clusterIconLayout: "default#pieChart"	// Макет метки кластера pieChart.
-	}), jdata = [];
+	}), jdata = [], st;
 
 	$.getJSON('data.json').done(function (geoJson) {
 		objectManager.add(geoJson);		// Добавляем описание объектов в формате JSON в менеджер объектов.
@@ -22,7 +22,7 @@ function init() {
 		jdata = [jdata.join(",")];
 		$.makeTable = function (jdata) {
 			if (jdata.length <= 0) return "";
-			return $('<table border=1>').append("<tr>" + $.map(jdata[0], function (val, key) {
+			return st = $('<table border=1>').append("<tr>" + $.map(jdata[0], function (val, key) {
 				return "<th>" + key + "</th>";
 			}).join("\n") + "</tr>").append($.map(jdata, function (index, value) {
 				return "<tr>" + $.map(index, function (val, key) {
@@ -30,7 +30,7 @@ function init() {
 				}).join("\n") + "</tr>";
 			}).join("\n"));
 		};
-	alert(makeTable)
+	alert(st)
 	});
 
 	// Создадим 5 пунктов выпадающего списка.
