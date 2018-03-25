@@ -57,12 +57,10 @@ function init() {
 		if (objectState.isClustered) {clusterCounter++} else {
 			if (objectState.isShown) {singleCounter++}
 		}
-	});	//document.getElementById('map5').innerHTML = 'Одиночных меток на карте: '+ singleCounter +'<br>Кластеризированных меток: '+ clusterCounter;
+	});	document.getElementById('map5').innerHTML = 'Одиночных меток на карте: '+ singleCounter +'<br>Кластеризированных меток: '+ clusterCounter;
 
-	var myBs = [];
-	objectManager.objects.each(function (object) {
-		myBs.push(JSON.stringify(object.properties));
-	}); myBs = [myBs.join(",")]; CreateTableFromJSON(myBs)
+	//var myBs = [];
+	//objectManager.objects.each(function (object) {	myBs.push(JSON.stringify(object.properties))	}); //myBs = [myBs.join(",")]; CreateTableFromJSON(myBs)
 	//document.getElementById("map5").innerHTML = myBs.join(",");
 
 

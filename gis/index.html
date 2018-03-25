@@ -21,7 +21,7 @@ elem.addEventListener("mousedown", function h(e) { click++;
 
     function CreateTableFromJSON(str) {
 
-        // EXTRACT VALUE FOR HTML HEADER ('Book ID', 'Book Name', 'Category' and 'Price')
+        // EXTRACT VALUE FOR HTML HEADER
         var col = [];
         for (var i = 0; i < str.length; i++) {
             for (var key in str[i]) {
