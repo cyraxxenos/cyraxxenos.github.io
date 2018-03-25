@@ -58,7 +58,7 @@ function init() {
 		if (objectState.isClustered) {clusterCounter++} else {
 			if (objectState.isShown) {singleCounter++}
 		}
-	});	document.getElementById('map5').innerHTML = 'Одиночных меток на карте: '+ singleCounter +'<br>Кластеризированных меток: '+ clusterCounter;
+	});	//document.getElementById('map5').innerHTML = 'Одиночных меток на карте: '+ singleCounter +'<br>Кластеризированных меток: '+ clusterCounter;
 
     });
 
