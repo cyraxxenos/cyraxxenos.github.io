@@ -54,7 +54,6 @@ function init() {
 	var singleCounter = 0, clusterCounter = 0; // Добавим отслеживание количества меток.
 	objectManager.objects.each(function (object) {
 		var objectState = objectManager.getObjectState(object.id);
-		str = object.properties.balloonContent;
 		if (objectState.isClustered) {clusterCounter++} else {
 			if (objectState.isShown) {singleCounter++}
 		}
@@ -82,8 +81,7 @@ function init() {
 
 	var str = '';
 	objectManager.objects.each(function (object) {
-		var objectState = objectManager.getObjectState(object.id);
-		str += object.properties.balloonContent +'<br>';
+		str += JSON.stringify(object.properties) +'<br>';
 	});	document.getElementById('map5').innerHTML = str;
 
 }
