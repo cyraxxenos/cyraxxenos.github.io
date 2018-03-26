@@ -29,16 +29,16 @@ function init() {
 //	}),
 
 	var listBoxItems = [];
-	listBoxItems.push(new ymaps.control.ListBoxItem({ data: {content: '  <img src="green.png">   Вяз'},	state: {selected: true} }));
-	listBoxItems.push(new ymaps.control.ListBoxItem({ data: {content: '  <img src="blue.png">   Ясень'},	state: {selected: true} }));
-	listBoxItems.push(new ymaps.control.ListBoxItem({ data: {content: '  <img src="yellow.png">   Липа'},	state: {selected: true} }));
-	listBoxItems.push(new ymaps.control.ListBoxItem({ data: {content: '  <img src="magenta.png">   Ольха'},	state: {selected: true} }));
-	listBoxItems.push(new ymaps.control.ListBoxItem({ data: {content: '  <img src="orange.png">   Яблоня'},	state: {selected: true} }));
-	listBoxItems.push(new ymaps.control.ListBoxItem({ data: {content: '  <img src="pink.png">   Ива'},	state: {selected: true} }));
-	listBoxItems.push(new ymaps.control.ListBoxItem({ data: {content: '  <img src="brown.png">   Клён'},	state: {selected: true} }));
-	listBoxItems.push(new ymaps.control.ListBoxItem({ data: {content: '  <img src="red.png">   Рябина'},	state: {selected: true} }));
-	listBoxItems.push(new ymaps.control.ListBoxItem({ data: {content: '  <img src="cyan.png">   Тополь'},	state: {selected: true} }));
-	listBoxItems.push(new ymaps.control.ListBoxItem({ data: {content: '  <img src="gray.png">   Другие'},	state: {selected: true} }));
+	listBoxItems.push(new ymaps.control.ListBoxItem({ data: {content: "  <img src='green.png'>   Вяз"},	state: {selected: true} }));
+	listBoxItems.push(new ymaps.control.ListBoxItem({ data: {content: "  <img src='blue.png'>   Ясень"},	state: {selected: true} }));
+	listBoxItems.push(new ymaps.control.ListBoxItem({ data: {content: "  <img src='yellow.png'>   Липа"},	state: {selected: true} }));
+	listBoxItems.push(new ymaps.control.ListBoxItem({ data: {content: "  <img src='magenta.png'>   Ольха"},	state: {selected: true} }));
+	listBoxItems.push(new ymaps.control.ListBoxItem({ data: {content: "  <img src='orange.png'>   Яблоня"},	state: {selected: true} }));
+	listBoxItems.push(new ymaps.control.ListBoxItem({ data: {content: "  <img src='pink.png'>   Ива"},	state: {selected: true} }));
+	listBoxItems.push(new ymaps.control.ListBoxItem({ data: {content: "  <img src='brown.png'>   Клён"},	state: {selected: true} }));
+	listBoxItems.push(new ymaps.control.ListBoxItem({ data: {content: "  <img src='red.png'>   Рябина"},	state: {selected: true} }));
+	listBoxItems.push(new ymaps.control.ListBoxItem({ data: {content: "  <img src='cyan.png'>   Тополь"},	state: {selected: true} }));
+	listBoxItems.push(new ymaps.control.ListBoxItem({ data: {content: "  <img src='gray.png'>   Другие"},	state: {selected: true} }));
 
         // Теперь создадим список, содержащий пункты
 	listBoxControl = new ymaps.control.ListBox({
