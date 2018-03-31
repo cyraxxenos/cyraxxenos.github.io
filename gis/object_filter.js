@@ -73,7 +73,7 @@ function init() {
 
         // Теперь создадим список, содержащий пункты
 	listBoxControl = new ymaps.control.ListBox({
-		data: {content:'Тематические слои 55', title:'Фильтр по тематическим слоям'},
+		data: {content:'Тематические слои 555', title:'Фильтр по тематическим слоям'},
 		items: listBoxItems,
 		state: {expanded: true,	// Признак, развернут ли список
 	                filters: listBoxItems.reduce(function(filters, filter) {
@@ -138,7 +138,7 @@ CustomSearchProvider.prototype.geocode = function (request, options) {
     // Ищем в свойстве properties каждого элемента массива.
     for (var i = 0, l = this.points.length; i < l; i++) {
         var point = this.points[i];
-        if (point.properties.toLowerCase().indexOf(request.toLowerCase()) != -1) {
+        if (point.properties.indexOf(request) != -1) {
             points.push(point);
         }
     }
