@@ -39,7 +39,7 @@ function init() {
         options: {
             provider: new CustomSearchProvider(jsdata),	// Заменяем стандартный провайдер данных (геокодер) нашим собственным
             // Не будем показывать еще одну метку при выборе результата поиска, т.к. метки коллекции уже добавлены на карту
-            noPlacemark: true,
+            noPlacemark: false,
             resultsPerPage: 5
         }});
 
@@ -72,7 +72,7 @@ function init() {
 
         // Теперь создадим список, содержащий пункты
 	listBoxControl = new ymaps.control.ListBox({
-		data: {content:'Тематические слои', title:'Фильтр по тематическим слоям'},
+		data: {content:'Тематические слои 45', title:'Фильтр по тематическим слоям'},
 		items: listBoxItems,
 		state: {expanded: true,	// Признак, развернут ли список
 	                filters: listBoxItems.reduce(function(filters, filter) {
@@ -127,13 +127,11 @@ function CustomSearchProvider(points) {this.points = points}
 CustomSearchProvider.prototype.geocode = function (request, options) {
     var deferred = new ymaps.vow.defer(),
         geoObjects = new ymaps.GeoObjectCollection(),
-    // Сколько результатов нужно пропустить.
-        offset = options.skip || 0,
-    // Количество возвращаемых результатов.
-        limit = options.results || 20;
-        
+        offset = options.skip || 0,	// Сколько результатов нужно пропустить
+        limit = options.results || 500;	// Количество возвращаемых результатов
+
     var points = [];
-    // Ищем в свойстве properties каждого элемента массива.
+    // Ищем в свойстве properties каждого элемента массива
     for (var i = 0, l = this.points.length; i < l; i++) {
         var point = this.points[i];
         if (JSON.stringify(point.properties.Обозначение).toLowerCase().indexOf(request.toLowerCase()) != -1) {
