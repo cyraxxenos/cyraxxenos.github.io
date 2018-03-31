@@ -28,7 +28,7 @@ function init() {
     for (var i = 0, l = jsdata.length; i < l; i++) {
         var point = jsdata[i];
         myCollection.add(new ymaps.Placemark(
-            point.geometry.coordinates, {balloonContentBody: JSON.stringify(point.properties)}
+            point.geometry.coordinates, {balloonContentBody: JSON.stringify(point.properties.Обозначение)}
         ));
     }
     // Добавляем коллекцию меток на карту
@@ -138,7 +138,7 @@ CustomSearchProvider.prototype.geocode = function (request, options) {
     // Ищем в свойстве properties каждого элемента массива.
     for (var i = 0, l = this.points.length; i < l; i++) {
         var point = this.points[i];
-        if (JSON.stringify(point.properties).toLowerCase().indexOf(request.toLowerCase()) != -1) {
+        if (JSON.stringify(point.properties.Обозначение).toLowerCase().indexOf(request.toLowerCase()) != -1) {
             points.push(point);
         }
     }
@@ -147,14 +147,14 @@ CustomSearchProvider.prototype.geocode = function (request, options) {
     // Добавляем точки в результирующую коллекцию.
     for (var i = 0, l = points.length; i < l; i++) {
         var point = points[i],
-            coordinates = point.geometry.coordinates,
-             properties = JSON.stringify(point.properties);
+            coor = point.geometry.coordinates,
+             properties = JSON.stringify(point.properties.Обозначение);
 
-        geoObjects.add(new ymaps.Placemark(coordinates, {
+        geoObjects.add(new ymaps.Placemark(coor, {
             name: properties + ' name',
             description: properties + ' description',
             balloonContentBody: '<p>' + properties + '</p>',
-            boundedBy: [coordinates, coordinates]
+            boundedBy: [coor, coor]
         }));
     }
 
