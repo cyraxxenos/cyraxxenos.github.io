@@ -37,9 +37,8 @@ function init() {
     // Создаем экземпляр класса ymaps.control.SearchControl
     var mySearchControl = new ymaps.control.SearchControl({
         options: {
-            // Заменяем стандартный провайдер данных (геокодер) нашим собственным
-            provider: new CustomSearchProvider(jsdata),
-            // Не будем показывать еще одну метку при выборе результата поиска, т.к. метки коллекции myCollection уже добавлены на карту
+            provider: new CustomSearchProvider(jsdata),	// Заменяем стандартный провайдер данных (геокодер) нашим собственным
+            // Не будем показывать еще одну метку при выборе результата поиска, т.к. метки коллекции уже добавлены на карту
             noPlacemark: true,
             resultsPerPage: 5
         }});
@@ -73,7 +72,7 @@ function init() {
 
         // Теперь создадим список, содержащий пункты
 	listBoxControl = new ymaps.control.ListBox({
-		data: {content:'Тематические слои 5', title:'Фильтр по тематическим слоям'},
+		data: {content:'Тематические слои', title:'Фильтр по тематическим слоям'},
 		items: listBoxItems,
 		state: {expanded: true,	// Признак, развернут ли список
 	                filters: listBoxItems.reduce(function(filters, filter) {
@@ -108,8 +107,7 @@ function init() {
 
     var filterMonitor = new ymaps.Monitor(listBoxControl.state);
     filterMonitor.add('filters', function(filters) {
-	// Применим фильтр
-	objectManager.setFilter(getFilterFunction(filters));
+	objectManager.setFilter(getFilterFunction(filters));	// Применим фильтр
     });
 
     function getFilterFunction(categories){
@@ -120,12 +118,12 @@ function init() {
     }
 
 
-// Провайдер данных для элемента управления ymaps.control.SearchControl.
-// Осуществляет поиск геообъектов в по массиву points.
-// Реализует интерфейс IGeocodeProvider.
+// Провайдер данных для элемента управления ymaps.control.SearchControl
+// Осуществляет поиск геообъектов в по массиву points
+// Реализует интерфейс IGeocodeProvider
 function CustomSearchProvider(points) {this.points = points}
 
-// Провайдер ищет по полю properties стандартным методом String.ptototype.indexOf.
+// Провайдер ищет по полю properties стандартным методом String.ptototype.indexOf
 CustomSearchProvider.prototype.geocode = function (request, options) {
     var deferred = new ymaps.vow.defer(),
         geoObjects = new ymaps.GeoObjectCollection(),
@@ -142,42 +140,30 @@ CustomSearchProvider.prototype.geocode = function (request, options) {
             points.push(point);
         }
     }
-    // При формировании ответа можно учитывать offset и limit.
-    points = points.splice(offset, limit);
-    // Добавляем точки в результирующую коллекцию.
-    for (var i = 0, l = points.length; i < l; i++) {
-        var point = points[i],
-            coor = point.geometry.coordinates,
-             properties = JSON.stringify(point.properties.Обозначение);
-
+    points = points.splice(offset, limit);	// При формировании ответа можно учитывать offset и limit
+    for (var i = 0, l = points.length; i < l; i++) {	// Добавляем точки в результирующую коллекцию
+	var point = points[i],
+		coor = point.geometry.coordinates,
+		properties = JSON.stringify(point.properties.Обозначение);
         geoObjects.add(new ymaps.Placemark(coor, {
-            name: properties + ' name',
-            description: properties + ' description',
-            balloonContentBody: '<p>' + properties + '</p>',
+            name: properties +' name',
+            description: properties +' description',
+            balloonContentBody: '<p>'+ properties +'</p>',
             boundedBy: [coor, coor]
         }));
     }
-
     deferred.resolve({
-        // Геообъекты поисковой выдачи.
-        geoObjects: geoObjects,
-        // Метаинформация ответа.
-        metaData: {
+	geoObjects: geoObjects,	// Геообъекты поисковой выдачи
+	metaData: {		// Метаинформация ответа
             geocoder: {
-                // Строка обработанного запроса.
-                request: request,
-                // Количество найденных результатов.
-                found: geoObjects.getLength(),
-                // Количество возвращенных результатов.
-                results: limit,
-                // Количество пропущенных результатов.
-                skip: offset
+		request: request,		// Строка обработанного запроса
+		found: geoObjects.getLength(),	// Количество найденных результатов
+		results: limit,			// Количество возвращенных результатов
+		skip: offset			// Количество пропущенных результатов
             }
-        }
+	}
     });
-
-    // Возвращаем объект-обещание.
-    return deferred.promise();
+    return deferred.promise();	// Возвращаем объект-обещание
 };
 
 
