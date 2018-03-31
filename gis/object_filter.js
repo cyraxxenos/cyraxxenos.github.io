@@ -13,21 +13,20 @@ function init() {
 		gridSize: 128,		// ObjectManager принимает те же опции, что и кластеризатор
 		maxZoom: 17,
 		clusterIconLayout: "default#pieChart"	// Макет метки кластера pieChart
-	}), jdata = [], st;
-
-    // Создаем коллекцию
-	var myCollection = new ymaps.GeoObjectCollection();
+	}), jdata = [], jsdata = [], st;
 
 	$.getJSON('data.json').done(function (geoJson) {
 		objectManager.add(geoJson);		// Добавляем описание объектов в формате JSON в менеджер объектов
 		myMap.geoObjects.add(objectManager);	// Добавляем объекты на карту
-		objectManager.objects.each(function (object) { jdata.push(object.properties) });
+		objectManager.objects.each(function (object) { jdata.push(object.properties); jsdata.push(object) });
 		myMap.events.add('dblclick', function() {window.open('','','scrollbars=1,width=885,height=650').document.body.appendChild(CreateTableFromJSON(jdata))})
 	});
 
-    // Заполняем коллекцию данными
-    for (var i = 0, l = jdata.length; i < l; i++) {
-        var point = jdata[i];
+    // Создаем коллекцию
+	var myCollection = new ymaps.GeoObjectCollection();
+    // Заполняем коллекцию данными (для поиска данных в data.json)
+    for (var i = 0, l = jsdata.length; i < l; i++) {
+        var point = jsdata[i];
         myCollection.add(new ymaps.Placemark(
             point.coords, {balloonContentBody: point.text}
         ));
@@ -39,7 +38,7 @@ function init() {
     var mySearchControl = new ymaps.control.SearchControl({
         options: {
             // Заменяем стандартный провайдер данных (геокодер) нашим собственным
-            provider: new CustomSearchProvider(jdata),
+            provider: new CustomSearchProvider(jsdata),
             // Не будем показывать еще одну метку при выборе результата поиска, т.к. метки коллекции myCollection уже добавлены на карту
             noPlacemark: true,
             resultsPerPage: 5
@@ -74,7 +73,7 @@ function init() {
 
         // Теперь создадим список, содержащий пункты
 	listBoxControl = new ymaps.control.ListBox({
-		data: {content:'Тематические слои', title:'Фильтр по тематическим слоям'},
+		data: {content:'Тематические слои 5', title:'Фильтр по тематическим слоям'},
 		items: listBoxItems,
 		state: {expanded: true,	// Признак, развернут ли список
 	                filters: listBoxItems.reduce(function(filters, filter) {
