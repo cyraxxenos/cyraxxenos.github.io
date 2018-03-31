@@ -18,7 +18,7 @@ function init() {
 	$.getJSON('data.json').done(function (geoJson) {
 		objectManager.add(geoJson);		// Добавляем описание объектов в формате JSON в менеджер объектов
 		myMap.geoObjects.add(objectManager);	// Добавляем объекты на карту
-		objectManager.objects.each(function (object) { jdata.push(object.properties); jsdata.push(object) });
+		objectManager.objects.each(function (object) { jdata.push(object.properties); jsdata.push(JSON.stringify(object)) });
 		myMap.events.add('dblclick', function() {window.open('','','scrollbars=1,width=885,height=650').document.body.appendChild(CreateTableFromJSON(jdata))})
 	});
 
@@ -73,7 +73,7 @@ function init() {
 
         // Теперь создадим список, содержащий пункты
 	listBoxControl = new ymaps.control.ListBox({
-		data: {content:'Тематические слои 5', title:'Фильтр по тематическим слоям'},
+		data: {content:'Тематические слои 15', title:'Фильтр по тематическим слоям'},
 		items: listBoxItems,
 		state: {expanded: true,	// Признак, развернут ли список
 	                filters: listBoxItems.reduce(function(filters, filter) {
