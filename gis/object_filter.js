@@ -18,7 +18,7 @@ function init() {
 	$.getJSON('data.json').done(function (geoJson) {
 		objectManager.add(geoJson);		// Добавляем описание объектов в формате JSON в менеджер объектов
 		myMap.geoObjects.add(objectManager);	// Добавляем объекты на карту
-		objectManager.objects.each(function (object) { jdata.push(object.properties); jsdata.push(JSON.stringify(object)) });
+		objectManager.objects.each(function (object) { jdata.push(object.properties); jsdata.push(object) });
 		myMap.events.add('dblclick', function() {window.open('','','scrollbars=1,width=885,height=650').document.body.appendChild(CreateTableFromJSON(jdata))})
 	});
 
@@ -28,7 +28,7 @@ function init() {
     for (var i = 0, l = jsdata.length; i < l; i++) {
         var point = jsdata[i];
         myCollection.add(new ymaps.Placemark(
-            point.coords, {balloonContentBody: point.text}
+            point.coordinates, {balloonContentBody: point.properties}
         ));
     }
     // Добавляем коллекцию меток на карту
@@ -125,7 +125,7 @@ function init() {
 // Реализует интерфейс IGeocodeProvider.
 function CustomSearchProvider(points) {this.points = points}
 
-// Провайдер ищет по полю text стандартным методом String.ptototype.indexOf.
+// Провайдер ищет по полю properties стандартным методом String.ptototype.indexOf.
 CustomSearchProvider.prototype.geocode = function (request, options) {
     var deferred = new ymaps.vow.defer(),
         geoObjects = new ymaps.GeoObjectCollection(),
@@ -135,10 +135,10 @@ CustomSearchProvider.prototype.geocode = function (request, options) {
         limit = options.results || 20;
         
     var points = [];
-    // Ищем в свойстве text каждого элемента массива.
+    // Ищем в свойстве properties каждого элемента массива.
     for (var i = 0, l = this.points.length; i < l; i++) {
         var point = this.points[i];
-        if (point.text.toLowerCase().indexOf(request.toLowerCase()) != -1) {
+        if (point.properties.toLowerCase().indexOf(request.toLowerCase()) != -1) {
             points.push(point);
         }
     }
@@ -147,8 +147,8 @@ CustomSearchProvider.prototype.geocode = function (request, options) {
     // Добавляем точки в результирующую коллекцию.
     for (var i = 0, l = points.length; i < l; i++) {
         var point = points[i],
-            coords = point.coords,
-                    text = point.text;
+            coords = point.coordinates,
+                    text = point.properties;
 
         geoObjects.add(new ymaps.Placemark(coords, {
             name: text + ' name',
