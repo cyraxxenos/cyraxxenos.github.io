@@ -28,7 +28,7 @@ function init() {
     for (var i = 0, l = jsdata.length; i < l; i++) {
         var point = jsdata[i];
         myCollection.add(new ymaps.Placemark(
-            point.geometry.coordinates, {balloonContentBody: point.properties.id}
+            point.geometry.coordinates, {balloonContentBody: JSON.stringify(point.properties)}
         ));
     }
     // Добавляем коллекцию меток на карту
@@ -73,7 +73,7 @@ function init() {
 
         // Теперь создадим список, содержащий пункты
 	listBoxControl = new ymaps.control.ListBox({
-		data: {content:'Тематические слои 545', title:'Фильтр по тематическим слоям'},
+		data: {content:'Тематические слои 5', title:'Фильтр по тематическим слоям'},
 		items: listBoxItems,
 		state: {expanded: true,	// Признак, развернут ли список
 	                filters: listBoxItems.reduce(function(filters, filter) {
@@ -138,7 +138,7 @@ CustomSearchProvider.prototype.geocode = function (request, options) {
     // Ищем в свойстве properties каждого элемента массива.
     for (var i = 0, l = this.points.length; i < l; i++) {
         var point = this.points[i];
-        if (point.properties.id.toLowerCase().indexOf(request.toLowerCase()) != -1) {
+        if (JSON.stringify(point.properties).toLowerCase().indexOf(request.toLowerCase()) != -1) {
             points.push(point);
         }
     }
@@ -148,7 +148,7 @@ CustomSearchProvider.prototype.geocode = function (request, options) {
     for (var i = 0, l = points.length; i < l; i++) {
         var point = points[i],
             coordinates = point.geometry.coordinates,
-             properties = point.properties.id;
+             properties = JSON.stringify(point.properties);
 
         geoObjects.add(new ymaps.Placemark(coordinates, {
             name: properties + ' name',
