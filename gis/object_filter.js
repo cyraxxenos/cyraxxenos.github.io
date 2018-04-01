@@ -5,7 +5,7 @@ function init() {
 		center: [59.209858, 39.908239], //59.21156, 39.83260
 		zoom: 17,
 		type: 'yandex#satellite',
-		controls: ['zoomControl','rulerControl','typeSelector','geolocationControl'] //'fullscreenControl'
+		controls: ['zoomControl','miniMap','rulerControl','typeSelector','geolocationControl'] //'fullscreenControl'
 	}, {	searchControlProvider: 'yandex#search'
 	}),
         objectManager = new ymaps.ObjectManager({
@@ -14,8 +14,8 @@ function init() {
 		maxZoom: 17,
 		clusterIconLayout: "default#pieChart"	// Макет метки кластера pieChart
 	}), jdata = [], jsdata = [], st;
-	myMap.options.set('dragCursor','crosschair');	// Курсор при перемещении над картой
-	//myMap.options.set('dragActionCursor','move');	// Курсор при перемещении карты
+	//myMap.options.set('dragCursor','crosschair');	// Курсор при перемещении над картой
+	myMap.options.set('dragActionCursor','crosschair');	// Курсор при перемещении карты
 
 	$.getJSON('data.json').done(function (geoJson) {
 		objectManager.add(geoJson);		// Добавляем описание объектов в формате JSON в менеджер объектов
@@ -96,7 +96,7 @@ function init() {
     });
 
 	//$.ajax({url:"data.json"}).done(function(data) {objectManager.add(data)});
-	myMap.events.add('contextmenu', function(e) {myMap.balloon.open(e.get('coordPosition'),'Щелк!')});
+	myMap.events.add('contextmenu', function(e) {myMap.balloon.open(e.get('coordPosition'), get('coordPosition'))});
 
 	document.addEventListener("mouseup", function() {
 		getCou(); myMap.balloon.close()
