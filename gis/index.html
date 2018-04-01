@@ -10,15 +10,18 @@
 </head>
 <body>
 <div id="map"></div>
-<div style='position:fixed; top:50%; left:50%; width:30px; height:2px; background-color:rgba(255,255,255,0.5); margin: -1px 0 0 -15px'></div>
-<div style='position:fixed; top:50%; left:50%; width:2px; height:30px; background-color:rgba(255,255,255,0.5); margin: -15px 0 0 -1px'></div>
+<div id="cg" style='position:fixed; top:50%; left:50%; width:30px; height:2px; background-color:rgba(255,255,255,0.5); margin: -1px 0 0 -15px'></div>
+<div id="cv" style='position:fixed; top:50%; left:50%; width:2px; height:30px; background-color:rgba(255,255,255,0.5); margin: -15px 0 0 -1px'></div>
 <div id="map5" style='position:fixed; bottom:30px; top:auto; left:10px; right:auto; font:italic 12pt Consolas; color:White; background-color:rgba(5,5,5,0.5); padding:5px 5px; border-radius:5px'></div>
 <script>
-var elem  = document.getElementById("map"), click = 0;
-elem.addEventListener("mousedown", function h(e) { click++;
-	if (click > 0) {elem.removeEventListener("mousedown", h)}
+var ID = function(a) {return document.getElementById(a)}, click = 0;
+ID("map").addEventListener("mousedown", function h(e) { click++;
+	if (click > 0) {ID("map").removeEventListener("mousedown", h)}
 	var x = document.getElementsByTagName('ymaps');
 	for(var i=0; i<x.length; i++) {if (x[i].className.indexOf('copyright')>-1) x[i].parentNode.removeChild(x[i])}
+});
+ID("map5").addEventListener("dblclick", function () {
+	ID("cg").style.display = ID("cv").style.display = ID("cg").style.display==''?'none':''
 });
 
     function CreateTableFromJSON(str) {
