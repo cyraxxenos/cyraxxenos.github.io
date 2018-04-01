@@ -96,14 +96,6 @@ function init() {
     });
 
 	//$.ajax({url:"data.json"}).done(function(data) {objectManager.add(data)});
-	myMap.events.add('contextmenu', function(e) {
-		var coor = e.get('coords');
-		myMap.hint.open( coor, [coor[0].toFixed(8), coor[1].toFixed(8)].join('; ') +'<br>'+  [deg_dms3(coor[0]), deg_dms3(coor[1])].join('; '))
-	});
-	myMap.events.add('actionbegin', function(e) {getCou()});
-	myMap.events.add('actionend', function(e) {getCou()});
-
-	document.addEventListener("mouseup", function() {getCou(); myMap.balloon.close(); myMap.hint.close();});
 
 	function fix_repl(a,n) {a = parseFloat(a); return (round(a,n)<0 ? '-':'') + Math.abs(a).toFixed(n).replace('.',',')}
 	function round_4(a) {return Math.round(parseFloat(a)*10000)/10000}
@@ -120,6 +112,14 @@ function init() {
 		return [(val_s+g)*1, m, s, val_s]
 	}
 
+	myMap.events.add('contextmenu', function(e) {
+		var coor = e.get('coords');
+		myMap.hint.open( coor, [coor[0].toFixed(8), coor[1].toFixed(8)].join('; ') +'<br>'+  [deg_dms3(coor[0]), deg_dms3(coor[1])].join('; '))
+	});
+	myMap.events.add('actionbegin', function(e) {getCou()});
+	myMap.events.add('actionend', function(e) {getCou()});
+
+	document.addEventListener("mouseup", function() {getCou(); myMap.balloon.close(); myMap.hint.close();});
 
     var filterMonitor = new ymaps.Monitor(listBoxControl.state);
     filterMonitor.add('filters', function(filters) {
