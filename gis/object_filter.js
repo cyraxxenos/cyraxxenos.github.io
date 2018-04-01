@@ -45,8 +45,9 @@ function init() {
             resultsPerPage: 50
         }});
 
-    // Добавляем контрол в верхний правый угол
-    myMap.controls.add(mySearchControl, {float:'right'});
+    // Добавляем контролы
+	myMap.controls.add(mySearchControl, {float:'right'});
+	myMap.controls.add(miniMap);
 
 	// Создадим 5 пунктов выпадающего списка
 //    var listBoxItems = ['Вяз','Ясень','Липа','Ольха','Яблоня','Ива','Клён','Рябина','Тополь','Другие']
