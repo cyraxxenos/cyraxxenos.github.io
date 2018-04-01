@@ -73,7 +73,7 @@ function init() {
 
         // Теперь создадим список, содержащий пункты
 	listBoxControl = new ymaps.control.ListBox({
-		data: {content:'Тематические слои 55555', title:'Фильтр по тематическим слоям'},
+		data: {content:'Тематические слои', title:'Фильтр по тематическим слоям'},
 		items: listBoxItems,
 		state: {expanded: true,	// Признак, развернут ли список
 	                filters: listBoxItems.reduce(function(filters, filter) {
@@ -90,33 +90,12 @@ function init() {
 	var filters = ymaps.util.extend({}, listBoxControl.state.get('filters'));
 	filters[listBoxItem.data.get('content')] = listBoxItem.isSelected();
 	listBoxControl.state.set('filters', filters);
-
-	// Добавим отслеживание количества меток
-	var singleCou = 0, clusterCou = 0;
-	objectManager.objects.each(function (object) {
-		var objectState = objectManager.getObjectState(object.id);
-		if (objectState.isClustered) {clusterCou++} else {
-			if (objectState.isShown) {singleCou++}
-		}
-	});	document.getElementById('map5').innerHTML = 'Одиночных меток на карте: '+ singleCou +'<br>Кластеризированных меток: '+ clusterCou;
-
+	getCou();
     });
 
 	//$.ajax({url:"data.json"}).done(function(data) {objectManager.add(data)});
 
-	myMap.events.add('click', function() {
-		myMap.balloon.close()
-
-	// Добавим отслеживание количества меток
-	var singleCou = 0, clusterCou = 0;
-	   objectManager.objects.each(function (object) {
-		var objectState = objectManager.getObjectState(object.id);
-		if (objectState.isClustered) {clusterCou++} else {
-			if (objectState.isShown) {singleCou++}
-		}
-	   });	document.getElementById('map5').innerHTML = 'Одиночных меток на карте: '+ singleCou +'<br>Кластеризированных меток: '+ clusterCou;
-
-	});
+	myMap.events.add('click', function() {getCou(); myMap.balloon.close()});
 
     var filterMonitor = new ymaps.Monitor(listBoxControl.state);
     filterMonitor.add('filters', function(filters) {
@@ -128,6 +107,16 @@ function init() {
 		var content = obj.properties.balloonContent;
 		return categories[content]
 	}
+    }
+
+    function getCou(){	// Добавим отслеживание количества меток
+	var singleCou = 0, clusterCou = 0;
+	   objectManager.objects.each(function (object) {
+		var objectState = objectManager.getObjectState(object.id);
+		if (objectState.isClustered) {clusterCou++} else {
+			if (objectState.isShown) {singleCou++}
+		}
+	   });	document.getElementById('map5').innerHTML = 'Одиночных меток на карте: '+ singleCou +'<br>Кластеризированных меток: '+ clusterCou;
     }
 
 
