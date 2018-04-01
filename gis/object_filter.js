@@ -14,7 +14,7 @@ function init() {
 		maxZoom: 17,
 		clusterIconLayout: "default#pieChart"	// Макет метки кластера pieChart
 	}), jdata = [], jsdata = [], st;
-	//myMap.options.set('dragCursor','crosschair');	// Курсор при перемещении над картой
+	myMap.options.set('dragCursor','crosschair');	// Курсор при перемещении над картой
 	myMap.options.set('dragActionCursor','crosschair');	// Курсор при перемещении карты
 
 	$.getJSON('data.json').done(function (geoJson) {
