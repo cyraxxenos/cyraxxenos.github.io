@@ -5,7 +5,7 @@ function init() {
 		center: [59.2099668, 39.9075685], //59.21156, 39.83260
 		zoom: 18,
 		type: 'yandex#satellite',
-		controls: ['zoomControl','rulerControl','typeSelector','geolocationControl'] //'fullscreenControl' miniMap
+		controls: ['zoomControl','rulerControl','typeSelector','geolocationControl'] //'fullscreenControl'
 	}, {	searchControlProvider: 'yandex#search'
 	}),
         objectManager = new ymaps.ObjectManager({
