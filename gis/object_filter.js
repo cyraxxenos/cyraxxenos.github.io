@@ -44,7 +44,7 @@ function init() {
         }});
 
     // Добавляем контрол в верхний правый угол
-    myMap.controls.add(mySearchControl, {float:'right', floatIndex: 150, formLayout:'islands#greenDotIconWithCaption'});
+    myMap.controls.add(mySearchControl, {float:'right'});
 
 	// Создадим 5 пунктов выпадающего списка
 //    var listBoxItems = ['Вяз','Ясень','Липа','Ольха','Яблоня','Ива','Клён','Рябина','Тополь','Другие']
@@ -73,7 +73,7 @@ function init() {
 
         // Теперь создадим список, содержащий пункты
 	listBoxControl = new ymaps.control.ListBox({
-		data: {content:'Тематические слои 5', title:'Фильтр по тематическим слоям'},
+		data: {content:'Тематические слои', title:'Фильтр по тематическим слоям'},
 		items: listBoxItems,
 		state: {expanded: true,	// Признак, развернут ли список
 	                filters: listBoxItems.reduce(function(filters, filter) {
