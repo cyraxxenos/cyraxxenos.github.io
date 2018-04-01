@@ -96,11 +96,26 @@ function init() {
     });
 
 	//$.ajax({url:"data.json"}).done(function(data) {objectManager.add(data)});
-	myMap.events.add('contextmenu', function(e) {var coor = e.get('coords'); myMap.hint.open( coor, [coor[0].toFixed(8), coor[1].toFixed(8)].join('; ') )});
+	myMap.events.add('contextmenu', function(e) {
+		var coor = e.get('coords');
+		myMap.hint.open( coor, [coor[0].toFixed(8), coor[1].toFixed(8)].join('; ') +'<br>'+  [deg_dms3(coor[0]), deg_dms3(coor[1])].join('; '))
+	});
 	myMap.events.add('actionbegin', function(e) {getCou()});
 	myMap.events.add('actionend', function(e) {getCou()});
 
 	document.addEventListener("mouseup", function() {getCou(); myMap.balloon.close(); myMap.hint.close();});
+
+	function deg_dms3(val) {var R = deg_dms(val); return (R[0]==0?R[3]:"")+R[0]+"&#176; "+z2(R[1])+"&#8242; "+z2(fix_repl(R[2],3))+"&#8243;"}
+	function deg_dms(val) {
+		var val_s = (val<0?"-":""), val_u = Math.abs(val);
+		var g = Math.floor(val_u);
+		var m = Math.floor((val_u-g)*60);
+		var s = round_4((val_u-g-m/60)*3600);
+		if (s==60) {s=0; m++}
+		if (m==60) {m=0; g++}
+		return [(val_s+g)*1, m, s, val_s]
+	}
+
 
     var filterMonitor = new ymaps.Monitor(listBoxControl.state);
     filterMonitor.add('filters', function(filters) {
