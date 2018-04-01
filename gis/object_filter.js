@@ -115,8 +115,11 @@ function init() {
 		var coor = e.get('coords');
 		myMap.hint.open( coor, [coor[0].toFixed(8), coor[1].toFixed(8)].join(' ; ') +'<br>'+  [deg_dms3(coor[0].toFixed(12)), deg_dms3(coor[1].toFixed(12))].join(' ; '))
 	});
-	myMap.events.add('actionbegin', function(e) {getCou()});
-	myMap.events.add('actionend', function(e) {getCou()});
+	myMap.events.add('actionbegin', function() {getCou()});
+	myMap.events.add('actionend', function() {getCou()});
+	myMap.controls.get('rulerControl').events.add('dblclick', function() {
+		ID("cg").style.display = ID("cv").style.display = ID("cg").style.display==''?'none':''
+});
 
 	document.addEventListener("mouseup", function() {getCou(); myMap.balloon.close(); myMap.hint.close();});
 
