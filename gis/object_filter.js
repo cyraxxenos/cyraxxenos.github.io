@@ -15,6 +15,8 @@ function init() {
 		clusterIconLayout: "default#pieChart"	// Макет метки кластера pieChart
 	}), jdata = [], jsdata = [], st;
 
+	myMap.cursors.push('arrow');
+
 	$.getJSON('data.json').done(function (geoJson) {
 		objectManager.add(geoJson);		// Добавляем описание объектов в формате JSON в менеджер объектов
 		myMap.geoObjects.add(objectManager);	// Добавляем объекты на карту
@@ -94,11 +96,11 @@ function init() {
     });
 
 	//$.ajax({url:"data.json"}).done(function(data) {objectManager.add(data)});
-	myMap.events.add('contextmenu', function(e) {var coor = e.get('coords'); myMap.balloon.open( coor, 'Координаты: '+ [coor[0].toPrecision(6), coor[1].toPrecision(6)].join('; ') )});
+	myMap.events.add('contextmenu', function(e) {var coor = e.get('coords'); myMap.hint.open( coor, [coor[0].toFixed(8), coor[1].toFixed(8)].join('; ') )});
 	myMap.events.add('actionbegin', function(e) {getCou()});
 	myMap.events.add('actionend', function(e) {getCou()});
 
-	document.addEventListener("mouseup", function() {getCou(); myMap.balloon.close()});
+	document.addEventListener("mouseup", function() {getCou(); myMap.balloon.close(); myMap.hint.close();});
 
     var filterMonitor = new ymaps.Monitor(listBoxControl.state);
     filterMonitor.add('filters', function(filters) {
