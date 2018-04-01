@@ -113,7 +113,7 @@ function init() {
 
 	myMap.events.add('contextmenu', function(e) {
 		var coor = e.get('coords');
-		myMap.hint.open( coor, [coor[0].toFixed(8), coor[1].toFixed(8)].join('; ') +'<br>'+  [deg_dms3(coor[0].toFixed(12)), deg_dms3(coor[1].toFixed(12))].join('; '))
+		myMap.hint.open( coor, [coor[0].toFixed(8), coor[1].toFixed(8)].join(' ; ') +'<br>'+  [deg_dms3(coor[0].toFixed(12)), deg_dms3(coor[1].toFixed(12))].join(' ; '))
 	});
 	myMap.events.add('actionbegin', function(e) {getCou()});
 	myMap.events.add('actionend', function(e) {getCou()});
