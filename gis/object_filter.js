@@ -113,13 +113,16 @@ function init() {
     }
 
     function getCou(){	// Добавим отслеживание количества меток
-	var singleCou = 0, clusterCou = 0;
+	var singleCou = 0, clusterCou = 0, coor;
 	   objectManager.objects.each(function (object) {
 		var objectState = objectManager.getObjectState(object.id);
 		if (objectState.isClustered) {clusterCou++} else {
 			if (objectState.isShown) {singleCou++}
 		}
-	   });	document.getElementById('map5').innerHTML = myMap.getCenter() +'<br>Одиночных меток на карте: '+ singleCou +'<br>Кластеризированных меток: '+ clusterCou;
+	   });
+	coor = myMap.getCenter();
+	document.getElementById('map5').innerHTML = 'Центр: '+ coor[0] +' ; '+ coor[1]+
+	'<br>Одиночных меток на карте: '+ singleCou +'<br>Кластеризированных меток: '+ clusterCou;
     }
 
 
