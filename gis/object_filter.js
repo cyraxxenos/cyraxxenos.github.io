@@ -120,30 +120,30 @@ function init() {
 
 	document.addEventListener("mouseup", function() {getCou(); myMap.balloon.close(); myMap.hint.close();});
 
-    var filterMonitor = new ymaps.Monitor(listBoxControl.state);
-    filterMonitor.add('filters', function(filters) {
-	objectManager.setFilter(getFilterFunction(filters));	// Применим фильтр
-    });
+	var filterMonitor = new ymaps.Monitor(listBoxControl.state);
+	filterMonitor.add('filters', function(filters) {
+		objectManager.setFilter(getFilterFunction(filters));	// Применим фильтр
+	});
 
-    function getFilterFunction(categories){
-	return function(obj){
-		var content = obj.properties.balloonContent;
-		return categories[content]
-	}
-    }
-
-    function getCou(){	// Добавим отслеживание количества меток
-	var singleCou = 0, clusterCou = 0, coor;
-	   objectManager.objects.each(function (object) {
-		var objectState = objectManager.getObjectState(object.id);
-		if (objectState.isClustered) {clusterCou++} else {
-			if (objectState.isShown) {singleCou++}
+	function getFilterFunction(categories){
+		return function(obj){
+			var content = obj.properties.balloonContent;
+			return categories[content]
 		}
-	   });
-	coor = myMap.getCenter();
-	document.getElementById('map5').innerHTML = 'Центр: '+ coor[0].toFixed(8) +' ; '+ coor[1].toFixed(8) +'<br>   '+ deg_dms3(coor[0].toFixed(12)) +' ; '+ deg_dms3(coor[1].toFixed(12))+
-	'<br>Одиночных меток на карте: '+ singleCou +'<br>Кластеризированных меток: '+ clusterCou;
-    }
+	}
+
+	function getCou(){	// Добавим отслеживание количества меток
+		var singleCou = 0, clusterCou = 0, coor;
+		   objectManager.objects.each(function (object) {
+			var objectState = objectManager.getObjectState(object.id);
+			if (objectState.isClustered) {clusterCou++} else {
+				if (objectState.isShown) {singleCou++}
+			}
+		   });
+		coor = myMap.getCenter();
+		document.getElementById('map5').innerHTML = 'Центр: '+ coor[0].toFixed(8) +' ; '+ coor[1].toFixed(8) +'<br>   '+ deg_dms3(coor[0].toFixed(12)) +' ; '+ deg_dms3(coor[1].toFixed(12))+
+		'<br>Одиночных меток на карте: '+ singleCou +'<br>Кластеризированных меток: '+ clusterCou;
+	}
 
 
 // Провайдер данных для элемента управления ymaps.control.SearchControl
