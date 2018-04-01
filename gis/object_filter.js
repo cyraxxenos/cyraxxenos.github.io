@@ -5,7 +5,7 @@ function init() {
 		center: [59.209858, 39.908239], //59.21156, 39.83260
 		zoom: 17,
 		type: 'yandex#satellite',
-		controls: ['zoomControl','miniMap','rulerControl','typeSelector','geolocationControl'] //'fullscreenControl'
+		controls: ['zoomControl','rulerControl','typeSelector','geolocationControl'] //'fullscreenControl' miniMap
 	}, {	searchControlProvider: 'yandex#search'
 	}),
         objectManager = new ymaps.ObjectManager({
@@ -96,7 +96,7 @@ function init() {
     });
 
 	//$.ajax({url:"data.json"}).done(function(data) {objectManager.add(data)});
-	//myMap.events.add('contextmenu', function(e) {myMap.balloon.open(e.get('coordPosition'),'Щелк!')});
+	myMap.events.add('contextmenu', function(e) {myMap.balloon.open( e.get('coordPosition'), e.get('coordPosition') )});
 
 	document.addEventListener("mouseup", function() {
 		getCou(); myMap.balloon.close()
