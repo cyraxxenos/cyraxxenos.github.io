@@ -106,6 +106,7 @@ function init() {
 	document.addEventListener("mouseup", function() {getCou(); myMap.balloon.close(); myMap.hint.close();});
 
 	function fix_repl(a,n) {a = parseFloat(a); return (round(a,n)<0 ? '-':'') + Math.abs(a).toFixed(n).replace('.',',')}
+	function round_4(a) {return Math.round(parseFloat(a)*10000)/10000}
 	function rplN(a) {return (a+'').replace(/[,]/g,'.')}
 	function z2(a){var b=a; if (parseFloat(rplN(a))<10){b ='0'+ b} return b}
 	function deg_dms3(val) {var R = deg_dms(val); return (R[0]==0?R[3]:"")+R[0]+"&#176; "+z2(R[1])+"&#8242; "+z2(fix_repl(R[2],3))+"&#8243;"}
