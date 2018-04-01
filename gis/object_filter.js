@@ -75,7 +75,7 @@ function init() {
 
         // Теперь создадим список, содержащий пункты
 	listBoxControl = new ymaps.control.ListBox({
-		data: {content:'Тематические слои 45', title:'Фильтр по тематическим слоям'},
+		data: {content:'Тематические слои 85', title:'Фильтр по тематическим слоям'},
 		items: listBoxItems,
 		state: {expanded: true,	// Признак, развернут ли список
 	                filters: listBoxItems.reduce(function(filters, filter) {
@@ -96,7 +96,7 @@ function init() {
     });
 
 	//$.ajax({url:"data.json"}).done(function(data) {objectManager.add(data)});
-	//myMap.events.add('mouseup', function() {getCou(); myMap.balloon.close()});
+	myMap.events.add('contextmenu', function(e) {myMap.balloon.open(e.get('coordPosition'),'Щелк!')});
 
 	document.addEventListener("mouseup", function() {
 		getCou(); myMap.balloon.close()
