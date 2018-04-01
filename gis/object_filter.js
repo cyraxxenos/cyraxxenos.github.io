@@ -94,7 +94,7 @@ function init() {
     });
 
 	//$.ajax({url:"data.json"}).done(function(data) {objectManager.add(data)});
-	myMap.events.add('contextmenu', function(e) {var coor = e.get('coords'); myMap.balloon.open(coor, coor)});
+	myMap.events.add('contextmenu', function(e) {var coor = e.get('coords'); myMap.balloon.open( coor, 'Координаты: '+ [coor[0].toPrecision(6), coor[1].toPrecision(6)].join('; ') )});
 	myMap.events.add('actionbegin', function(e) {getCou()});
 	myMap.events.add('actionend', function(e) {getCou()});
 
