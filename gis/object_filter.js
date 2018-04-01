@@ -96,11 +96,9 @@ function init() {
     });
 
 	//$.ajax({url:"data.json"}).done(function(data) {objectManager.add(data)});
-	myMap.events.add('contextmenu', function(e) {myMap.balloon.open( e.get('coord'), JSON.stringify(e.get('coord')) )});
+	myMap.events.add('contextmenu', function(e) {myMap.balloon.open( e.get('coords'), 'coord' )});
 	myMap.events.add('actionbegin', function(e) {getCou()});
-	myMap.events.add('actionbreak', function(e) {getCou()});
 	myMap.events.add('actionend', function(e) {getCou()});
-	myMap.events.add('actiontickcomplete', function(e) {getCou()});
 
 	document.addEventListener("mouseup", function() {getCou(); myMap.balloon.close()});
 
