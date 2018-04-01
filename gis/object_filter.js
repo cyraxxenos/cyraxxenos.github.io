@@ -15,7 +15,7 @@ function init() {
 		clusterIconLayout: "default#pieChart"	// Макет метки кластера pieChart
 	}), jdata = [], jsdata = [], st;
 	myMap.options.set('dragCursor','crosschair');	// Курсор при перемещении над картой
-	myMap.options.set('dragActionCursor','move');	// Курсор при перемещении карты
+	//myMap.options.set('dragActionCursor','move');	// Курсор при перемещении карты
 
 	$.getJSON('data.json').done(function (geoJson) {
 		objectManager.add(geoJson);		// Добавляем описание объектов в формате JSON в менеджер объектов
@@ -75,7 +75,7 @@ function init() {
 
         // Теперь создадим список, содержащий пункты
 	listBoxControl = new ymaps.control.ListBox({
-		data: {content:'Тематические слои 85', title:'Фильтр по тематическим слоям'},
+		data: {content:'Тематические слои 5', title:'Фильтр по тематическим слоям'},
 		items: listBoxItems,
 		state: {expanded: true,	// Признак, развернут ли список
 	                filters: listBoxItems.reduce(function(filters, filter) {
@@ -121,7 +121,7 @@ function init() {
 		if (objectState.isClustered) {clusterCou++} else {
 			if (objectState.isShown) {singleCou++}
 		}
-	   });	document.getElementById('map5').innerHTML = 'Одиночных меток на карте: '+ singleCou +'<br>Кластеризированных меток: '+ clusterCou;
+	   });	document.getElementById('map5').innerHTML = myMap.getCenter() +'<br>Одиночных меток на карте: '+ singleCou +'<br>Кластеризированных меток: '+ clusterCou;
     }
 
 
