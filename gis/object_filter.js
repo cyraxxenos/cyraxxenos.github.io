@@ -73,7 +73,7 @@ function init() {
 
         // Теперь создадим список, содержащий пункты
 	listBoxControl = new ymaps.control.ListBox({
-		data: {content:'Тематические слои', title:'Фильтр по тематическим слоям'},
+		data: {content:'Тематические слои 55555', title:'Фильтр по тематическим слоям'},
 		items: listBoxItems,
 		state: {expanded: true,	// Признак, развернут ли список
 	                filters: listBoxItems.reduce(function(filters, filter) {
@@ -92,19 +92,31 @@ function init() {
 	listBoxControl.state.set('filters', filters);
 
 	// Добавим отслеживание количества меток
-	var singleCounter = 0, clusterCounter = 0;
+	var singleCou = 0, clusterCou = 0;
 	objectManager.objects.each(function (object) {
 		var objectState = objectManager.getObjectState(object.id);
-		if (objectState.isClustered) {clusterCounter++} else {
-			if (objectState.isShown) {singleCounter++}
+		if (objectState.isClustered) {clusterCou++} else {
+			if (objectState.isShown) {singleCou++}
 		}
-	});	document.getElementById('map5').innerHTML = 'Одиночных меток на карте: '+ singleCounter +'<br>Кластеризированных меток: '+ clusterCounter;
+	});	document.getElementById('map5').innerHTML = 'Одиночных меток на карте: '+ singleCou +'<br>Кластеризированных меток: '+ clusterCou;
 
     });
 
 	//$.ajax({url:"data.json"}).done(function(data) {objectManager.add(data)});
 
-	myMap.events.add('click', function() {myMap.balloon.close()});
+	myMap.events.add('click', function() {
+		myMap.balloon.close()
+
+	// Добавим отслеживание количества меток
+	var singleCou = 0, clusterCou = 0;
+	   objectManager.objects.each(function (object) {
+		var objectState = objectManager.getObjectState(object.id);
+		if (objectState.isClustered) {clusterCou++} else {
+			if (objectState.isShown) {singleCou++}
+		}
+	   });	document.getElementById('map5').innerHTML = 'Одиночных меток на карте: '+ singleCou +'<br>Кластеризированных меток: '+ clusterCou;
+
+	});
 
     var filterMonitor = new ymaps.Monitor(listBoxControl.state);
     filterMonitor.add('filters', function(filters) {
