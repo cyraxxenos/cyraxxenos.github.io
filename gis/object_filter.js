@@ -5,7 +5,7 @@ function init() {
 		center: [59.209858, 39.908239], //59.21156, 39.83260
 		zoom: 17,
 		type: 'yandex#satellite',
-		controls: ['zoomControl','rulerControl','typeSelector','geolocationControl','fullscreenControl']
+		controls: ['zoomControl','rulerControl','typeSelector','geolocationControl'] //'fullscreenControl'
 	}, {	searchControlProvider: 'yandex#search'
 	}),
         objectManager = new ymaps.ObjectManager({
@@ -40,7 +40,7 @@ function init() {
             provider: new CustomSearchProvider(jsdata),	// Заменяем стандартный провайдер данных (геокодер) нашим собственным
             // Не будем показывать еще одну метку при выборе результата поиска, т.к. метки коллекции уже добавлены на карту
             noPlacemark: false,
-            resultsPerPage: 5
+            resultsPerPage: 50
         }});
 
     // Добавляем контрол в верхний правый угол
@@ -72,7 +72,7 @@ function init() {
 
         // Теперь создадим список, содержащий пункты
 	listBoxControl = new ymaps.control.ListBox({
-		data: {content:'Тематические слои 45', title:'Фильтр по тематическим слоям'},
+		data: {content:'Тематические слои', title:'Фильтр по тематическим слоям'},
 		items: listBoxItems,
 		state: {expanded: true,	// Признак, развернут ли список
 	                filters: listBoxItems.reduce(function(filters, filter) {
