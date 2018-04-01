@@ -96,7 +96,7 @@ function init() {
     });
 
 	//$.ajax({url:"data.json"}).done(function(data) {objectManager.add(data)});
-	myMap.events.add('contextmenu', function(e) {var coor = e.get('coords'); myMap.hint.open( coor, [coor[0].toFixed(8), coor[1].toFixed(8)].join(' ; ') )});
+	myMap.events.add('contextmenu', function(e) {var coor = e.get('coords'); myMap.hint.open( coor, [coor[0].toFixed(8), coor[1].toFixed(8)].join('; ') )});
 	myMap.events.add('actionbegin', function(e) {getCou()});
 	myMap.events.add('actionend', function(e) {getCou()});
 
@@ -123,7 +123,7 @@ function init() {
 		}
 	   });
 	coor = myMap.getCenter();
-	document.getElementById('map5').innerHTML = 'Центр: '+ coor[0].toFixed(8) +' ; '+ coor[1].toFixed(8)+
+	document.getElementById('map5').innerHTML = 'Центр: '+ coor[0].toFixed(8) +'; '+ coor[1].toFixed(8)+
 	'<br>Одиночных меток на карте: '+ singleCou +'<br>Кластеризированных меток: '+ clusterCou;
     }
 
