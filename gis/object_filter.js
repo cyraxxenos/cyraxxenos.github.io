@@ -141,7 +141,7 @@ function init() {
 			}
 		   });
 		coor = myMap.getCenter();
-		document.getElementById('map5').innerHTML = 'Центр: '+ coor[0].toFixed(8) +' ; '+ coor[1].toFixed(8) +'<br> '+ deg_dms3(coor[0].toFixed(12)) +' ; '+ deg_dms3(coor[1].toFixed(12))+
+		document.getElementById('map5').innerHTML = 'Центр: '+ coor[0].toFixed(8) +' | '+ coor[1].toFixed(8) +'<br> = '+ deg_dms3(coor[0].toFixed(12)) +' | '+ deg_dms3(coor[1].toFixed(12))+
 		'<br>Одиночных меток на карте: '+ singleCou +'<br>Кластеризированных меток: '+ clusterCou;
 	}
 
