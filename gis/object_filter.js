@@ -14,8 +14,6 @@ function init() {
 		maxZoom: 17,
 		clusterIconLayout: "default#pieChart"	// Макет метки кластера pieChart
 	}), jdata = [], jsdata = [], st;
-	myMap.options.set('dragCursor','crosschair');	// Курсор при перемещении над картой
-	myMap.options.set('dragActionCursor','crosschair');	// Курсор при перемещении карты
 
 	$.getJSON('data.json').done(function (geoJson) {
 		objectManager.add(geoJson);		// Добавляем описание объектов в формате JSON в менеджер объектов
@@ -96,7 +94,7 @@ function init() {
     });
 
 	//$.ajax({url:"data.json"}).done(function(data) {objectManager.add(data)});
-	myMap.events.add('contextmenu', function(e) {myMap.balloon.open( e.get('coords'), 'coord' )});
+	myMap.events.add('contextmenu', function(e) {myMap.balloon.open( e.get('coords'), e.get('coords') )});
 	myMap.events.add('actionbegin', function(e) {getCou()});
 	myMap.events.add('actionend', function(e) {getCou()});
 
