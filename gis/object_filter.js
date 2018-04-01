@@ -14,6 +14,8 @@ function init() {
 		maxZoom: 17,
 		clusterIconLayout: "default#pieChart"	// Макет метки кластера pieChart
 	}), jdata = [], jsdata = [], st;
+	myMap.options.set('dragCursor','crosschair');	// Курсор при перемещении над картой
+	myMap.options.set('dragActionCursor','move');	// Курсор при перемещении карты
 
 	$.getJSON('data.json').done(function (geoJson) {
 		objectManager.add(geoJson);		// Добавляем описание объектов в формате JSON в менеджер объектов
@@ -73,7 +75,7 @@ function init() {
 
         // Теперь создадим список, содержащий пункты
 	listBoxControl = new ymaps.control.ListBox({
-		data: {content:'Тематические слои', title:'Фильтр по тематическим слоям'},
+		data: {content:'Тематические слои 45', title:'Фильтр по тематическим слоям'},
 		items: listBoxItems,
 		state: {expanded: true,	// Признак, развернут ли список
 	                filters: listBoxItems.reduce(function(filters, filter) {
@@ -94,7 +96,6 @@ function init() {
     });
 
 	//$.ajax({url:"data.json"}).done(function(data) {objectManager.add(data)});
-
 	//myMap.events.add('mouseup', function() {getCou(); myMap.balloon.close()});
 
 	document.addEventListener("mouseup", function() {
