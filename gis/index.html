@@ -26,7 +26,7 @@ ID("map5").addEventListener("contextmenu", function () {
 	ID("cg").style.display = ID("cv").style.display = ID("cg").style.display==''?'none':''
 });
 
-    function CreateTableFromJSON(str) {
+function CreateTableFromJSON(str) {
 
         // EXTRACT VALUE FOR HTML HEADER
         var col = [];
@@ -62,10 +62,10 @@ ID("map5").addEventListener("contextmenu", function () {
         // FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER
 	//var divContainer = document.getElementById("map5");
         var divContainer = document.createElement("div")
-        divContainer.innerHTML = "";
+        divContainer.innerHTML = "<title>Таблица исходных данных</title>";
         divContainer.appendChild(table);
 	return divContainer;
-    }
+}
 </script>
 </body>
 </html>
