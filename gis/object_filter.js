@@ -17,6 +17,7 @@ function init() {
 
 	myMap.cursors.push('arrow');
 
+
 	$.getJSON('data.json').done(function (geoJson) {
 		objectManager.add(geoJson);		// Добавляем описание объектов в формате JSON в менеджер объектов
 		myMap.geoObjects.add(objectManager);	// Добавляем объекты на карту
@@ -124,6 +125,9 @@ function init() {
 		ID("cg").style.display = ID("cv").style.display = ID("cg").style.display==''?'none':''
 	});
 	myMap.controls.get('rulerControl').data.set('title','Измерение расстояний на карте (двойной клик управляет отображением перекрестия в центре карты)');
+	myMap.controls.get('typeSelector').events.add('contextmenu', function() {
+		myMap.layers.add(new ymaps.Layer('http://tile.openstreetmap.org/%z/%x/%y.png', {projection: ymaps.projection.sphericalMercator}));
+	});
 
 	document.addEventListener("mouseup", function() {getCou(); myMap.balloon.close(); myMap.hint.close();});
 
