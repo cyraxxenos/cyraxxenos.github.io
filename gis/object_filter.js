@@ -113,7 +113,7 @@ function init() {
 
 	listBoxControl.events.add('contextmenu', function(e) {
 		window.open('','','scrollbars=1,width=885,height=650').document.body.appendChild(CreateTableFromJSON(jdata));
-		$(e).contextmenu(function() {return false});
+		$(myMap.controls.get('listBoxControl')).contextmenu(function() {return false});
 	});
 	myMap.events.add('contextmenu', function(e) {
 		var coor = e.get('coords');
