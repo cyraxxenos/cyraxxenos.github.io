@@ -113,7 +113,6 @@ function init() {
 
 	listBoxControl.events.add('contextmenu', function(e) {
 		window.open('','','scrollbars=1,width=885,height=650').document.body.appendChild(CreateTableFromJSON(jdata));
-		$(myMap.controls.get('listBoxControl')).contextmenu(function() {return false});
 	});
 	myMap.events.add('contextmenu', function(e) {
 		var coor = e.get('coords');
@@ -121,7 +120,7 @@ function init() {
 	});
 	myMap.events.add('actionbegin', function() {getCou()});
 	myMap.events.add('actionend', function() {getCou()});
-	myMap.controls.get('rulerControl').events.add('dblclick', function() {
+	myMap.controls.get('rulerControl').events.add('contextmenu', function() {
 		ID("cg").style.display = ID("cv").style.display = ID("cg").style.display==''?'none':''
 	});
 	myMap.controls.get('rulerControl').data.set('title','Измерение расстояний на карте (двойной клик управляет отображением перекрестия в центре карты)');
