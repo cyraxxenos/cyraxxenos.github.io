@@ -22,6 +22,10 @@ ID("map").addEventListener("mousedown", function h(e) { click++;
 	for(var i=0; i<x.length; i++) {if (x[i].className.indexOf('copyright')>-1) x[i].parentNode.removeChild(x[i])}
 });
 
+ID("map5").addEventListener("contextmenu", function () {
+	ID("cg").style.display = ID("cv").style.display = ID("cg").style.display==''?'none':''
+});
+
     function CreateTableFromJSON(str) {
 
         // EXTRACT VALUE FOR HTML HEADER
