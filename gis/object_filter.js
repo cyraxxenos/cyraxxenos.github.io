@@ -47,6 +47,7 @@ function init() {
 
     // Добавляем контрол в верхний правый угол
 	myMap.controls.add(mySearchControl, {float:'right'});
+	//mySearchControl.data.set('title','Поиск по тематическим слоям');
 
 	// Создадим 5 пунктов выпадающего списка
 //    var listBoxItems = ['Вяз','Ясень','Липа','Ольха','Яблоня','Ива','Клён','Рябина','Тополь','Другие']
@@ -119,7 +120,8 @@ function init() {
 	myMap.events.add('actionend', function() {getCou()});
 	myMap.controls.get('rulerControl').events.add('dblclick', function() {
 		ID("cg").style.display = ID("cv").style.display = ID("cg").style.display==''?'none':''
-});
+	});
+	myMap.controls.get('rulerControl').data.set('title','Измерение расстояний на карте (двойной клик управляет отображением перекрестия в центре карты)');
 
 	document.addEventListener("mouseup", function() {getCou(); myMap.balloon.close(); myMap.hint.close();});
 
