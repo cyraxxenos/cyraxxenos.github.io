@@ -38,16 +38,16 @@ function init() {
 
     // Создаем экземпляр класса ymaps.control.SearchControl
     var mySearchControl = new ymaps.control.SearchControl({
-        options: {
-            provider: new CustomSearchProvider(jsdata),	// Заменяем стандартный провайдер данных (геокодер) нашим собственным
-            // Не будем показывать еще одну метку при выборе результата поиска, т.к. метки коллекции уже добавлены на карту
-            noPlacemark: false,
-            resultsPerPage: 50
-        }});
+	data: {title: "Поиск по тематическим слоям"},
+	options: {
+		provider: new CustomSearchProvider(jsdata),	// Заменяем стандартный провайдер данных (геокодер) нашим собственным
+		// Не будем показывать еще одну метку при выборе результата поиска, т.к. метки коллекции уже добавлены на карту
+		noPlacemark: false,
+		resultsPerPage: 50
+	}});
 
     // Добавляем контрол в верхний правый угол
 	myMap.controls.add(mySearchControl, {float:'right'});
-	//mySearchControl.data.set('title','Поиск по тематическим слоям');
 
 	// Создадим 5 пунктов выпадающего списка
 //    var listBoxItems = ['Вяз','Ясень','Липа','Ольха','Яблоня','Ива','Клён','Рябина','Тополь','Другие']
