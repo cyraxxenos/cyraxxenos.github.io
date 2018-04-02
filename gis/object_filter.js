@@ -25,7 +25,7 @@ function init() {
 	});
 
     // Создаем коллекцию
-	var myCollection = new ymaps.GeoObjectCollection();
+	var myCollection = new ymaps.GeoObjectCollection({},{preset:"twirl#greenIcon" });
     // Заполняем коллекцию данными (для поиска данных в data.json)
     for (var i = 0, l = jsdata.length; i < l; i++) {
         var point = jsdata[i];
