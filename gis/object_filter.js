@@ -111,7 +111,10 @@ function init() {
 		return [(val_s+g)*1, m, s, val_s]
 	}
 
-	listBoxControl.events.add('contextmenu', function() {window.open('','','scrollbars=1,width=885,height=650').document.body.appendChild(CreateTableFromJSON(jdata))});
+	listBoxControl.events.add('contextmenu', function(e) {
+		window.open('','','scrollbars=1,width=885,height=650').document.body.appendChild(CreateTableFromJSON(jdata));
+		stopEvent(e);
+	});
 	myMap.events.add('contextmenu', function(e) {
 		var coor = e.get('coords');
 		myMap.hint.open( coor, [coor[0].toFixed(8), coor[1].toFixed(8)].join(' ; ') +'<br>'+  [deg_dms3(coor[0].toFixed(12)), deg_dms3(coor[1].toFixed(12))].join(' ; '))
@@ -124,6 +127,13 @@ function init() {
 	myMap.controls.get('rulerControl').data.set('title','Измерение расстояний на карте (двойной клик управляет отображением перекрестия в центре карты)');
 
 	document.addEventListener("mouseup", function() {getCou(); myMap.balloon.close(); myMap.hint.close();});
+
+	function stopEvent(event){
+		if(event.preventDefault != undefined)
+			event.preventDefault();
+		if(event.stopPropagation != undefined)
+			event.stopPropagation();
+	}
 
 	var filterMonitor = new ymaps.Monitor(listBoxControl.state);
 	filterMonitor.add('filters', function(filters) {
