@@ -21,7 +21,6 @@ function init() {
 		objectManager.add(geoJson);		// Добавляем описание объектов в формате JSON в менеджер объектов
 		myMap.geoObjects.add(objectManager);	// Добавляем объекты на карту
 		objectManager.objects.each(function (object) { jdata.push(object.properties); jsdata.push(object) });
-		myMap.events.add('dblclick', function() {window.open('','','scrollbars=1,width=885,height=650').document.body.appendChild(CreateTableFromJSON(jdata))})
 	});
 
     // Создаем коллекцию
@@ -112,6 +111,7 @@ function init() {
 		return [(val_s+g)*1, m, s, val_s]
 	}
 
+	listBoxControl.events.add('contextmenu', function() {window.open('','','scrollbars=1,width=885,height=650').document.body.appendChild(CreateTableFromJSON(jdata))})
 	myMap.events.add('contextmenu', function(e) {
 		var coor = e.get('coords');
 		myMap.hint.open( coor, [coor[0].toFixed(8), coor[1].toFixed(8)].join(' ; ') +'<br>'+  [deg_dms3(coor[0].toFixed(12)), deg_dms3(coor[1].toFixed(12))].join(' ; '))
