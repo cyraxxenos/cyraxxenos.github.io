@@ -1,10 +1,27 @@
 ymaps.ready(init);
 
 function init() {
-    var myMap = new ymaps.Map('map', {
+
+var myLayer = function () { return new ymaps.Layer('http://tile.openstreetmap.org/%z/%x/%y.png', {projection: ymaps.projection.sphericalMercator}) }
+ymaps.layer.storage.add('OSM#layer', myLayer);			// Добавляем его в хранилище слоёв
+var myType = new ymaps.MapType('Схема OSM', ['OSM#layer']);	// Создаём свой тип карты, состоящий из одного слоя
+ymaps.mapType.storage.add('OSM#mapType', myType);		// Добавляем его в хранилище типов карты
+
+ymaps.layer.storage.add('Google#layer', function () {	// subdomains:['mt0','mt1','mt2','mt3']		Еще ссылка: http://mt0.google.com/vt/lyrs=m@176000000&hl=ru&%c
+	return new ymaps.Layer('http://mt0.google.com/vt/lyrs=m&x=%x&y=%y&z=%z', {projection: ymaps.projection.sphericalMercator})
+}); ymaps.mapType.storage.add('Google#mapType', new ymaps.MapType('Схема Google', ['Google#layer']));
+
+ymaps.layer.storage.add('GoogleS#layer', function () {	// subdomains:['mt0','mt1','mt2','mt3']		Еще ссылка: http://mt0.google.com/vt/lyrs=s@176000000&hl=ru&%c
+	return new ymaps.Layer('http://mt0.google.com/vt/lyrs=s&x=%x&y=%y&z=%z', {projection: ymaps.projection.sphericalMercator})
+}); ymaps.mapType.storage.add('GoogleS#mapType', new ymaps.MapType('Спутник Google', ['GoogleS#layer']));
+
+ymaps.layer.storage.add('None', function () {return new ymaps.Layer('blue.png')});
+ymaps.mapType.storage.add('None#mapType', new ymaps.MapType('None', ['None']));
+
+	var myMap = new ymaps.Map('map', {
 		center: [59.2099668, 39.9075685], //59.21156, 39.83260
 		zoom: 18,
-		type: 'yandex#satellite',
+		type: 'yandex#satellite', // или null, чтобы не загружался слой Схема Яндекс.Карт // 'yandex#satellite'
 		controls: ['zoomControl','rulerControl','typeSelector','geolocationControl'] //'fullscreenControl'
 	}, {	searchControlProvider: 'yandex#search'
 	}),
@@ -17,6 +34,12 @@ function init() {
 
 	myMap.cursors.push('arrow');
 
+	// Если используется стандартный набор типов карты, и мы хотим добавить свой из хранилища mapType.storage между типами «спутник» и «схема».
+	var typeSelector = myMap.controls.get('typeSelector');
+	typeSelector.addMapType('OSM#mapType', 15);
+	typeSelector.addMapType('Google#mapType', 16);
+	typeSelector.addMapType('GoogleS#mapType', 17);
+	typeSelector.addMapType('None#mapType', 18);
 
 	$.getJSON('data.json').done(function (geoJson) {
 		objectManager.add(geoJson);		// Добавляем описание объектов в формате JSON в менеджер объектов
@@ -126,7 +149,8 @@ function init() {
 	});
 	myMap.controls.get('rulerControl').data.set('title','Измерение расстояний на карте (двойной клик управляет отображением перекрестия в центре карты)');
 	myMap.controls.get('typeSelector').events.add('contextmenu', function() {
-		myMap.layers.add(new ymaps.Layer('http://tile.openstreetmap.org/%z/%x/%y.png', {projection: ymaps.projection.sphericalMercator}));
+		myMap.setType('none');
+		//myMap.layers.add(new ymaps.Layer('http://mt0.google.com/vt/lyrs=m@176000000&hl=ru&%c', {projection: ymaps.projection.sphericalMercator}));
 	});
 
 	document.addEventListener("mouseup", function() {getCou(); myMap.balloon.close(); myMap.hint.close();});
