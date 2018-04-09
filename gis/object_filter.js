@@ -3,9 +3,9 @@ ymaps.ready(init);
 function init() {
 
 var myLayer = function () { return new ymaps.Layer('http://tile.openstreetmap.org/%z/%x/%y.png', {projection: ymaps.projection.sphericalMercator}) }
-ymaps.layer.storage.add('OSM#layer', myLayer);			// Добавляем его в хранилище слоёв
+ymaps.layer.storage.add('OSM#layer', myLayer);			// Добавляем слой в хранилище слоёв
 var myType = new ymaps.MapType('OSM Схема', ['OSM#layer']);	// Создаём свой тип карты, состоящий из одного слоя
-ymaps.mapType.storage.add('OSM#mapType', myType);		// Добавляем его в хранилище типов карты
+ymaps.mapType.storage.add('OSM#mapType', myType);		// Добавляем тип карты в хранилище типов
 
 ymaps.layer.storage.add('OSMDark#layer', function () {
 	return new ymaps.Layer('http://basemaps.cartocdn.com/dark_all/%z/%x/%y.png', {projection: ymaps.projection.sphericalMercator})
