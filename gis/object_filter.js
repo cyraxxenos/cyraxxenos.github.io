@@ -4,19 +4,63 @@ function init() {
 
 var myLayer = function () { return new ymaps.Layer('http://tile.openstreetmap.org/%z/%x/%y.png', {projection: ymaps.projection.sphericalMercator}) }
 ymaps.layer.storage.add('OSM#layer', myLayer);			// Добавляем его в хранилище слоёв
-var myType = new ymaps.MapType('Схема OSM', ['OSM#layer']);	// Создаём свой тип карты, состоящий из одного слоя
+var myType = new ymaps.MapType('OSM Схема', ['OSM#layer']);	// Создаём свой тип карты, состоящий из одного слоя
 ymaps.mapType.storage.add('OSM#mapType', myType);		// Добавляем его в хранилище типов карты
+
+ymaps.layer.storage.add('OSMDark#layer', function () {
+	return new ymaps.Layer('http://basemaps.cartocdn.com/dark_all/%z/%x/%y.png', {projection: ymaps.projection.sphericalMercator})
+}); ymaps.mapType.storage.add('OSMDark#mapType', new ymaps.MapType('OSM Схема (Dark)', ['OSMDark#layer']));
+
+ymaps.layer.storage.add('OSMLand#layer', function () {
+	return new ymaps.Layer('http://a.tile.thunderforest.com/landscape/%z/%x/%y.png?apikey=7c352c8ff1244dd8b732e349e0b0fe8d', {projection: ymaps.projection.sphericalMercator})
+}); ymaps.mapType.storage.add('OSMLand#mapType', new ymaps.MapType('OSM Landscape', ['OSMLand#layer']));
+
+ymaps.layer.storage.add('OSMOutdoors#layer', function () {
+	return new ymaps.Layer('http://a.tile.thunderforest.com/outdoors/%z/%x/%y.png?apikey=7c352c8ff1244dd8b732e349e0b0fe8d', {projection: ymaps.projection.sphericalMercator})
+}); ymaps.mapType.storage.add('OSMOutdoors#mapType', new ymaps.MapType('OSM Outdoors', ['OSMOutdoors#layer']));
+
+ymaps.layer.storage.add('Wikimedia#layer', function () {
+	return new ymaps.Layer('https://maps.wikimedia.org/osm-intl/%z/%x/%y.png', {projection: ymaps.projection.sphericalMercator})
+}); ymaps.mapType.storage.add('Wikimedia#mapType', new ymaps.MapType('Wikimedia Схема', ['Wikimedia#layer']));
+
+ymaps.layer.storage.add('Yandex#layer', function () {
+	return new ymaps.Layer('http://vec01.maps.yandex.net/tiles?l=skl&v=4.55.2&z=%z&x=%x&y=%y&scale=2&lang=ru_RU')
+}); ymaps.mapType.storage.add('Yandex#mapType', new ymaps.MapType('Надписи', ['Yandex#layer']));
 
 ymaps.layer.storage.add('Google#layer', function () {	// subdomains:['mt0','mt1','mt2','mt3']		Еще ссылка: http://mt0.google.com/vt/lyrs=m@176000000&hl=ru&%c
 	return new ymaps.Layer('http://mt0.google.com/vt/lyrs=m&x=%x&y=%y&z=%z', {projection: ymaps.projection.sphericalMercator})
-}); ymaps.mapType.storage.add('Google#mapType', new ymaps.MapType('Схема Google', ['Google#layer']));
+}); ymaps.mapType.storage.add('Google#mapType', new ymaps.MapType('Google Схема', ['Google#layer']));
+
+ymaps.layer.storage.add('GoogleP#layer', function () {
+	return new ymaps.Layer('http://mt0.google.com/vt/lyrs=p&x=%x&y=%y&z=%z', {projection: ymaps.projection.sphericalMercator})
+}); ymaps.mapType.storage.add('GoogleP#mapType', new ymaps.MapType('Google Схема', ['GoogleP#layer']));
+
+ymaps.layer.storage.add('GoogleR#layer', function () {
+	return new ymaps.Layer('http://mt0.google.com/vt/lyrs=t&x=%x&y=%y&z=%z', {projection: ymaps.projection.sphericalMercator})
+}); ymaps.mapType.storage.add('GoogleR#mapType', new ymaps.MapType('Google Ландшафт', ['GoogleR#layer']));
 
 ymaps.layer.storage.add('GoogleS#layer', function () {	// subdomains:['mt0','mt1','mt2','mt3']		Еще ссылка: http://mt0.google.com/vt/lyrs=s@176000000&hl=ru&%c
 	return new ymaps.Layer('http://mt0.google.com/vt/lyrs=s&x=%x&y=%y&z=%z', {projection: ymaps.projection.sphericalMercator})
-}); ymaps.mapType.storage.add('GoogleS#mapType', new ymaps.MapType('Спутник Google', ['GoogleS#layer']));
+}); ymaps.mapType.storage.add('GoogleS#mapType', new ymaps.MapType('Google Спутник', ['GoogleS#layer']));
+
+ymaps.layer.storage.add('GoogleY#layer', function () {
+	return new ymaps.Layer('http://mt0.google.com/vt/lyrs=y&x=%x&y=%y&z=%z', {projection: ymaps.projection.sphericalMercator})
+}); ymaps.mapType.storage.add('GoogleY#mapType', new ymaps.MapType('Google Гибрид', ['GoogleY#layer']));
+
+ymaps.layer.storage.add('GoogleH#layer', function () {
+	return new ymaps.Layer('http://mt0.google.com/vt/lyrs=h&x=%x&y=%y&z=%z', {projection: ymaps.projection.sphericalMercator})
+}); ymaps.mapType.storage.add('GoogleH#mapType', new ymaps.MapType('Google Надписи', ['GoogleH#layer']));
 
 ymaps.layer.storage.add('None', function () {return new ymaps.Layer('blue.png')});
 ymaps.mapType.storage.add('None#mapType', new ymaps.MapType('None', ['None']));
+
+// h = roads only
+// m = standard roadmap
+// p = terrain
+// r = somehow altered roadmap
+// s = satellite only
+// t = terrain only
+// y = hybrid
 
 	var myMap = new ymaps.Map('map', {
 		center: [59.2099668, 39.9075685], //59.21156, 39.83260
@@ -36,10 +80,19 @@ ymaps.mapType.storage.add('None#mapType', new ymaps.MapType('None', ['None']));
 
 	// Если используется стандартный набор типов карты, и мы хотим добавить свой из хранилища mapType.storage между типами «спутник» и «схема».
 	var typeSelector = myMap.controls.get('typeSelector');
-	typeSelector.addMapType('OSM#mapType', 15);
-	typeSelector.addMapType('Google#mapType', 16);
-	typeSelector.addMapType('GoogleS#mapType', 17);
-	typeSelector.addMapType('None#mapType', 18);
+	typeSelector.addMapType('Yandex#mapType', 15);
+	typeSelector.addMapType('OSM#mapType', 16);
+	typeSelector.addMapType('OSMDark#mapType', 17);
+	typeSelector.addMapType('OSMLand#mapType', 18);
+	typeSelector.addMapType('OSMOutdoors#mapType', 19);
+	typeSelector.addMapType('Wikimedia#mapType', 20);
+	typeSelector.addMapType('Google#mapType', 30);
+	typeSelector.addMapType('GoogleP#mapType', 31);
+	typeSelector.addMapType('GoogleR#mapType', 32);
+	typeSelector.addMapType('GoogleS#mapType', 33);
+	typeSelector.addMapType('GoogleY#mapType', 34);
+	typeSelector.addMapType('GoogleH#mapType', 35);
+	typeSelector.addMapType('None#mapType', 36);
 
 	$.getJSON('data.json').done(function (geoJson) {
 		objectManager.add(geoJson);		// Добавляем описание объектов в формате JSON в менеджер объектов
