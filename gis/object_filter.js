@@ -59,8 +59,8 @@ ymaps.layer.storage.add('ESRIS#layer', function () {
 	return new ymaps.Layer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/%z/%y/%x', {projection: ymaps.projection.sphericalMercator})
 }); ymaps.mapType.storage.add('ESRIS#mapType', new ymaps.MapType('ESRI Спутник', ['ESRIS#layer']));
 
-ymaps.layer.storage.add('None', function () {return new ymaps.Layer('grc-texture-250x250.jpg')});
-ymaps.mapType.storage.add('None#mapType', new ymaps.MapType('&#9744;', ['None']));
+ymaps.layer.storage.add('Concrete', function () {return new ymaps.Layer('grc-texture-250x250.jpg')});
+ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Concrete']));
 
 // h = roads only
 // m = standard roadmap
@@ -102,7 +102,7 @@ ymaps.mapType.storage.add('None#mapType', new ymaps.MapType('&#9744;', ['None'])
 	typeSelector.addMapType('2GIS#mapType', 35);
 	typeSelector.addMapType('ESRI#mapType', 36);
 	typeSelector.addMapType('ESRIS#mapType', 37);
-	typeSelector.addMapType('None#mapType', 40);
+	typeSelector.addMapType('Concrete#mapType', 40);
 
 	$.getJSON('data.json').done(function (geoJson) {
 		objectManager.add(geoJson);		// Добавляем описание объектов в формате JSON в менеджер объектов
