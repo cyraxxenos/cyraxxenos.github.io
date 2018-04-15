@@ -59,8 +59,8 @@ ymaps.layer.storage.add('ESRIS#layer', function () {
 	return new ymaps.Layer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/%z/%y/%x', {projection: ymaps.projection.sphericalMercator})
 }); ymaps.mapType.storage.add('ESRIS#mapType', new ymaps.MapType('ESRI Спутник', ['ESRIS#layer']));
 
-ymaps.layer.storage.add('None', function () {return new ymaps.Layer('blue.png')});
-ymaps.mapType.storage.add('None#mapType', new ymaps.MapType('None', ['None']));
+ymaps.layer.storage.add('None', function () {return new ymaps.Layer('grc-texture-250x250.jpg')});
+ymaps.mapType.storage.add('None#mapType', new ymaps.MapType('&#9744;', ['None']));
 
 // h = roads only
 // m = standard roadmap
@@ -89,11 +89,11 @@ ymaps.mapType.storage.add('None#mapType', new ymaps.MapType('None', ['None']));
 	// Если используется стандартный набор типов карты, и мы хотим добавить свой из хранилища mapType.storage между типами «спутник» и «схема».
 	var typeSelector = myMap.controls.get('typeSelector');
 	typeSelector.addMapType('Yandex#mapType', 15);
-	typeSelector.addMapType('OSM#mapType', 16);
-	typeSelector.addMapType('CartoDB#mapType', 17);
-	typeSelector.addMapType('OSMLand#mapType', 18);
-	typeSelector.addMapType('OSMOutdoors#mapType', 19);
-	typeSelector.addMapType('Wikimedia#mapType', 20);
+	typeSelector.addMapType('OSM#mapType', 20);
+	typeSelector.addMapType('CartoDB#mapType', 21);
+	typeSelector.addMapType('OSMLand#mapType', 22);
+	typeSelector.addMapType('OSMOutdoors#mapType', 23);
+	typeSelector.addMapType('Wikimedia#mapType', 24);
 	typeSelector.addMapType('Google#mapType', 30);
 	typeSelector.addMapType('GoogleP#mapType', 31);
 	typeSelector.addMapType('GoogleR#mapType', 32);
