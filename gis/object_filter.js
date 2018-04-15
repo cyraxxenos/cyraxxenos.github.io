@@ -7,9 +7,9 @@ ymaps.layer.storage.add('OSM#layer', myLayer);			// Добавляем слой 
 var myType = new ymaps.MapType('OSM Схема', ['OSM#layer']);	// Создаём свой тип карты, состоящий из одного слоя
 ymaps.mapType.storage.add('OSM#mapType', myType);		// Добавляем тип карты в хранилище типов
 
-ymaps.layer.storage.add('OSMDark#layer', function () {
+ymaps.layer.storage.add('CartoDB#layer', function () {
 	return new ymaps.Layer('http://basemaps.cartocdn.com/dark_all/%z/%x/%y.png', {projection: ymaps.projection.sphericalMercator})
-}); ymaps.mapType.storage.add('OSMDark#mapType', new ymaps.MapType('OSM Схема (Dark)', ['OSMDark#layer']));
+}); ymaps.mapType.storage.add('CartoDB#mapType', new ymaps.MapType('CartoDB (Dark)', ['CartoDB#layer']));
 
 ymaps.layer.storage.add('OSMLand#layer', function () {
 	return new ymaps.Layer('http://a.tile.thunderforest.com/landscape/%z/%x/%y.png?apikey=7c352c8ff1244dd8b732e349e0b0fe8d', {projection: ymaps.projection.sphericalMercator})
@@ -21,7 +21,7 @@ ymaps.layer.storage.add('OSMOutdoors#layer', function () {
 
 ymaps.layer.storage.add('Wikimedia#layer', function () {
 	return new ymaps.Layer('https://maps.wikimedia.org/osm-intl/%z/%x/%y.png', {projection: ymaps.projection.sphericalMercator})
-}); ymaps.mapType.storage.add('Wikimedia#mapType', new ymaps.MapType('Wikimedia Схема', ['Wikimedia#layer']));
+}); ymaps.mapType.storage.add('Wikimedia#mapType', new ymaps.MapType('Wikimedia', ['Wikimedia#layer']));
 
 ymaps.layer.storage.add('Yandex#layer', function () {
 	return new ymaps.Layer('http://vec01.maps.yandex.net/tiles?l=skl&v=4.55.2&z=%z&x=%x&y=%y&scale=2&lang=ru_RU')
@@ -47,9 +47,17 @@ ymaps.layer.storage.add('GoogleY#layer', function () {
 	return new ymaps.Layer('http://mt0.google.com/vt/lyrs=y&x=%x&y=%y&z=%z', {projection: ymaps.projection.sphericalMercator})
 }); ymaps.mapType.storage.add('GoogleY#mapType', new ymaps.MapType('Google Гибрид', ['GoogleY#layer']));
 
-ymaps.layer.storage.add('GoogleH#layer', function () {
-	return new ymaps.Layer('http://mt0.google.com/vt/lyrs=h&x=%x&y=%y&z=%z', {projection: ymaps.projection.sphericalMercator})
-}); ymaps.mapType.storage.add('GoogleH#mapType', new ymaps.MapType('Google Надписи', ['GoogleH#layer']));
+ymaps.layer.storage.add('2GIS#layer', function () {
+	return new ymaps.Layer('http://tile2.maps.2gis.com/tiles?z=%z&x=%x&y=%y', {projection: ymaps.projection.sphericalMercator})
+}); ymaps.mapType.storage.add('2GIS#mapType', new ymaps.MapType('2GIS', ['2GIS#layer']));
+
+ymaps.layer.storage.add('ESRI#layer', function () {
+	return new ymaps.Layer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/%z/%y/%x', {projection: ymaps.projection.sphericalMercator})
+}); ymaps.mapType.storage.add('ESRI#mapType', new ymaps.MapType('ESRI Схема', ['ESRI#layer']));
+
+ymaps.layer.storage.add('ESRIS#layer', function () {
+	return new ymaps.Layer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/%z/%y/%x', {projection: ymaps.projection.sphericalMercator})
+}); ymaps.mapType.storage.add('ESRIS#mapType', new ymaps.MapType('ESRI Спутник', ['ESRIS#layer']));
 
 ymaps.layer.storage.add('None', function () {return new ymaps.Layer('blue.png')});
 ymaps.mapType.storage.add('None#mapType', new ymaps.MapType('None', ['None']));
@@ -82,7 +90,7 @@ ymaps.mapType.storage.add('None#mapType', new ymaps.MapType('None', ['None']));
 	var typeSelector = myMap.controls.get('typeSelector');
 	typeSelector.addMapType('Yandex#mapType', 15);
 	typeSelector.addMapType('OSM#mapType', 16);
-	typeSelector.addMapType('OSMDark#mapType', 17);
+	typeSelector.addMapType('CartoDB#mapType', 17);
 	typeSelector.addMapType('OSMLand#mapType', 18);
 	typeSelector.addMapType('OSMOutdoors#mapType', 19);
 	typeSelector.addMapType('Wikimedia#mapType', 20);
@@ -91,8 +99,10 @@ ymaps.mapType.storage.add('None#mapType', new ymaps.MapType('None', ['None']));
 	typeSelector.addMapType('GoogleR#mapType', 32);
 	typeSelector.addMapType('GoogleS#mapType', 33);
 	typeSelector.addMapType('GoogleY#mapType', 34);
-	typeSelector.addMapType('GoogleH#mapType', 35);
-	typeSelector.addMapType('None#mapType', 36);
+	typeSelector.addMapType('2GIS#mapType', 35);
+	typeSelector.addMapType('ESRI#mapType', 36);
+	typeSelector.addMapType('ESRIS#mapType', 37);
+	typeSelector.addMapType('None#mapType', 40);
 
 	$.getJSON('data.json').done(function (geoJson) {
 		objectManager.add(geoJson);		// Добавляем описание объектов в формате JSON в менеджер объектов
