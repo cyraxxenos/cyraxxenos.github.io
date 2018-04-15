@@ -84,7 +84,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 		clusterIconLayout: "default#pieChart"	// Макет метки кластера pieChart
 	}), jdata = [], jsdata = [], st;
 
-	myMap.cursors.push('arrow');
+	myMap.cursors.push('arrow'); // crosshair
 
 	// Если используется стандартный набор типов карты, и мы хотим добавить свой из хранилища mapType.storage между типами «спутник» и «схема».
 	var typeSelector = myMap.controls.get('typeSelector');
