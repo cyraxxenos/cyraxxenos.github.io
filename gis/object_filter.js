@@ -73,7 +73,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	var myMap = new ymaps.Map('map', {
 		center: [59.21156, 39.83260], //59.2099668, 39.9075685
 		zoom: 18,
-		type: 'yandex#satellite', // или null, чтобы не загружался слой Схема Яндекс.Карт // 'yandex#satellite'
+		type: 'yandex#hybrid', // или null, чтобы не загружался слой Схема Яндекс.Карт // 'yandex#satellite'
 		controls: ['zoomControl','rulerControl','typeSelector','geolocationControl'] //'fullscreenControl'
 	}, {	searchControlProvider: 'yandex#search'
 	}),
