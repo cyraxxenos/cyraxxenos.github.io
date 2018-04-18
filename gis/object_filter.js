@@ -104,12 +104,6 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	typeSelector.addMapType('ESRIS#mapType', 37);
 	typeSelector.addMapType('Concrete#mapType', 40);
 
-	$.getJSON('35_24_0401008_297.json').done(function (geoJson) {
-		objectManager.add(geoJson);
-		myMap.geoObjects.add(objectManager);
-		objectManager.objects.each(function (object) { jdata.push(object.properties); jsdata.push(object) });
-	});
-
 	$.getJSON('data.json').done(function (geoJson) {
 		objectManager.add(geoJson);		// Добавляем описание объектов в формате JSON в менеджер объектов
 		myMap.geoObjects.add(objectManager);	// Добавляем объекты на карту
@@ -188,7 +182,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	getCou();
     });
 
-	//$.ajax({url:"data.json"}).done(function(data) {objectManager.add(data)});
+	$.ajax({url:"35_24_0401008_297.json"}).done(function(data) {objectManager.add(data)});
 
 	function round_4(a) {return Math.round(parseFloat(a)*10000)/10000}
 	function rplN(a) {return (a+'').replace(/[,]/g,'.')}
