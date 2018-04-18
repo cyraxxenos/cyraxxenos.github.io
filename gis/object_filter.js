@@ -85,6 +85,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	}), jdata = [], jsdata = [], st;
 
 	myMap.cursors.push('arrow'); // crosshair
+	myMap.geoObjects.add( new ymaps.GeoObject(my297[0],my297[1],my297[2]) );
 
 	// Если используется стандартный набор типов карты, и мы хотим добавить свой из хранилища mapType.storage между типами «спутник» и «схема».
 	var typeSelector = myMap.controls.get('typeSelector');
@@ -182,7 +183,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	getCou();
     });
 
-	$.ajax({url:"35_24_0401008_297.json"}).done(function(data) {objectManager.add(data)});
+	//$.ajax({url:"data.json"}).done(function(data) {objectManager.add(data)});
 
 	function round_4(a) {return Math.round(parseFloat(a)*10000)/10000}
 	function rplN(a) {return (a+'').replace(/[,]/g,'.')}
