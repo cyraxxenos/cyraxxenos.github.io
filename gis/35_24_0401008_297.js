@@ -18,6 +18,6 @@ my297 = [{geometry: {type: "Polygon", coordinates: [
 	[x + 59.212759486639875,y + 39.832215225746495],
 	[x + 59.21281926111843,	y + 39.83219725944074]
 ]
-]}, properties: {balloonContent:"Земельный участок<br>35:24:0401008:297"}},
-{fillColor:"#ff931e", strokeColor:"#f00", strokeWidth:2, opacity:0.5}
+]}, properties: {balloonContent:"<b>Ковыринский сад,</b><br>земельный участок<br>№ 35:24:0401008:297"}},
+{fillColor:"#ffffff25", strokeColor:"#ff0000ff", strokeWidth:2} // прозрачность дают последние два символа
 ];
