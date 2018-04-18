@@ -71,7 +71,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 // y = hybrid
 
 	var myMap = new ymaps.Map('map', {
-		center: [59.2099668, 39.9075685], //59.21156, 39.83260
+		center: [59.21156, 39.83260], //59.2099668, 39.9075685
 		zoom: 18,
 		type: 'yandex#satellite', // или null, чтобы не загружался слой Схема Яндекс.Карт // 'yandex#satellite'
 		controls: ['zoomControl','rulerControl','typeSelector','geolocationControl'] //'fullscreenControl'
@@ -105,6 +105,12 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	typeSelector.addMapType('Concrete#mapType', 40);
 
 	$.getJSON('data.json').done(function (geoJson) {
+		objectManager.add(geoJson);		// Добавляем описание объектов в формате JSON в менеджер объектов
+		myMap.geoObjects.add(objectManager);	// Добавляем объекты на карту
+		objectManager.objects.each(function (object) { jdata.push(object.properties); jsdata.push(object) });
+	});
+
+	$.getJSON('35_24_0401008_297.json').done(function (geoJson) {
 		objectManager.add(geoJson);		// Добавляем описание объектов в формате JSON в менеджер объектов
 		myMap.geoObjects.add(objectManager);	// Добавляем объекты на карту
 		objectManager.objects.each(function (object) { jdata.push(object.properties); jsdata.push(object) });
