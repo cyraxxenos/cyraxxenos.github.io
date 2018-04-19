@@ -71,7 +71,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 // y = hybrid
 
 	var myMap = new ymaps.Map('map', {
-		center: [59.21156, 39.83260], //59.2099668, 39.9075685
+		center: [59.2099668, 39.9075685], //59.21156, 39.83260
 		zoom: 18,
 		type: 'yandex#hybrid', // или null, чтобы не загружался слой Схема Яндекс.Карт // 'yandex#satellite'
 		controls: ['zoomControl','rulerControl','typeSelector','geolocationControl'] //'fullscreenControl'
@@ -86,6 +86,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 
 	myMap.cursors.push('arrow'); // crosshair
 	myMap.geoObjects.add( new ymaps.GeoObject(my297[0],my297[1],my297[2]) );
+	myMap.geoObjects.add( new ymaps.GeoObject(Home[0]) );
 
 	// Если используется стандартный набор типов карты, и мы хотим добавить свой из хранилища mapType.storage между типами «спутник» и «схема».
 	var typeSelector = myMap.controls.get('typeSelector');
@@ -110,6 +111,10 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 		myMap.geoObjects.add(objectManager);	// Добавляем объекты на карту
 		objectManager.objects.each(function (object) { jdata.push(object.properties); jsdata.push(object) });
 	});
+
+	//objectManager.add(mydata);
+	//myMap.geoObjects.add(objectManager);
+	//objectManager.objects.each(function (object) { jdata.push(object.properties); jsdata.push(object) });
 
     // Создаем коллекцию
 	var myCollection = new ymaps.GeoObjectCollection({},{preset:"twirl#greenIcon" });
