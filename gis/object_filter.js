@@ -85,8 +85,10 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	}), jdata = [], jsdata = [], st;
 
 	myMap.cursors.push('arrow'); // crosshair
-	myMap.geoObjects.add( new ymaps.GeoObject(my297[0],my297[1],my297[2]) );
-	myMap.geoObjects.add( new ymaps.GeoObject(Home[0]) );
+	myMap.geoObjects.add( new ymaps.GeoObject(my297, {fillColor:"#ffffff25", strokeColor:"#f00f", strokeWidth:2} ) );
+	myMap.geoObjects.add( new ymaps.GeoObject(Home, {fillColor:"#fff5", strokeColor:"#f000", strokeWidth:0}) );
+	myMap.geoObjects.add( new ymaps.GeoObject(HomeB, {strokeColor:"#0fff", strokeWidth:2}) );
+	myMap.geoObjects.add( new ymaps.GeoObject(HomeK, {fillColor:"#fff0", strokeColor:"#f00f", strokeWidth:2}) );
 
 	// Если используется стандартный набор типов карты, и мы хотим добавить свой из хранилища mapType.storage между типами «спутник» и «схема».
 	var typeSelector = myMap.controls.get('typeSelector');
@@ -106,7 +108,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	typeSelector.addMapType('ESRIS#mapType', 37);
 	typeSelector.addMapType('Concrete#mapType', 40);
 
-	$.getJSON('data.json').done(function (geoJson) {
+	$.getJSON('https://cyraxxenos.github.io/gis/data.json').done(function (geoJson) {
 		objectManager.add(geoJson);		// Добавляем описание объектов в формате JSON в менеджер объектов
 		myMap.geoObjects.add(objectManager);	// Добавляем объекты на карту
 		objectManager.objects.each(function (object) { jdata.push(object.properties); jsdata.push(object) });
@@ -174,7 +176,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	                filters: listBoxItems.reduce(function(filters, filter) {
 	                    filters[filter.data.get('content')] = filter.isSelected();
 	                    return filters;
-	                }, {})
+	               }, {})
 		}
 	});
 	myMap.controls.add(listBoxControl);
