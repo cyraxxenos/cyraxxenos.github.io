@@ -87,7 +87,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	myMap.cursors.push('arrow'); // crosshair
 	myMap.geoObjects.add( new ymaps.GeoObject(my297, {fillColor:"#ffffff25", strokeColor:"#f00f", strokeWidth:2} ) );
 	myMap.geoObjects.add( new ymaps.GeoObject(Home, {fillColor:"#fff5", strokeColor:"#f000", strokeWidth:0}) );
-	myMap.geoObjects.add( new ymaps.GeoObject(HomeB, {strokeColor:"#0fff", strokeWidth:2}) );
+	myMap.geoObjects.add( new ymaps.GeoObject(HomeB, {strokeColor:"#0fff", strokeWidth:1}) );
 	myMap.geoObjects.add( new ymaps.GeoObject(HomeK, {fillColor:"#fff0", strokeColor:"#f00f", strokeWidth:2}) );
 
 	// Если используется стандартный набор типов карты, и мы хотим добавить свой из хранилища mapType.storage между типами «спутник» и «схема».
@@ -148,6 +148,32 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 //	.map(function(title) {
 //		return new ymaps.control.ListBoxItem({ data: {content: ' <span style="color:Green">'+ title +'</span>'}, state: {selected: true} })
 //	}),
+
+	var listBoxItemL = [];
+	listBoxItemL.push(new ymaps.control.ListBoxItem({ data: {content: "  Линии"},	state: {selected: true} }));
+
+	        // Теперь создадим список, содержащий пункты
+	listBoxControlL = new ymaps.control.ListBox({
+		data: {content:'Ситуация', title:'Фильтр по тематическим слоям'},
+		items: listBoxItemL,
+		state: {expanded: true,
+	                filters: listBoxItemL.reduce(function(filters, filter) {
+	                    filters[filter.data.get('content')] = filter.isSelected();
+	                    return filters;
+	               }, {})
+		}
+	});
+	myMap.controls.add(listBoxControlL);
+
+	// Добавим отслеживание изменения признака, выбран ли пункт списка
+    listBoxControlL.events.add(['select', 'deselect'], function(e) {
+	var listBoxItem = e.get('target');
+	var filters = ymaps.util.extend({}, listBoxControlL.state.get('filters'));
+	filters[listBoxItem.data.get('content')] = listBoxItem.isSelected();
+	listBoxControlL.state.set('filters', filters);
+    });
+
+
 
 	var listBoxItems = [];
 	listBoxItems.push(new ymaps.control.ListBoxItem({ data: {content: "  <img src='maroon.png'>   Барбарис"},	state: {selected: true} }));
@@ -233,7 +259,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 
 	function getFilterFunction(categories){
 		return function(obj){
-			var content = obj.properties.balloonContent;
+			var content = obj.properties.fContent;
 			return categories[content]
 		}
 	}
