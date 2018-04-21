@@ -149,27 +149,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 //		return new ymaps.control.ListBoxItem({ data: {content: ' <span style="color:Green">'+ title +'</span>'}, state: {selected: true} })
 //	}),
 
-	var listBoxItemL = [];
-	listBoxItemL.push(new ymaps.control.ListBoxItem({ data: {content: "  Линии"},	state: {selected: true} }));
-        	// Теперь создадим список, содержащий пункты
-	listBoxControl = new ymaps.control.ListBox({
-		data: {content:'Ситуация', title:'Фильтр по тематическим слоям'},
-		items: listBoxItemL,
-		state: {expanded: true,	// Признак, развернут ли список
-	                filters: listBoxItemL.reduce(function(filters, filter) {
-	                    filters[filter.data.get('content')] = filter.isSelected();
-	                    return filters;
-	                }, {})
-		}
-	});
-	myMap.controls.add(listBoxControl);
-		// Добавим отслеживание изменения признака, выбран ли пункт списка
-    listBoxControl.events.add(['select', 'deselect'], function(e) {
-	var listBoxItem = e.get('target');
-	var filters = ymaps.util.extend({}, listBoxControl.state.get('filters'));
-	filters[listBoxItem.data.get('content')] = listBoxItem.isSelected();
-	listBoxControl.state.set('filters', filters);
-    });
+
 
 
 
@@ -200,7 +180,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	                filters: listBoxItems.reduce(function(filters, filter) {
 	                    filters[filter.data.get('content')] = filter.isSelected();
 	                    return filters;
-	                }, {})
+	               }, {})
 		}
 	});
 	myMap.controls.add(listBoxControl);
