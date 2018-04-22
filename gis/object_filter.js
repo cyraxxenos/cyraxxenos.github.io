@@ -84,22 +84,16 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 		clusterIconLayout: "default#pieChart"	// Макет метки кластера pieChart
 	}), jdata = [], jsdata = [], st;
 
-	myMap.cursors.push('arrow'); // crosshair
-
-	function ObjC (a,b) {a.forEach( function(obj) {if(b) {PolyColl.add(obj)} else PolyColl.remove(obj)} )}
+	//myMap.cursors.push('arrow'); // crosshair
 
 	var PolyColl = new ymaps.GeoObjectCollection();	myMap.geoObjects.add(PolyColl);
-	var HomeC = [	new ymaps.GeoObject(Home, {fillColor:"#fff5", strokeColor:"#f000", strokeWidth:0}),
+	var Coll = [	new ymaps.GeoObject(my297, {fillColor:"#ffffff25", strokeColor:"#f00f", strokeWidth:2} ),
+			new ymaps.GeoObject(Home, {fillColor:"#fff5", strokeColor:"#f000", strokeWidth:0}),
 			new ymaps.GeoObject(HomeB, {strokeColor:"#0fff", strokeWidth:1}),
 			new ymaps.GeoObject(HomeK, {fillColor:"#fff0", strokeColor:"#f00f", strokeWidth:2})];
-	ObjC(HomeC,1);
-
-    function checkState () {
-	if ($('#s').prop('checked'))	{ObjC(HomeC,1)} else {ObjC(HomeC,0)}
-    }
-	$('#s').click(checkState);
-
-	myMap.geoObjects.add( new ymaps.GeoObject(my297, {fillColor:"#ffffff25", strokeColor:"#f00f", strokeWidth:2} ) );
+	var ObjC = function (a,b) {a.forEach( function (obj) {if(b) {PolyColl.add(obj)} else PolyColl.remove(obj)} )}
+	document.getElementById('s').onclick = function () {if (document.getElementById('s').checked) {ObjC(Coll,1)} else {ObjC(Coll,0)}};
+	ObjC(Coll,1);
 
 	// Если используется стандартный набор типов карты, и мы хотим добавить свой из хранилища mapType.storage между типами «спутник» и «схема».
 	var typeSelector = myMap.controls.get('typeSelector');
