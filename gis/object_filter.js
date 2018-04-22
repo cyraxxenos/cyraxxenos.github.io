@@ -77,7 +77,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 		controls: ['zoomControl','rulerControl','typeSelector','geolocationControl'] //'fullscreenControl'
 	}, {	searchControlProvider: 'yandex#search'
 	}),
-        objectManager = new ymaps.ObjectManager({
+	objectManager = new ymaps.ObjectManager({
 		clusterize: true,	// Чтобы метки начали кластеризоваться, выставляем опцию
 		gridSize: 128,		// ObjectManager принимает те же опции, что и кластеризатор
 		maxZoom: 17,
@@ -85,10 +85,21 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	}), jdata = [], jsdata = [], st;
 
 	myMap.cursors.push('arrow'); // crosshair
+
+	function ObjC (a,b) {a.forEach( function(obj) {if(b) {PolyColl.add(obj)} else PolyColl.remove(obj)} )}
+
+	var PolyColl = new ymaps.GeoObjectCollection();	myMap.geoObjects.add(PolyColl);
+	var HomeC = [	new ymaps.GeoObject(Home, {fillColor:"#fff5", strokeColor:"#f000", strokeWidth:0}),
+			new ymaps.GeoObject(HomeB, {strokeColor:"#0fff", strokeWidth:1}),
+			new ymaps.GeoObject(HomeK, {fillColor:"#fff0", strokeColor:"#f00f", strokeWidth:2})];
+	ObjC(HomeC,1);
+
+    function checkState () {
+	if ($('#s').prop('checked'))	{ObjC(HomeC,1)} else {ObjC(HomeC,0)}
+    }
+	$('#s').click(checkState);
+
 	myMap.geoObjects.add( new ymaps.GeoObject(my297, {fillColor:"#ffffff25", strokeColor:"#f00f", strokeWidth:2} ) );
-	myMap.geoObjects.add( new ymaps.GeoObject(Home, {fillColor:"#fff5", strokeColor:"#f000", strokeWidth:0}) );
-	myMap.geoObjects.add( new ymaps.GeoObject(HomeB, {strokeColor:"#0fff", strokeWidth:1}) );
-	myMap.geoObjects.add( new ymaps.GeoObject(HomeK, {fillColor:"#fff0", strokeColor:"#f00f", strokeWidth:2}) );
 
 	// Если используется стандартный набор типов карты, и мы хотим добавить свой из хранилища mapType.storage между типами «спутник» и «схема».
 	var typeSelector = myMap.controls.get('typeSelector');
@@ -122,10 +133,10 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	var myCollection = new ymaps.GeoObjectCollection({},{preset:"twirl#greenIcon" });
     // Заполняем коллекцию данными (для поиска данных в data.json)
     for (var i = 0, l = jsdata.length; i < l; i++) {
-        var point = jsdata[i];
-        myCollection.add(new ymaps.Placemark(
-            point.geometry.coordinates, {balloonContentBody: JSON.stringify(point.properties.Обозначение)}
-        ));
+	var point = jsdata[i];
+	myCollection.add(new ymaps.Placemark(
+	    point.geometry.coordinates, {balloonContentBody: JSON.stringify(point.properties.Обозначение)}
+	));
     }
     // Добавляем коллекцию меток на карту
     myMap.geoObjects.add(myCollection);
@@ -149,30 +160,6 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 //		return new ymaps.control.ListBoxItem({ data: {content: ' <span style="color:Green">'+ title +'</span>'}, state: {selected: true} })
 //	}),
 
-	var listBoxItemL = [];
-	listBoxItemL.push(new ymaps.control.ListBoxItem({ data: {content: "  Линии"},	state: {selected: true} }));
-        	// Теперь создадим список, содержащий пункты
-	listBoxControl = new ymaps.control.ListBox({
-		data: {content:'Ситуация', title:'Фильтр по тематическим слоям'},
-		items: listBoxItemL,
-		state: {expanded: true,	// Признак, развернут ли список
-	                filters: listBoxItemL.reduce(function(filters, filter) {
-	                    filters[filter.data.get('content')] = filter.isSelected();
-	                    return filters;
-	                }, {})
-		}
-	});
-	myMap.controls.add(listBoxControl);
-		// Добавим отслеживание изменения признака, выбран ли пункт списка
-    listBoxControl.events.add(['select', 'deselect'], function(e) {
-	var listBoxItem = e.get('target');
-	var filters = ymaps.util.extend({}, listBoxControl.state.get('filters'));
-	filters[listBoxItem.data.get('content')] = listBoxItem.isSelected();
-	listBoxControl.state.set('filters', filters);
-    });
-
-
-
 	var listBoxItems = [];
 	listBoxItems.push(new ymaps.control.ListBoxItem({ data: {content: "  <img src='maroon.png'>   Барбарис"},	state: {selected: true} }));
 	listBoxItems.push(new ymaps.control.ListBoxItem({ data: {content: "  <img src='lime.png'>   Берёза"},	state: {selected: true} }));
@@ -192,15 +179,15 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	listBoxItems.push(new ymaps.control.ListBoxItem({options: {type:'separator'}}));
 	listBoxItems.push(new ymaps.control.ListBoxItem({ data: {content: "  <img src='gray.png'>   Другие"},	state: {selected: true} }));
 
-        // Теперь создадим список, содержащий пункты
+	// Теперь создадим список, содержащий пункты
 	listBoxControl = new ymaps.control.ListBox({
 		data: {content:'Тематические слои', title:'Фильтр по тематическим слоям'},
 		items: listBoxItems,
 		state: {expanded: true,	// Признак, развернут ли список
-	                filters: listBoxItems.reduce(function(filters, filter) {
-	                    filters[filter.data.get('content')] = filter.isSelected();
-	                    return filters;
-	                }, {})
+			filters: listBoxItems.reduce(function(filters, filter) {
+			    filters[filter.data.get('content')] = filter.isSelected();
+			    return filters;
+			}, {})
 		}
 	});
 	myMap.controls.add(listBoxControl);
@@ -284,39 +271,39 @@ function CustomSearchProvider(points) {this.points = points}
 // Провайдер ищет по полю properties стандартным методом String.ptototype.indexOf
 CustomSearchProvider.prototype.geocode = function (request, options) {
     var deferred = new ymaps.vow.defer(),
-        geoObjects = new ymaps.GeoObjectCollection(),
-        offset = options.skip || 0,	// Сколько результатов нужно пропустить
-        limit = options.results || 500;	// Количество возвращаемых результатов
+	geoObjects = new ymaps.GeoObjectCollection(),
+	offset = options.skip || 0,	// Сколько результатов нужно пропустить
+	limit = options.results || 500;	// Количество возвращаемых результатов
 
     var points = [];
     // Ищем в свойстве properties каждого элемента массива
     for (var i = 0, l = this.points.length; i < l; i++) {
-        var point = this.points[i];
-        if (JSON.stringify(point.properties.Обозначение).toLowerCase().indexOf(request.toLowerCase()) != -1) {
-            points.push(point);
-        }
+	var point = this.points[i];
+	if (JSON.stringify(point.properties.Обозначение).toLowerCase().indexOf(request.toLowerCase()) != -1) {
+	    points.push(point);
+	}
     }
     points = points.splice(offset, limit);	// При формировании ответа можно учитывать offset и limit
     for (var i = 0, l = points.length; i < l; i++) {	// Добавляем точки в результирующую коллекцию
 	var point = points[i],
 		coor = point.geometry.coordinates,
 		properties = JSON.stringify(point.properties.Обозначение);
-        geoObjects.add(new ymaps.Placemark(coor, {
-            name: properties +' name',
-            description: properties +' description',
-            balloonContentBody: '<p>'+ properties +'</p>',
-            boundedBy: [coor, coor]
-        }));
+	geoObjects.add(new ymaps.Placemark(coor, {
+	    name: properties +' name',
+	    description: properties +' description',
+	    balloonContentBody: '<p>'+ properties +'</p>',
+	    boundedBy: [coor, coor]
+	}));
     }
     deferred.resolve({
 	geoObjects: geoObjects,	// Геообъекты поисковой выдачи
 	metaData: {		// Метаинформация ответа
-            geocoder: {
+	    geocoder: {
 		request: request,		// Строка обработанного запроса
 		found: geoObjects.getLength(),	// Количество найденных результатов
 		results: limit,			// Количество возвращенных результатов
 		skip: offset			// Количество пропущенных результатов
-            }
+	    }
 	}
     });
     return deferred.promise();	// Возвращаем объект-обещание
