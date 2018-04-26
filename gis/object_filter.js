@@ -71,9 +71,9 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 // y = hybrid
 
 	var myMap = new ymaps.Map('map', {
-		center: [59.2099668, 39.9075685], //59.21156, 39.83260
-		zoom: 18,
-		type: 'yandex#hybrid', // или null, чтобы не загружался слой Схема Яндекс.Карт // 'yandex#satellite'
+		center: [59.2116, 39.8323], //59.21, 39.9
+		zoom: 17,
+		type: 'yandex#satellite', // или null, чтобы не загружался слой Схема Яндекс.Карт // 'yandex#satellite', 'yandex#hybrid'
 		controls: ['zoomControl','rulerControl','typeSelector','geolocationControl'] //'fullscreenControl'
 	}, {	searchControlProvider: 'yandex#search'
 	}),
@@ -87,13 +87,31 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	//myMap.cursors.push('arrow'); // crosshair
 
 	var PolyColl = new ymaps.GeoObjectCollection();	myMap.geoObjects.add(PolyColl);
-	var Coll = [	new ymaps.GeoObject(my297, {fillColor:"#ffffff25", strokeColor:"#f00f", strokeWidth:2} ),
-			new ymaps.GeoObject(Home, {fillColor:"#fff5", strokeColor:"#f000", strokeWidth:0}),
-			new ymaps.GeoObject(HomeB, {strokeColor:"#0fff", strokeWidth:1}),
+	var CollK = [	new ymaps.GeoObject(my297, {fillColor:"#fff2", strokeColor:"#f00f", strokeWidth:2}),
 			new ymaps.GeoObject(HomeK, {fillColor:"#fff0", strokeColor:"#f00f", strokeWidth:2})];
+
+	var CollS = [	new ymaps.GeoObject(my297plo, {fillColor:"#a61f", strokeColor:"#740f", strokeWidth:2}),
+			new ymaps.GeoObject(my297road, {fillColor:"#555f", strokeColor:"#222f", strokeWidth:1}),
+			new ymaps.GeoObject(Home, {fillColor:"#fff5", strokeColor:"#f000", strokeWidth:0}),
+			new ymaps.GeoObject(HomeB, {strokeColor:"#0fff", strokeWidth:1})];
+
+	var CollG = [	new ymaps.GeoObject(my297gidro, {fillColor:"#3dff", strokeColor:"#26af", strokeWidth:2})];
+
+	var rectangle = [new ymaps.Rectangle([[59.2150061667 + x, 39.8239375556 + y], [59.2075578889 + x, 39.8433379722 + y]], {}, {fillImageHref:'Photo.png'})];
+	//myMap.geoObjects.add(rectangle);
+
+	myMap.geoObjects.each( function (obj) {obj.options.set('opacity', 1)} )
+
 	var ObjC = function (a,b) {a.forEach( function (obj) {if(b) {PolyColl.add(obj)} else PolyColl.remove(obj)} )}
-	document.getElementById('s').onclick = function () {if (document.getElementById('s').checked) {ObjC(Coll,1)} else {ObjC(Coll,0)}};
-	ObjC(Coll,1);
+	var ObjO = function (a,b) {a.forEach( function (obj) {obj.options.set('opacity', ID(b).checked ? 1:0)} )}
+
+	var ID = function(a) {return document.getElementById(a)};
+	ID('k').onclick = function () {ObjO(CollK,'k')};
+	ID('s').onclick = function () {ObjO(CollS,'s')};
+	ID('g').onclick = function () {ObjO(CollG,'g')};
+	ID('f').onclick = function () {ObjO(rectangle,'f')};
+
+	ObjC(rectangle,1); ObjC(CollG,1); ObjC(CollS,1); ObjC(CollK,1); ObjO(rectangle,'f');
 
 	// Если используется стандартный набор типов карты, и мы хотим добавить свой из хранилища mapType.storage между типами «спутник» и «схема».
 	var typeSelector = myMap.controls.get('typeSelector');
