@@ -71,7 +71,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 // y = hybrid
 
 	var myMap = new ymaps.Map('map', {
-		center: [59.2116, 39.8323], //59.21, 39.9
+		center: [59.2116, 39.8323], //59.21, 39.9078
 		zoom: 17,
 		type: 'yandex#satellite', // или null, чтобы не загружался слой Схема Яндекс.Карт // 'yandex#satellite', 'yandex#hybrid'
 		controls: ['zoomControl','rulerControl','typeSelector','geolocationControl'] //'fullscreenControl'
@@ -87,11 +87,11 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	//myMap.cursors.push('arrow'); // crosshair
 
 	var PolyColl = new ymaps.GeoObjectCollection();	myMap.geoObjects.add(PolyColl);
-	var CollK = [	new ymaps.GeoObject(my297, {fillColor:"#fff2", strokeColor:"#f00f", strokeWidth:2}),
+	var CollK = [	new ymaps.GeoObject(my297, {fillColor:"#fff2", strokeColor:"#f00f", strokeWidth:2, draggable:true}),
 			new ymaps.GeoObject(HomeK, {fillColor:"#fff0", strokeColor:"#f00f", strokeWidth:2})];
 
 	var CollS = [	new ymaps.GeoObject(my297plo, {fillColor:"#a61f", strokeColor:"#740f", strokeWidth:2}),
-			new ymaps.GeoObject(my297road, {fillColor:"#555f", strokeColor:"#222f", strokeWidth:1}),
+			new ymaps.GeoObject(my297road, {fillColor:"#554f", strokeColor:"#222f", strokeWidth:1}),
 			new ymaps.GeoObject(Home, {fillColor:"#fff5", strokeColor:"#f000", strokeWidth:0}),
 			new ymaps.GeoObject(HomeB, {strokeColor:"#0fff", strokeWidth:1})];
 
@@ -113,7 +113,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 
 	ObjC(rectangle,1); ObjC(CollG,1); ObjC(CollS,1); ObjC(CollK,1); ObjO(rectangle,'f');
 
-	// Если используется стандартный набор типов карты, и мы хотим добавить свой из хранилища mapType.storage между типами «спутник» и «схема».
+	// Если используется стандартный набор типов карты, и мы хотим добавить свой из хранилища mapType.storage между типами Спутник и Схема.
 	var typeSelector = myMap.controls.get('typeSelector');
 	typeSelector.addMapType('Yandex#mapType', 15);
 	typeSelector.addMapType('OSM#mapType', 20);
@@ -235,6 +235,12 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	myMap.events.add('contextmenu', function(e) {
 		var coor = e.get('coords');
 		myMap.hint.open( coor, [coor[0].toFixed(8), coor[1].toFixed(8)].join(' ; ') +'<br>'+  [deg_dms3(coor[0].toFixed(12)), deg_dms3(coor[1].toFixed(12))].join(' ; '))
+	});
+	myMap.events.add('mousedown', function(e) {
+		if (event.which == 2) {
+			if (myMap.getCenter()[1] > 39.87) {myMap.setCenter([59.2116, 39.8323]); myMap.setZoom(17)}
+			else {myMap.setCenter([59.21, 39.9078]); myMap.setZoom(18)}
+		}
 	});
 	myMap.events.add('actionbegin', function() {getCou()});
 	myMap.events.add('actionend', function() {getCou()});
