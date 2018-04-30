@@ -84,8 +84,6 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 		clusterIconLayout: "default#pieChart"	// Макет метки кластера pieChart
 	}), jdata = [], jsdata = [], st;
 
-	//myMap.cursors.push('arrow'); // crosshair
-
 	var PolyColl = new ymaps.GeoObjectCollection();	myMap.geoObjects.add(PolyColl);
 	var CollK = [	new ymaps.GeoObject(my297, {fillColor:"#fff2", strokeColor:"#f00f", strokeWidth:2, draggable:true}),
 			new ymaps.GeoObject(HomeK, {fillColor:"#fff0", strokeColor:"#f00f", strokeWidth:2})];
@@ -193,7 +191,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 
 	// Теперь создадим список, содержащий пункты
 	listBoxControl = new ymaps.control.ListBox({
-		data: {content:'Тематические слои', title:'Фильтр по тематическим слоям'},
+		data: {content:'Растительность', title:'Фильтр по тематическим слоям'},
 		items: listBoxItems,
 		state: {expanded: true,	// Признак, развернут ли список
 			filters: listBoxItems.reduce(function(filters, filter) {
