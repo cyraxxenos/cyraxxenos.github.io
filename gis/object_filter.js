@@ -93,6 +93,9 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 			new ymaps.GeoObject(Home, {fillColor:"#fff5", strokeColor:"#f000", strokeWidth:0}),
 			new ymaps.GeoObject(HomeB, {strokeColor:"#0fff", strokeWidth:1})];
 
+	var CollSk = [];
+	my297sk.forEach( function (obj) {CollSk.push(new ymaps.GeoObject(obj,{iconLayout:"default#image",iconImageHref:"icon/sk.svg",iconImageSize:[16,16],iconImageOffset:[-8,-8]}))} );
+
 	var CollG = [	new ymaps.GeoObject(my297gidro, {fillColor:"#3dff", strokeColor:"#26af", strokeWidth:2})];
 
 	var rectangle = [new ymaps.Rectangle([[59.2150061667 + x, 39.8239375556 + y], [59.2075578889 + x, 39.8433379722 + y]], {}, {fillImageHref:'Photo.png'})];
@@ -104,16 +107,16 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	var ObjO = function (a,b) {a.forEach( function (obj) {obj.options.set('opacity', ID(b).checked ? 1:0)} )}
 
 	var ID = function(a) {return document.getElementById(a)};
+	ID('sk').onclick = function () {ObjC(CollSk, ID('sk').checked)};
 	ID('k').onclick = function () {ObjO(CollK,'k')};
 	ID('s').onclick = function () {ObjO(CollS,'s')};
 	ID('g').onclick = function () {ObjO(CollG,'g')};
 	ID('f').onclick = function () {ObjO(rectangle,'f')};
 
-	ObjC(rectangle,1); ObjC(CollG,1); ObjC(CollS,1); ObjC(CollK,1); ObjO(rectangle,'f');
+	ObjC(rectangle,1); ObjO(rectangle,'f'); ObjC(CollS,1); ObjC(CollK,1); ObjC(CollG,1); ObjC(CollSk,1);
 
-	$.getJSON('https://cyraxxenos.github.io/gis/sk.json').done(function (geoJson) {
-		objectManager.add(geoJson);		// Добавляем описание объектов в формате JSON в менеджер объектов
-		myMap.geoObjects.add(objectManager);	// Добавляем объекты на карту
+	myMap.events.add('boundschange', function (e) {
+		//if (myMap.getZoom()<16 && ID('sk').checked) {ID('sk').click()}
 	});
 
 	// Если используется стандартный набор типов карты, и мы хотим добавить свой из хранилища mapType.storage между типами Спутник и Схема.
