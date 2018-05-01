@@ -71,8 +71,8 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 // y = hybrid
 
 	var myMap = new ymaps.Map('map', {
-		center: [59.2116, 39.8323], //59.21, 39.9078
-		zoom: 17,
+		center: [59.21, 39.9078], //59.2116, 39.8323
+		zoom: 18,
 		type: 'yandex#satellite', // или null, чтобы не загружался слой Схема Яндекс.Карт // 'yandex#satellite', 'yandex#hybrid'
 		controls: ['zoomControl','rulerControl','typeSelector','geolocationControl'] //'fullscreenControl'
 	}, {	searchControlProvider: 'yandex#search'
@@ -88,8 +88,11 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	var CollK = [	new ymaps.GeoObject(my297, {fillColor:"#fff2", strokeColor:"#f00f", strokeWidth:2}),
 			new ymaps.GeoObject(HomeK, {fillColor:"#fff0", strokeColor:"#f00f", strokeWidth:2})];
 
+	var CollA = [	new ymaps.GeoObject(HomeArea, {fillColor:"#5a43", strokeColor:"#222f", strokeWidth:1})];
+
 	var CollS = [	new ymaps.GeoObject(my297plo, {fillColor:"#950f", strokeColor:"#740f", strokeWidth:2}),
 			new ymaps.GeoObject(my297road, {fillColor:"#554f", strokeColor:"#222f", strokeWidth:1}),
+			new ymaps.GeoObject(HomeRoad, {fillColor:"#5545", strokeColor:"#222f", strokeWidth:1}),
 			new ymaps.GeoObject(Home, {fillColor:"#fff5", strokeColor:"#f000", strokeWidth:0}),
 			new ymaps.GeoObject(HomeB, {strokeColor:"#0fff", strokeWidth:1})];
 
@@ -110,11 +113,12 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	var ID = function(a) {return document.getElementById(a)};
 	ID('sk').onclick = function () {ObjC(CollSk, ID('sk').checked)};
 	ID('k').onclick = function () {ObjO(CollK,'k')};
+	ID('a').onclick = function () {ObjO(CollA,'a')};
 	ID('s').onclick = function () {ObjO(CollS,'s')};
 	ID('g').onclick = function () {ObjO(CollG,'g')};
 	ID('f').onclick = function () {ObjO(rectangle,'f')};
 
-	ObjC(rectangle,1); ObjO(rectangle,'f'); ObjC(CollS,1); ObjC(CollK,1); ObjC(CollG,1); ObjC(CollSk,1);
+	ObjC(rectangle,1); ObjO(rectangle,'f'); ObjC(CollA,1); ObjC(CollS,1); ObjC(CollK,1); ObjC(CollG,1); ObjC(CollSk,1);
 
 	myMap.events.add('boundschange', function (e) {
 		//if (myMap.getZoom()<16 && ID('sk').checked) {ID('sk').click()}
