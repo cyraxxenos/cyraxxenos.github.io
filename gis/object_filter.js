@@ -129,7 +129,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	typeSelector.addMapType('ESRIS#mapType', 37);
 	typeSelector.addMapType('Concrete#mapType', 40);
 
-	$.getJSON('https://cyraxxenos.github.io/gis/data.geojson').done(function (geoJson) {
+	$.getJSON('https://cyraxxenos.github.io/gis/data.json').done(function (geoJson) {
 		objectManager.add(geoJson);		// Добавляем описание объектов в формате JSON в менеджер объектов
 		myMap.geoObjects.add(objectManager);	// Добавляем объекты на карту
 		objectManager.objects.each(function (object) { jdata.push(object.properties); jsdata.push(object) });
@@ -141,7 +141,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 
     // Создаем коллекцию
 	var myCollection = new ymaps.GeoObjectCollection({},{preset:"twirl#greenIcon" });
-    // Заполняем коллекцию данными (для поиска данных в data.geojson)
+    // Заполняем коллекцию данными (для поиска данных в data.json)
     for (var i = 0, l = jsdata.length; i < l; i++) {
 	var point = jsdata[i];
 	myCollection.add(new ymaps.Placemark(
