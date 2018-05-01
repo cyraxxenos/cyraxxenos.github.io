@@ -111,6 +111,11 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 
 	ObjC(rectangle,1); ObjC(CollG,1); ObjC(CollS,1); ObjC(CollK,1); ObjO(rectangle,'f');
 
+	$.getJSON('https://cyraxxenos.github.io/gis/sk.json').done(function (geoJson) {
+		objectManager.add(geoJson);		// Добавляем описание объектов в формате JSON в менеджер объектов
+		myMap.geoObjects.add(objectManager);	// Добавляем объекты на карту
+	});
+
 	// Если используется стандартный набор типов карты, и мы хотим добавить свой из хранилища mapType.storage между типами Спутник и Схема.
 	var typeSelector = myMap.controls.get('typeSelector');
 	typeSelector.addMapType('Yandex#mapType', 15);
