@@ -1,0 +1,8 @@
+{
+"type": "FeatureCollection",
+"name": "5",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "osm_id": null, "osm_way_id": "178693461", "name": null, "type": null, "aeroway": null, "amenity": null, "admin_level": null, "barrier": null, "boundary": null, "building": null, "craft": null, "geological": null, "historic": null, "land_area": null, "landuse": null, "leisure": "park", "man_made": null, "military": null, "natural": null, "office": null, "place": null, "shop": null, "sport": null, "tourism": null, "other_tags": null }, "geometry": { "type": "MultiPolygon", "coordinates": [ [ [ [ 59.2130566, 39.830314 ], [ 59.2106548, 39.8306939 ], [ 59.2105121, 39.8308017 ], [ 59.2103948, 39.8309415 ], [ 59.2092324, 39.8329151 ], [ 59.2105227, 39.835791 ], [ 59.2111029, 39.8346929 ], [ 59.2121554, 39.833171 ], [ 59.2124817, 39.8330029 ], [ 59.2131781, 39.8327495 ], [ 59.2130566, 39.830314 ] ] ] ] } }
+]
+}
