@@ -88,13 +88,14 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	var CollK = [	new ymaps.GeoObject(my297, {fillColor:"#fff2", strokeColor:"#f00f", strokeWidth:2}),
 			new ymaps.GeoObject(HomeK, {fillColor:"#fff0", strokeColor:"#f00f", strokeWidth:2})];
 
-	var CollS = [	new ymaps.GeoObject(my297plo, {fillColor:"#a61f", strokeColor:"#740f", strokeWidth:2}),
+	var CollS = [	new ymaps.GeoObject(my297plo, {fillColor:"#950f", strokeColor:"#740f", strokeWidth:2}),
 			new ymaps.GeoObject(my297road, {fillColor:"#554f", strokeColor:"#222f", strokeWidth:1}),
 			new ymaps.GeoObject(Home, {fillColor:"#fff5", strokeColor:"#f000", strokeWidth:0}),
 			new ymaps.GeoObject(HomeB, {strokeColor:"#0fff", strokeWidth:1})];
 
 	var CollSk = [];
 	my297sk.forEach( function (obj) {CollSk.push(new ymaps.GeoObject(obj,{iconLayout:"default#image",iconImageHref:"icon/sk.svg",iconImageSize:[16,16],iconImageOffset:[-8,-8]}))} );
+	my297fo.forEach( function (obj) {CollSk.push(new ymaps.GeoObject(obj,{iconLayout:"default#image",iconImageHref:"icon/fo.svg",iconImageSize:[16,16],iconImageOffset:[-8,-16]}))} );
 
 	var CollG = [	new ymaps.GeoObject(my297gidro, {fillColor:"#3dff", strokeColor:"#26af", strokeWidth:2})];
 

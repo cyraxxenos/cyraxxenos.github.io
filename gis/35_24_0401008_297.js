@@ -38,4 +38,21 @@ my297sk = [
 { geometry: { type: "Point", coordinates: [x + 59.21179728208481, y + 39.833378615022696 ] } },
 { geometry: { type: "Point", coordinates: [x + 59.211962866399283, y + 39.833047298379611 ] } },
 { geometry: { type: "Point", coordinates: [x + 59.212809986516383, y + 39.831782012318776 ] } }
+],
+
+my297fo = [
+{ geometry: { type: "Point", coordinates: [x + 59.210979575042948, y + 39.834292722689518 ] } },
+{ geometry: { type: "Point", coordinates: [x + 59.211428322894243, y + 39.833952512725112 ] } },
+{ geometry: { type: "Point", coordinates: [x + 59.212069662821079, y + 39.831411367432544 ] } },
+{ geometry: { type: "Point", coordinates: [x + 59.211906129802152, y + 39.831692396386032 ] } },
+{ geometry: { type: "Point", coordinates: [x + 59.212222214764068, y + 39.831147217823251 ] } },
+{ geometry: { type: "Point", coordinates: [x + 59.212382789696115, y + 39.830873671836088 ] } },
+{ geometry: { type: "Point", coordinates: [x + 59.211813219339867, y + 39.832230765718954 ] } },
+{ geometry: { type: "Point", coordinates: [x + 59.211718763635915, y + 39.832791296489944 ] } },
+{ geometry: { type: "Point", coordinates: [x + 59.21154760971281, y + 39.83312794912581 ] } },
+{ geometry: { type: "Point", coordinates: [x + 59.211595550554847, y + 39.833282189860107 ] } },
+{ geometry: { type: "Point", coordinates: [x + 59.211426925035283, y + 39.833955045974214 ] } },
+{ geometry: { type: "Point", coordinates: [x + 59.212496711823206, y + 39.832863314426262 ] } },
+{ geometry: { type: "Point", coordinates: [x + 59.212751104041587, y + 39.831956348365964 ] } },
+{ geometry: { type: "Point", coordinates: [x + 59.212570014275975, y + 39.831423809099235 ] } }
 ];
