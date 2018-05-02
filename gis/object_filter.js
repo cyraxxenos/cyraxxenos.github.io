@@ -100,6 +100,8 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	var CollSk = [];
 	my297sk.forEach( function (obj) {CollSk.push(new ymaps.GeoObject(obj,{iconLayout:"default#image",iconImageHref:"icon/sk.svg",iconImageSize:[16,16],iconImageOffset:[-8,-8]}))} );
 	my297fo.forEach( function (obj) {CollSk.push(new ymaps.GeoObject(obj,{iconLayout:"default#image",iconImageHref:"icon/fo.svg",iconImageSize:[16,16],iconImageOffset:[-8,-16]}))} );
+	HomeSk.forEach( function (obj) {CollSk.push(new ymaps.GeoObject(obj,{iconLayout:"default#image",iconImageHref:"icon/sk.svg",iconImageSize:[16,16],iconImageOffset:[-8,-8]}))} );
+	HomeFo.forEach( function (obj) {CollSk.push(new ymaps.GeoObject(obj,{iconLayout:"default#image",iconImageHref:"icon/fo.svg",iconImageSize:[16,16],iconImageOffset:[-8,-16]}))} );
 
 	var CollG = [	new ymaps.GeoObject(my297gidro, {fillColor:"#3dff", strokeColor:"#26af", strokeWidth:2})];
 
