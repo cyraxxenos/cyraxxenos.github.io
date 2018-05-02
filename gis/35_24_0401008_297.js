@@ -57,4 +57,6 @@ my297fo = [
 { geometry: { type: "Point", coordinates: [x + 59.212496711823206, y + 39.832863314426262 ] } },
 { geometry: { type: "Point", coordinates: [x + 59.212751104041587, y + 39.831956348365964 ] } },
 { geometry: { type: "Point", coordinates: [x + 59.212570014275975, y + 39.831423809099235 ] } }
-];
+],
+
+my297z = [];

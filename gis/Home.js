@@ -74,4 +74,6 @@ HomeFo = [
 { geometry: { type: "Point", coordinates: [xH + 59.209701918875858, yH + 39.908316911457163 ] } },
 { geometry: { type: "Point", coordinates: [xH + 59.209598724843573, yH + 39.908544023527291 ] } },
 { geometry: { type: "Point", coordinates: [xH + 59.210028660366724, yH + 39.907595420553577 ] } }
-];
+],
+
+HomeZ = [];

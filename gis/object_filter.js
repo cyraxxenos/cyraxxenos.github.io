@@ -91,6 +91,9 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	var CollA = [	new ymaps.GeoObject(my297Area, {fillColor:"#5a40", strokeColor:"#5faf", strokeWidth:1.5}),	// Территория объекта
 			new ymaps.GeoObject(HomeArea, {fillColor:"#5a40", strokeColor:"#5faf", strokeWidth:1.5})];	// Территория объекта
 
+	var CollZ = [	new ymaps.GeoObject(my297z),	// Зоны произрастания
+			new ymaps.GeoObject(HomeZ)];	// Зоны произрастания
+
 	var CollS = [	new ymaps.GeoObject(my297plo, {fillColor:"#950f", strokeColor:"#740f", strokeWidth:2}),		// Детская площадка
 			new ymaps.GeoObject(my297road, {fillColor:"#554f", strokeColor:"#222f", strokeWidth:1}),	// Дорожки
 			new ymaps.GeoObject(HomeRoad, {fillColor:"#fcca", strokeColor:"#aaaf", strokeWidth:1.5}),	// Дорожки
@@ -117,6 +120,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	ID('sk').onclick = function () {ObjC(CollSk, ID('sk').checked)};
 	ID('k').onclick = function () {ObjO(CollK,'k')};
 	ID('a').onclick = function () {ObjO(CollA,'a')};
+	ID('z').onclick = function () {ObjO(CollZ,'z')};
 	ID('s').onclick = function () {ObjO(CollS,'s')};
 	ID('g').onclick = function () {ObjO(CollG,'g')};
 	ID('f').onclick = function () {ObjO(rectangle,'f')};

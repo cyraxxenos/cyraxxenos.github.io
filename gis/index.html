@@ -27,12 +27,18 @@
 <div id="cg" style='position:fixed; top:50%; left:50%; width:24px; height:2px; background-color:rgba(255,255,255,0.5); margin: -1px 0 0 -12px'></div>
 <div id="cv" style='position:fixed; top:50%; left:50%; width:2px; height:24px; background-color:rgba(255,255,255,0.5); margin: -12px 0 0 -1px'></div>
 <div id="map5" style='position:fixed; bottom:30px; top:auto; left:10px; right:auto; font:italic 12pt Consolas; color:White; background-color:rgba(5,5,5,0.5); padding:5px 5px; border-radius:5px; cursor:default' onselectstart='return false'></div>
-<div style='position:fixed; top:50px; right:9px; font:italic 12pt Consolas; color:White; background-color:rgba(5,5,5,0.5); padding:5px 5px; border-radius:5px; cursor:default' onselectstart='return false'> Фильтр по фигурам <br><br>
+
+<div style='position:fixed; bottom:120px; top:auto; left:10px; right:auto; font:italic 12pt Consolas; color:White; background-color:rgba(5,5,5,0.5); padding:5px 5px; border-radius:5px; cursor:default' onselectstart='return false'><input style="width:55pt; border-radius:5px" oninput="this.style.backgroundColor = this.value || 'White'; ID('coloro').innerHTML = hexc(window.getComputedStyle(this).backgroundColor) +' = '+ window.getComputedStyle(this).backgroundColor"> <output id="coloro"></output></div>
+
+<div style='position:fixed; top:50px; right:9px; font:italic 12pt Consolas; color:White; background-color:rgba(5,5,5,0.5); padding:5px 5px; border-radius:5px; cursor:default' onselectstart='return false'>   Фильтр по фигурам   <br><br>
 	<input type='checkbox' class='checkbox' id='k' checked hidden></input>
 	<label for="k" style="position:relative; left:0; top:5px"></label>    Земельный участок<br><br>
 
 	<input type='checkbox' class='checkbox' id='a' checked hidden></input>
 	<label for="a" style="position:relative; left:0; top:5px"></label>    Объект озеленения<br><br>
+
+	<input type='checkbox' class='checkbox' id='z' checked hidden></input>
+	<label for="z" style="position:relative; left:0; top:5px"></label>    Зоны произрастания<br><br>
 
 	<input type='checkbox' class='checkbox' id='sk' checked hidden></input>
 	<label for="sk" style="position:relative; left:0; top:5px"></label>    Скамьи, фонари<br><br>
@@ -49,6 +55,16 @@
 <script>
 	// src="json.txt" "https://yandex.st/jquery/2.2.3/jquery.min.js"
 	// src="jquery.min.js" "https://api-maps.yandex.ru/2.1/?lang=ru_RU"
+
+function hexc(colorval) {
+    var parts = colorval.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+    delete(parts[0]);
+    for (var i = 1; i <= 3; ++i) {
+        parts[i] = parseInt(parts[i]).toString(16);
+        if (parts[i].length == 1) parts[i] = '0' + parts[i];
+    }
+    return '#' + parts.join('');
+}
 
 window.oncontextmenu = function() {return false}
 var ID = function(a) {return document.getElementById(a)}, click = 0;
