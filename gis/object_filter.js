@@ -88,12 +88,12 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	var CollK = [	new ymaps.GeoObject(my297, {fillColor:"#fff2", strokeColor:"#f00f", strokeWidth:2}),
 			new ymaps.GeoObject(HomeK, {fillColor:"#fff0", strokeColor:"#f00f", strokeWidth:2})];
 
-	var CollA = [	new ymaps.GeoObject(my297Area, {fillColor:"#5a40", strokeColor:"#00ff", strokeWidth:1}),
-			new ymaps.GeoObject(HomeArea, {fillColor:"#5a40", strokeColor:"#00ff", strokeWidth:1})];
+	var CollA = [	new ymaps.GeoObject(my297Area, {fillColor:"#5a40", strokeColor:"#5faf", strokeWidth:1.5}),
+			new ymaps.GeoObject(HomeArea, {fillColor:"#5a40", strokeColor:"#5faf", strokeWidth:1.5})];
 
 	var CollS = [	new ymaps.GeoObject(my297plo, {fillColor:"#950f", strokeColor:"#740f", strokeWidth:2}),
 			new ymaps.GeoObject(my297road, {fillColor:"#554f", strokeColor:"#222f", strokeWidth:1}),
-			new ymaps.GeoObject(HomeRoad, {fillColor:"#fcb4", strokeColor:"#cccf", strokeWidth:1}),
+			new ymaps.GeoObject(HomeRoad, {fillColor:"#fcb4", strokeColor:"#cccf", strokeWidth:1.5}),
 			new ymaps.GeoObject(Home, {fillColor:"#fff5", strokeColor:"#f000", strokeWidth:0}),
 			new ymaps.GeoObject(HomeB, {strokeColor:"#0fff", strokeWidth:1})];
 
