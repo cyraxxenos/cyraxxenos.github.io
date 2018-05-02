@@ -85,17 +85,17 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	}), jdata = [], jsdata = [], st;
 
 	var PolyColl = new ymaps.GeoObjectCollection();	myMap.geoObjects.add(PolyColl);
-	var CollK = [	new ymaps.GeoObject(my297, {fillColor:"#fff2", strokeColor:"#f00f", strokeWidth:2}),
-			new ymaps.GeoObject(HomeK, {fillColor:"#fff0", strokeColor:"#f00f", strokeWidth:2})];
+	var CollK = [	new ymaps.GeoObject(my297, {fillColor:"#fff2", strokeColor:"#f00f", strokeWidth:2}),	// Кадастровый ЗУ
+			new ymaps.GeoObject(HomeK, {fillColor:"#fa0a", strokeColor:"#f00f", strokeWidth:2})];	// Кадастровый ЗУ
 
-	var CollA = [	new ymaps.GeoObject(my297Area, {fillColor:"#5a40", strokeColor:"#5faf", strokeWidth:1.5}),
-			new ymaps.GeoObject(HomeArea, {fillColor:"#5a40", strokeColor:"#5faf", strokeWidth:1.5})];
+	var CollA = [	new ymaps.GeoObject(my297Area, {fillColor:"#5a40", strokeColor:"#5faf", strokeWidth:1.5}),	// Территория объекта
+			new ymaps.GeoObject(HomeArea, {fillColor:"#5a40", strokeColor:"#5faf", strokeWidth:1.5})];	// Территория объекта
 
-	var CollS = [	new ymaps.GeoObject(my297plo, {fillColor:"#950f", strokeColor:"#740f", strokeWidth:2}),
-			new ymaps.GeoObject(my297road, {fillColor:"#554f", strokeColor:"#222f", strokeWidth:1}),
-			new ymaps.GeoObject(HomeRoad, {fillColor:"#fcb4", strokeColor:"#cccf", strokeWidth:1.5}),
-			new ymaps.GeoObject(Home, {fillColor:"#fff5", strokeColor:"#f000", strokeWidth:0}),
-			new ymaps.GeoObject(HomeB, {strokeColor:"#0fff", strokeWidth:1})];
+	var CollS = [	new ymaps.GeoObject(my297plo, {fillColor:"#950f", strokeColor:"#740f", strokeWidth:2}),		// Детская площадка
+			new ymaps.GeoObject(my297road, {fillColor:"#554f", strokeColor:"#222f", strokeWidth:1}),	// Дорожки
+			new ymaps.GeoObject(HomeRoad, {fillColor:"#fcca", strokeColor:"#aaaf", strokeWidth:1.5}),	// Дорожки
+			new ymaps.GeoObject(Home, {fillColor:"#fff5", strokeColor:"#f000", strokeWidth:0}),	// А/б вокруг дома
+			new ymaps.GeoObject(HomeB, {strokeColor:"#35ff", strokeWidth:1.5})];
 
 	var CollSk = [];
 	my297sk.forEach( function (obj) {CollSk.push(new ymaps.GeoObject(obj,{iconLayout:"default#image",iconImageHref:"icon/sk.svg",iconImageSize:[16,16],iconImageOffset:[-8,-8]}))} );
