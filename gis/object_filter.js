@@ -213,7 +213,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	listBoxControl = new ymaps.control.ListBox({
 		data: {content:'Растительность', title:'Фильтр по тематическим слоям'},
 		items: listBoxItems,
-		state: {expanded: true,	// Признак, развернут ли список
+		state: {expanded: false,	// Признак, развернут ли список
 			filters: listBoxItems.reduce(function(filters, filter) {
 			    filters[filter.data.get('content')] = filter.isSelected();
 			    return filters;
