@@ -24,9 +24,11 @@
 	html, body, #map {width: 100%; height: 100%; padding: 0; margin: 0}
 
 	.ac label {cursor:pointer}
+	.ac label:hover {color:Aquamarine}
+	.ac input:checked + label, .ac input:checked + label:hover {color:Aquamarine}
 	.ac input:checked + label, .ac input:checked {color:White}
 	.ac input:checked + label, .ac input:checked {color:Gainsboro}
-	.ac input, .ac article{display:none}
+	.ac input, .ac article {display:none}
 	.ac input:checked ~ article {display:block}
 </style>
 
