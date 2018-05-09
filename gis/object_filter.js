@@ -94,8 +94,8 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	var CollZ = [	new ymaps.GeoObject(my297z),	// Зоны произрастания
 			new ymaps.GeoObject(HomeZ)];	// Зоны произрастания
 
-	var CollS = [	new ymaps.GeoObject(my297plo, {fillColor:"#950f", strokeColor:"#740f", strokeWidth:2}),		// Детская площадка
-			new ymaps.GeoObject(my297road, {fillColor:"#554f", strokeColor:"#222f", strokeWidth:1}),	// Дорожки
+	var CollS = [	new ymaps.GeoObject(my297plo, {fillImageHref:'sand-texture.jpg', fillMethod:'tile', stroke:true, strokeColor:"#740f", strokeWidth:1.5}),	// Детская площадка
+			new ymaps.GeoObject(my297road, {fillImageHref:'rubber-texture.jpg', fillMethod:'tile', stroke:true, strokeColor:"#222f", strokeWidth:1}),	// Дорожки
 			new ymaps.GeoObject(HomeRoad, {fillColor:"#fcca", strokeColor:"#aaaf", strokeWidth:1.5}),	// Дорожки
 			new ymaps.GeoObject(Home, {fillColor:"#fff5", strokeColor:"#f000", strokeWidth:0}),	// А/б вокруг дома
 			new ymaps.GeoObject(HomeB, {strokeColor:"#35ff", strokeWidth:1.5})];
@@ -106,7 +106,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	HomeSk.forEach( function (obj) {CollSk.push(new ymaps.GeoObject(obj,{iconLayout:"default#image",iconImageHref:"icon/sk.svg",iconImageSize:[16,16],iconImageOffset:[-8,-8]}))} );
 	HomeFo.forEach( function (obj) {CollSk.push(new ymaps.GeoObject(obj,{iconLayout:"default#image",iconImageHref:"icon/fo.svg",iconImageSize:[16,16],iconImageOffset:[-8,-16]}))} );
 
-	var CollG = [	new ymaps.GeoObject(my297gidro, {fillImageHref:'g-texture.jpg', fillMethod:'tile', stroke:true, strokeColor:"#26af", strokeWidth:1.5})];
+	var CollG = [	new ymaps.GeoObject(my297gidro, {fillImageHref:'g-texture.jpg', fillMethod:'tile', stroke:true, strokeColor:"#3aff", strokeWidth:1.5})];
 
 	var rectangle = [new ymaps.Rectangle([[59.2150061667 + x, 39.8239375556 + y], [59.2075578889 + x, 39.8433379722 + y]], {}, {fillImageHref:'Photo.png'})];
 	//myMap.geoObjects.add(rectangle);
