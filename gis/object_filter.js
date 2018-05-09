@@ -198,7 +198,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	listBoxItems.push(new ymaps.control.ListBoxItem({ data: {content:"  <img src='pink.png'>   Ива"},	state: {selected: true} }));
 	listBoxItems.push(new ymaps.control.ListBoxItem({ data: {content:"  <img src='brown.png'>   Клён"},	state: {selected: true} }));
 	listBoxItems.push(new ymaps.control.ListBoxItem({ data: {content:"  <img src='teal.png'>   Лапчатка"},	state: {selected: true} }));
-	listBoxItems.push(new ymaps.control.ListBoxItem({ data: {content:"  <img src='yellow.png'>   Липа"},	state: {selected: true} }));
+	listBoxItems.push(new ymaps.control.ListBoxItem({ data: {content:"  <img src='yellow.svg'>   Липа"},	state: {selected: true} }));
 	listBoxItems.push(new ymaps.control.ListBoxItem({ data: {content:"  <img src='olive.png'>   Лиственница"},	state: {selected: true} }));
 	listBoxItems.push(new ymaps.control.ListBoxItem({ data: {content:"  <img src='magenta.png'>   Ольха"},	state: {selected: true} }));
 	listBoxItems.push(new ymaps.control.ListBoxItem({ data: {content:"  <img src='purple.png'>   Осина"},	state: {selected: true} }));
