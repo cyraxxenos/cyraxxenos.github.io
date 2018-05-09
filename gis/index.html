@@ -3,24 +3,33 @@
 <head>
 	<title>Фильтрация объектов</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<style type="text/css">
-		.checkbox:not(checked) + label:before {content:'';
-			position:absolute; top:-2px; left:0; width:25px; height:13px;
-			border-radius:13px; background:Silver; box-shadow:inset 0 2px 3px rgba(0,0,0,.2);
-		}
-		.checkbox:not(checked) + label:after {content:'';
-			position:absolute; top:-1px; left:1px; width:11px; height:11px;
-			border-radius:5px; background:#FFF; box-shadow:0 1px 3px rgba(0,0,0,.3); transition:all .2s;
-		}
-		.checkbox:checked + label:before {background:SpringGreen}
-		.checkbox:checked + label:after {left:13px}
-	</style>
+<style type="text/css">
+	.checkbox:not(checked) + label:before {content:'';
+		position:absolute; top:-2px; left:0; width:25px; height:13px;
+		border-radius:13px; background:Silver; box-shadow:inset 0 2px 3px rgba(0,0,0,.2);
+	}
+	.checkbox:not(checked) + label:after {content:'';
+		position:absolute; top:-1px; left:1px; width:11px; height:11px;
+		border-radius:5px; background:#FFF; box-shadow:0 1px 3px rgba(0,0,0,.3); transition:all .2s;
+	}
+	.checkbox:checked + label:before {background:SpringGreen}
+	.checkbox:checked + label:after {left:13px}
+</style>
 	<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
 	<script src="https://yandex.st/jquery/2.2.3/jquery.min.js" type="text/javascript"></script>
 	<script src="35_24_0401008_297.js" type="text/javascript"></script>
 	<script src="Home.js" type="text/javascript"></script>
 	<script src="object_filter.js" type="text/javascript"></script>
-	<style>html, body, #map {width: 100%; height: 100%; padding: 0; margin: 0}</style>
+<style>
+	html, body, #map {width: 100%; height: 100%; padding: 0; margin: 0}
+
+	.ac label {cursor:pointer}
+	.ac input:checked + label, .ac input:checked {color:White}
+	.ac input:checked + label, .ac input:checked {color:Gainsboro}
+	.ac input, .ac article{display:none}
+	.ac input:checked ~ article {display:block}
+</style>
+
 </head>
 <body style='cursor:crosshair'>
 <div id="map"></div>
@@ -30,7 +39,8 @@
 
 <div style='position:fixed; bottom:120px; top:auto; left:10px; right:auto; font:italic 12pt Consolas; color:White; background-color:rgba(5,5,5,0.5); padding:5px 5px; border-radius:5px; cursor:default' onselectstart='return false'><input style="width:55pt; border-color:'White'; border-radius:5px; padding-left:5px" oninput="this.style.backgroundColor = this.value || 'White'; ID('coloro').innerHTML = ' '+ hexc(window.getComputedStyle(this).backgroundColor) +' = '+ window.getComputedStyle(this).backgroundColor"><output id="coloro"></output></div>
 
-<div style='position:fixed; top:50px; right:9px; font:italic 12pt Consolas; color:White; background-color:rgba(5,5,5,0.5); padding:5px 5px; border-radius:5px; cursor:default' onselectstart='return false'>   Фильтр по фигурам   <br><br>
+<section class="ac">
+<div style='position:fixed; top:50px; right:9px; font:italic 12pt Consolas; color:White; background-color:rgba(5,5,5,0.5); padding:5px 5px; border-radius:5px; cursor:default' onselectstart='return false'><input id="ac-a" type="checkbox" checked/><label for="ac-a">   Фильтр по фигурам   </label><article><br>
 	<input type='checkbox' class='checkbox' id='k' checked hidden></input>
 	<label for="k" style="position:relative; left:0; top:5px"></label>    Земельный участок<br><br>
 
@@ -51,7 +61,8 @@
 
 	<input type='checkbox' class='checkbox' id='f' hidden></input>
 	<label for="f" style="position:relative; left:0; top:5px"></label>    Снимок
-</div>
+</article></div>
+</section>
 <script>
 	// src="json.txt" "https://yandex.st/jquery/2.2.3/jquery.min.js"
 	// src="jquery.min.js" "https://api-maps.yandex.ru/2.1/?lang=ru_RU"
