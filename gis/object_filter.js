@@ -90,6 +90,8 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 			new ymaps.GeoObject(my297ploV, {fillImageHref:'sand-texture.jpg', fillMethod:'tile', fillOpacity:0.8, stroke:true, strokeColor:"#740f", strokeWidth:1.5}),	// Волейбольная площадка
 			new ymaps.GeoObject(my297ploS, {fillImageHref:'sand-texture.jpg', fillMethod:'tile', fillOpacity:0.8, stroke:true, strokeColor:"#740f", strokeWidth:1.5})];	// Спортивная площадка
 
+	var CollG = [	new ymaps.GeoObject(my297gidro, {fillImageHref:'g-texture.jpg', fillMethod:'tile', fillOpacity:0.6, stroke:true, strokeColor:"#3aff", strokeWidth:1.5})];
+
 	var CollK = [	new ymaps.GeoObject(my297, {fillColor:"#fff2", strokeColor:"#f00f", strokeWidth:2}),	// Кадастровый ЗУ
 			new ymaps.GeoObject(HomeK, {fillColor:"#fa0a", strokeColor:"#f00f", strokeWidth:2})];	// Кадастровый ЗУ
 
@@ -109,8 +111,6 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	my297fo.forEach( function (obj) {CollSk.push(new ymaps.GeoObject(obj,{iconLayout:"default#image",iconImageHref:"icon/fo.svg",iconImageSize:[16,16],iconImageOffset:[-8,-16]}))} );
 	HomeSk.forEach( function (obj) {CollSk.push(new ymaps.GeoObject(obj,{iconLayout:"default#image",iconImageHref:"icon/sk.svg",iconImageSize:[16,16],iconImageOffset:[-8,-8]}))} );
 	HomeFo.forEach( function (obj) {CollSk.push(new ymaps.GeoObject(obj,{iconLayout:"default#image",iconImageHref:"icon/fo.svg",iconImageSize:[16,16],iconImageOffset:[-8,-16]}))} );
-
-	var CollG = [	new ymaps.GeoObject(my297gidro, {fillImageHref:'g-texture.jpg', fillMethod:'tile', fillOpacity:0.6, stroke:true, strokeColor:"#3aff", strokeWidth:1.5})];
 
 	var rectangle = [new ymaps.Rectangle([[59.2150061667 + x, 39.8239375556 + y], [59.2075578889 + x, 39.8433379722 + y]], {}, {fillImageHref:'Photo.png'})];
 	//myMap.geoObjects.add(rectangle);
