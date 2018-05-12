@@ -85,6 +85,11 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	}), jdata = [], jsdata = [], st;
 
 	var PolyColl = new ymaps.GeoObjectCollection();	myMap.geoObjects.add(PolyColl);
+
+	var CollP = [	new ymaps.GeoObject(my297ploC, {fillImageHref:'sand-texture.jpg', fillMethod:'tile', fillOpacity:0.8, stroke:true, strokeColor:"#740f", strokeWidth:1.5}),	// Детская площадка
+			new ymaps.GeoObject(my297ploV, {fillImageHref:'sand-texture.jpg', fillMethod:'tile', fillOpacity:0.8, stroke:true, strokeColor:"#740f", strokeWidth:1.5}),	// Волейбольная площадка
+			new ymaps.GeoObject(my297ploS, {fillImageHref:'sand-texture.jpg', fillMethod:'tile', fillOpacity:0.8, stroke:true, strokeColor:"#740f", strokeWidth:1.5})];	// Спортивная площадка
+
 	var CollK = [	new ymaps.GeoObject(my297, {fillColor:"#fff2", strokeColor:"#f00f", strokeWidth:2}),	// Кадастровый ЗУ
 			new ymaps.GeoObject(HomeK, {fillColor:"#fa0a", strokeColor:"#f00f", strokeWidth:2})];	// Кадастровый ЗУ
 
@@ -94,8 +99,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	var CollZ = [	new ymaps.GeoObject(my297z),	// Зоны произрастания
 			new ymaps.GeoObject(HomeZ)];	// Зоны произрастания
 
-	var CollS = [	new ymaps.GeoObject(my297plo, {fillImageHref:'sand-texture.jpg', fillMethod:'tile', fillOpacity:0.8, stroke:true, strokeColor:"#740f", strokeWidth:1.5}),	// Детская площадка
-			new ymaps.GeoObject(my297road, {fillImageHref:'rubber-texture.jpg', fillMethod:'tile', stroke:true, strokeColor:"#222f", strokeWidth:1}),	// Дорожки
+	var CollS = [	new ymaps.GeoObject(my297road, {fillImageHref:'rubber-texture.jpg', fillMethod:'tile', stroke:true, strokeColor:"#222f", strokeWidth:1}),	// Дорожки
 			new ymaps.GeoObject(HomeRoad, {fillColor:"#fcca", strokeColor:"#aaaf", strokeWidth:1.5}),	// Дорожки
 			new ymaps.GeoObject(Home, {fillColor:"#fff5", strokeColor:"#f000", strokeWidth:0}),	// А/б вокруг дома
 			new ymaps.GeoObject(HomeB, {strokeColor:"#35ff", strokeWidth:1.5})];
@@ -118,6 +122,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 
 	var ID = function(a) {return document.getElementById(a)};
 	ID('sk').onclick = function () {ObjC(CollSk, ID('sk').checked)};
+	ID('p').onclick = function () {ObjO(CollP,'p')};
 	ID('k').onclick = function () {ObjO(CollK,'k')};
 	ID('a').onclick = function () {ObjO(CollA,'a')};
 	ID('z').onclick = function () {ObjO(CollZ,'z')};
@@ -125,7 +130,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	ID('g').onclick = function () {ObjO(CollG,'g')};
 	ID('f').onclick = function () {ObjO(rectangle,'f')};
 
-	ObjC(rectangle,1); ObjO(rectangle,'f'); ObjC(CollS,1); ObjC(CollA,1); ObjC(CollK,1); ObjC(CollG,1); ObjC(CollSk,1);
+	ObjC(rectangle,1); ObjO(rectangle,'f'); ObjC(CollS,1); ObjC(CollA,1); ObjC(CollK,1); ObjC(CollP,1); ObjC(CollG,1); ObjC(CollSk,1);
 
 	myMap.events.add('boundschange', function (e) {
 		//if (myMap.getZoom()<16 && ID('sk').checked) {ID('sk').click()}
