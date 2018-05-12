@@ -190,7 +190,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 //		return new ymaps.control.ListBoxItem({ data: {content: ' <span style="color:Green">'+ title +'</span>'}, state: {selected: true} })
 //	}),
 
-	var listBoxItems = [], cl = function (a,b) {return new ymaps.control.ListBoxItem({ data:{content:"  <img src='"+a+".png'>   "+b}, state:{selected: true} }) };
+	var listBoxItems = [], cl = function (a,b) { return new ymaps.control.ListBoxItem({ data:{content:"  <img src='"+a+".png'>   "+b}, state:{selected:true} }) };
 	listBoxItems.push(cl('maroon','Барбарис'));
 	listBoxItems.push(cl('lime','Берёза'));
 	listBoxItems.push(cl('green','Вяз'));
