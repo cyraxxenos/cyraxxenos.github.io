@@ -1,0 +1,33 @@
+{
+"type": "FeatureCollection",
+"name": "MI",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "ID": "СКАМЕЙКА20" }, "geometry": { "type": "Point", "coordinates": [ 59.210784248721517, 39.832295938492813 ] } },
+{ "type": "Feature", "properties": { "ID": "СКАМЕЙКА50" }, "geometry": { "type": "Point", "coordinates": [ 59.21196327563446, 39.83218591283682 ] } },
+{ "type": "Feature", "properties": { "ID": "СКАМЕЙКА1" }, "geometry": { "type": "Point", "coordinates": [ 59.211557252145397, 39.833548423560856 ] } },
+{ "type": "Feature", "properties": { "ID": "СКАМЕЙКА2" }, "geometry": { "type": "Point", "coordinates": [ 59.211611887947079, 39.833667935426256 ] } },
+{ "type": "Feature", "properties": { "ID": "СКАМЕЙКА3" }, "geometry": { "type": "Point", "coordinates": [ 59.211652692308846, 39.833159974065701 ] } },
+{ "type": "Feature", "properties": { "ID": "СКАМЕЙКА4" }, "geometry": { "type": "Point", "coordinates": [ 59.211849085033769, 39.832922630184477 ] } },
+{ "type": "Feature", "properties": { "ID": "СКАМЕЙКА5" }, "geometry": { "type": "Point", "coordinates": [ 59.21189023857206, 39.832896677855928 ] } },
+{ "type": "Feature", "properties": { "ID": "СКАМЕЙКА6" }, "geometry": { "type": "Point", "coordinates": [ 59.211755889329332, 39.833213675353385 ] } },
+{ "type": "Feature", "properties": { "ID": "СКАМЕЙКА7" }, "geometry": { "type": "Point", "coordinates": [ 59.21179728208481, 39.833378615022696 ] } },
+{ "type": "Feature", "properties": { "ID": "СКАМЕЙКА8" }, "geometry": { "type": "Point", "coordinates": [ 59.211962866399283, 39.833047298379611 ] } },
+{ "type": "Feature", "properties": { "ID": "СКАМЕЙКА2000" }, "geometry": { "type": "Point", "coordinates": [ 59.212809986516383, 39.831782012318776 ] } },
+{ "type": "Feature", "properties": { "ID": "СКАМЕЙКА" }, "geometry": { "type": "Point", "coordinates": [ 59.212346134105211, 39.830801518923607 ] } },
+{ "type": "Feature", "properties": { "ID": "СКАМЕЙКА" }, "geometry": { "type": "Point", "coordinates": [ 59.211851081801029, 39.831701466121729 ] } },
+{ "type": "Feature", "properties": { "ID": "СКАМЕЙКА" }, "geometry": { "type": "Point", "coordinates": [ 59.211791407114717, 39.832408100141151 ] } },
+{ "type": "Feature", "properties": { "ID": "СКАМЕЙКА" }, "geometry": { "type": "Point", "coordinates": [ 59.212201211787622, 39.83157179758954 ] } },
+{ "type": "Feature", "properties": { "ID": "СКАМЕЙКА" }, "geometry": { "type": "Point", "coordinates": [ 59.212381451215428, 39.831418336666125 ] } },
+{ "type": "Feature", "properties": { "ID": "СКАМЕЙКА" }, "geometry": { "type": "Point", "coordinates": [ 59.21153078583351, 39.833302694051262 ] } },
+{ "type": "Feature", "properties": { "ID": "СКАМЕЙКА" }, "geometry": { "type": "Point", "coordinates": [ 59.211546618024201, 39.831894779300455 ] } },
+{ "type": "Feature", "properties": { "ID": "СКАМЕЙКА" }, "geometry": { "type": "Point", "coordinates": [ 59.210658177201665, 39.833292582284976 ] } },
+{ "type": "Feature", "properties": { "ID": "СКАМЕЙКА" }, "geometry": { "type": "Point", "coordinates": [ 59.210501982165724, 39.832806622694179 ] } },
+{ "type": "Feature", "properties": { "ID": "СКАМЕЙКА" }, "geometry": { "type": "Point", "coordinates": [ 59.210766873910281, 39.831967346093684 ] } },
+{ "type": "Feature", "properties": { "ID": "СКАМЕЙКА" }, "geometry": { "type": "Point", "coordinates": [ 59.210709633109673, 39.831849573757111 ] } },
+{ "type": "Feature", "properties": { "ID": "СКАМЕЙКА" }, "geometry": { "type": "Point", "coordinates": [ 59.210728510405588, 39.832217166201552 ] } },
+{ "type": "Feature", "properties": { "ID": "СКАМЕЙКА" }, "geometry": { "type": "Point", "coordinates": [ 59.211361654953947, 39.831711280483091 ] } },
+{ "type": "Feature", "properties": { "ID": "СКАМЕЙКА" }, "geometry": { "type": "Point", "coordinates": [ 59.211178974394763, 39.831477817644192 ] } },
+{ "type": "Feature", "properties": { "ID": "СКАМЕЙКА" }, "geometry": { "type": "Point", "coordinates": [ 59.211396364149671, 39.833876685489578 ] } }
+]
+}
