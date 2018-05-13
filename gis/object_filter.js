@@ -178,8 +178,8 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	    point.geometry.coordinates, {balloonContentBody: JSON.stringify(point.properties.Обозначение)}
 	));
     }
-    // Добавляем коллекцию меток на карту
-    myMap.geoObjects.add(myCollection);
+	// Добавляем коллекцию меток на карту
+	myMap.geoObjects.add(myCollection);
 
     // Создаем экземпляр класса ymaps.control.SearchControl
     var mySearchControl = new ymaps.control.SearchControl({
@@ -240,7 +240,9 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	listBoxControl.state.set('filters', filters);
 	getCou();
     });
-	//listBoxControl.each( function (obj) {obj.state.set('expanded', 'false')} )
+
+	ID('gr').onclick = function () {listBoxItems.forEach( function (obj) {obj.state.set('selected',ID('gr').checked ? true:false)} ) };
+
 	//$.ajax({url:"data.json"}).done(function(data) {objectManager.add(data)});
 
 	function round_4(a) {return Math.round(parseFloat(a)*10000)/10000}
