@@ -201,7 +201,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 //	}),
 
 	var listBoxItems = [], cl = function (a,b) { return new ymaps.control.ListBoxItem({ data:{content:"  <img src='"+a+".png'>   "+b}, state:{selected:true} }) };
-	listBoxItems.push(cl('darkorange','Акация'));
+	listBoxItems.push(cl('mediumpurple','Акация'));
 	listBoxItems.push(cl('maroon','Барбарис'));
 	listBoxItems.push(cl('lime','Берёза'));
 	listBoxItems.push(cl('green','Вяз'));
