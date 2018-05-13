@@ -115,7 +115,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	var rectangle = [new ymaps.Rectangle([[59.2150061667 + x, 39.8239375556 + y], [59.2075578889 + x, 39.8433379722 + y]], {}, {fillImageHref:'Photo.png'})];
 	//myMap.geoObjects.add(rectangle);
 
-	myMap.geoObjects.each( function (obj) {obj.options.set('opacity', 1)} )
+	myMap.geoObjects.each( function (obj) {obj.options.set('opacity', 1)} );
 
 	var ObjC = function (a,b) {a.forEach( function (obj) {if(b) {PolyColl.add(obj)} else PolyColl.remove(obj)} )}
 	var ObjO = function (a,b) {a.forEach( function (obj) {obj.options.set('opacity', ID(b).checked ? 1:0)} )}
@@ -130,7 +130,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	ID('g').onclick = function () {ObjO(CollG,'g')};
 	ID('f').onclick = function () {ObjO(rectangle,'f')};
 
-	ObjC(rectangle,1); ObjO(rectangle,'f'); ObjC(CollS,1); ObjC(CollA,1); ObjC(CollK,1); ObjC(CollP,1); ObjC(CollG,1); ObjC(CollSk,1);
+	ObjO(rectangle,'f'); ObjC(rectangle,1); ObjC(CollS,1); ObjC(CollA,1); ObjC(CollK,1); ObjC(CollP,1); ObjC(CollG,1); ObjC(CollSk,1);
 
 	myMap.events.add('boundschange', function (e) {
 		//if (myMap.getZoom()<16 && ID('sk').checked) {ID('sk').click()}
@@ -201,6 +201,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 //	}),
 
 	var listBoxItems = [], cl = function (a,b) { return new ymaps.control.ListBoxItem({ data:{content:"  <img src='"+a+".png'>   "+b}, state:{selected:true} }) };
+	listBoxItems.push(cl('darkorange','Акация'));
 	listBoxItems.push(cl('maroon','Барбарис'));
 	listBoxItems.push(cl('lime','Берёза'));
 	listBoxItems.push(cl('green','Вяз'));
@@ -239,7 +240,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	listBoxControl.state.set('filters', filters);
 	getCou();
     });
-
+	//listBoxControl.each( function (obj) {obj.state.set('expanded', 'false')} )
 	//$.ajax({url:"data.json"}).done(function(data) {objectManager.add(data)});
 
 	function round_4(a) {return Math.round(parseFloat(a)*10000)/10000}
