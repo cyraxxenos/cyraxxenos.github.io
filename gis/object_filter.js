@@ -98,9 +98,6 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	var CollA = [	new ymaps.GeoObject(my297Area, {fillColor:"#5a40", strokeColor:"#5faf", strokeWidth:1.5}),	// Территория объекта
 			new ymaps.GeoObject(HomeArea, {fillColor:"#5a40", strokeColor:"#5faf", strokeWidth:1.5})];	// Территория объекта
 
-	var CollZ = [	new ymaps.GeoObject(my297z),	// Зоны произрастания
-			new ymaps.GeoObject(HomeZ)];	// Зоны произрастания
-
 	var CollS = [	new ymaps.GeoObject(my297road, {fillImageHref:'rubber-texture.jpg', fillMethod:'tile', stroke:true, strokeColor:"#222f", strokeWidth:1}),	// Дорожки
 			new ymaps.GeoObject(HomeRoad, {fillColor:"#fcca", strokeColor:"#aaaf", strokeWidth:1.5}),	// Дорожки
 			new ymaps.GeoObject(Home, {fillColor:"#fff5", strokeColor:"#f000", strokeWidth:0}),	// А/б вокруг дома
@@ -111,6 +108,11 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	my297fo.forEach( function (obj) {CollSk.push(new ymaps.GeoObject(obj,{iconLayout:"default#image",iconImageHref:"icon/fo.svg",iconImageSize:[16,16],iconImageOffset:[-8,-16]}))} );
 	HomeSk.forEach( function (obj) {CollSk.push(new ymaps.GeoObject(obj,{iconLayout:"default#image",iconImageHref:"icon/sk.svg",iconImageSize:[16,16],iconImageOffset:[-8,-8]}))} );
 	HomeFo.forEach( function (obj) {CollSk.push(new ymaps.GeoObject(obj,{iconLayout:"default#image",iconImageHref:"icon/fo.svg",iconImageSize:[16,16],iconImageOffset:[-8,-16]}))} );
+
+	var CollZ = [];
+	for (var i=0; i<11; i++){
+		my297grP[i].forEach( function (obj) {CollZ.push(new ymaps.GeoObject(obj))} );	// Зоны произрастания
+	}
 
 	var rectangle = [new ymaps.Rectangle([[59.2150061667 + x, 39.8239375556 + y], [59.2075578889 + x, 39.8433379722 + y]], {}, {fillImageHref:'Photo.png'})];
 	//myMap.geoObjects.add(rectangle);
@@ -130,7 +132,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	ID('g').onclick = function () {ObjO(CollG,'g')};
 	ID('f').onclick = function () {ObjO(rectangle,'f')};
 
-	ObjO(rectangle,'f'); ObjC(rectangle,1); ObjC(CollS,1); ObjC(CollA,1); ObjC(CollK,1); ObjC(CollP,1); ObjC(CollG,1); ObjC(CollSk,1);
+	ObjO(rectangle,'f'); ObjC(rectangle,1); ObjC(CollS,1); ObjC(CollA,1); ObjC(CollK,1); ObjC(CollP,1); ObjC(CollZ,1); ObjC(CollG,1); ObjC(CollSk,1);
 
 	myMap.events.add('boundschange', function (e) {
 		//if (myMap.getZoom()<16 && ID('sk').checked) {ID('sk').click()}
