@@ -109,9 +109,8 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	HomeSk.forEach( function (obj) {CollSk.push(new ymaps.GeoObject(obj,{iconLayout:"default#image",iconImageHref:"icon/sk.svg",iconImageSize:[16,16],iconImageOffset:[-8,-8]}))} );
 	HomeFo.forEach( function (obj) {CollSk.push(new ymaps.GeoObject(obj,{iconLayout:"default#image",iconImageHref:"icon/fo.svg",iconImageSize:[16,16],iconImageOffset:[-8,-16]}))} );
 
-	var CollZ = [];
-	var CollZcolor = ["#9370db","#800000","#0f0","#ffc0cb","#a52a2a","#ff0","#f0f","#f00","#0ff","#ffa500","#00f"];
-	for (var i=0; i<11; i++){
+	var CollZ = [], CollZcolor = ["#9370db","#800000","#0f0","#ffc0cb","#a52a2a","#ff0","#f0f","#f00","#0ff","#ffa500","#00f"];
+	for (var i=0; i<my297grP.length; i++){
 		my297grP[i].forEach( function (obj) {CollZ.push(new ymaps.GeoObject(obj, {fillColor:CollZcolor[i], strokeColor:"#000", opacity:0.6}))} );	// Зоны произрастания
 	}
 
