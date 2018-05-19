@@ -72,7 +72,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 
 	var myMap = new ymaps.Map('map', {
 		center: (location.href.split('?')[1]=='v' ? [59.21, 39.9078] : [59.2116, 39.8323]),
-		zoom: (location.href.split('?')[1]=='v' ? 19 : 17),
+		zoom: (location.href.split('?')[1]=='v' ? 19 : 18),
 		type: 'yandex#satellite', // или null, чтобы не загружался слой Схема Яндекс.Карт // 'yandex#satellite', 'yandex#hybrid'
 		controls: ['zoomControl','rulerControl','typeSelector','geolocationControl'] //'fullscreenControl'
 	}, {	searchControlProvider: 'yandex#search'
@@ -87,10 +87,10 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	var PolyColl = new ymaps.GeoObjectCollection();	myMap.geoObjects.add(PolyColl);
 
 	var CollP = [	new ymaps.GeoObject(my297ploC, {fillImageHref:'sand-texture.jpg', fillMethod:'tile', fillOpacity:0.8, stroke:true, strokeColor:"#740f", strokeWidth:1.5}),	// Детская площадка
-			new ymaps.GeoObject(my297ploV, {fillImageHref:'sand-texture.jpg', fillMethod:'tile', fillOpacity:0.8, stroke:true, strokeColor:"#740f", strokeWidth:1.5}),	// Волейбольная площадка
+			new ymaps.GeoObject(my297ploV, {fillImageHref:'sand-texture.jpg', fillMethod:'tile', fillOpacity:0.8, stroke:true, strokeColor:"#740f", strokeWidth:1.5}),	// Футбольная площадка
 			new ymaps.GeoObject(my297ploS, {fillImageHref:'sand-texture.jpg', fillMethod:'tile', fillOpacity:0.8, stroke:true, strokeColor:"#740f", strokeWidth:1.5})];	// Спортивная площадка
 
-	var CollG = [	new ymaps.GeoObject(my297gidro, {fillImageHref:'g-texture.jpg', fillMethod:'tile', fillOpacity:0.6, stroke:true, strokeColor:"#3aff", strokeWidth:1.5})];
+	var CollG = [	new ymaps.GeoObject(my297gidro, {fillImageHref:'g-texture.jpg', fillMethod:'tile', fillOpacity:1, stroke:true, strokeColor:"#3aff", strokeWidth:1.5})];		// Гидрография
 
 	var CollK = [	new ymaps.GeoObject(my297, {fillColor:"#fff2", strokeColor:"#f00f", strokeWidth:2}),	// Кадастровый ЗУ
 			new ymaps.GeoObject(HomeK, {fillColor:"#fa0a", strokeColor:"#f00f", strokeWidth:2})];	// Кадастровый ЗУ
@@ -103,15 +103,16 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 			new ymaps.GeoObject(Home, {fillColor:"#fff5", strokeColor:"#f000", strokeWidth:0}),	// А/б вокруг дома
 			new ymaps.GeoObject(HomeB, {strokeColor:"#35ff", strokeWidth:1.5})];
 
-	var CollSk = [];
+	var CollSk = [];	// Инфраструктура
 	my297sk.forEach( function (obj) {CollSk.push(new ymaps.GeoObject(obj,{iconLayout:"default#image",iconImageHref:"icon/sk.svg",iconImageSize:[16,16],iconImageOffset:[-8,-8]}))} );
 	my297fo.forEach( function (obj) {CollSk.push(new ymaps.GeoObject(obj,{iconLayout:"default#image",iconImageHref:"icon/fo.svg",iconImageSize:[16,16],iconImageOffset:[-8,-16]}))} );
 	HomeSk.forEach( function (obj) {CollSk.push(new ymaps.GeoObject(obj,{iconLayout:"default#image",iconImageHref:"icon/sk.svg",iconImageSize:[16,16],iconImageOffset:[-8,-8]}))} );
 	HomeFo.forEach( function (obj) {CollSk.push(new ymaps.GeoObject(obj,{iconLayout:"default#image",iconImageHref:"icon/fo.svg",iconImageSize:[16,16],iconImageOffset:[-8,-16]}))} );
 
 	var CollZ = [];
+	var CollZcolor = ["#9370db","#800000","#0f0","#ffc0cb","#a52a2a","#ff0","#f0f","#f00","#0ff","#ffa500","#00f"];
 	for (var i=0; i<11; i++){
-		my297grP[i].forEach( function (obj) {CollZ.push(new ymaps.GeoObject(obj))} );	// Зоны произрастания
+		my297grP[i].forEach( function (obj) {CollZ.push(new ymaps.GeoObject(obj, {fillColor:CollZcolor[i], strokeColor:"#000", opacity:0.6}))} );	// Зоны произрастания
 	}
 
 	var rectangle = [new ymaps.Rectangle([[59.2150061667 + x, 39.8239375556 + y], [59.2075578889 + x, 39.8433379722 + y]], {}, {fillImageHref:'Photo.png'})];
@@ -120,19 +121,27 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	myMap.geoObjects.each( function (obj) {obj.options.set('opacity', 1)} );
 
 	var ObjC = function (a,b) {a.forEach( function (obj) {if(b) {PolyColl.add(obj)} else PolyColl.remove(obj)} )}
-	var ObjO = function (a,b) {a.forEach( function (obj) {obj.options.set('opacity', ID(b).checked ? 1:0)} )}
+	var ObjO = function (a,b,c) {a.forEach( function (obj) {obj.options.set('opacity', ID(b).checked ? c:0)} )}
 
 	var ID = function(a) {return document.getElementById(a)};
 	ID('sk').onclick = function () {ObjC(CollSk, ID('sk').checked)};
-	ID('p').onclick = function () {ObjO(CollP,'p')};
-	ID('k').onclick = function () {ObjO(CollK,'k')};
-	ID('a').onclick = function () {ObjO(CollA,'a')};
-	ID('z').onclick = function () {ObjO(CollZ,'z')};
-	ID('s').onclick = function () {ObjO(CollS,'s')};
-	ID('g').onclick = function () {ObjO(CollG,'g')};
-	ID('f').onclick = function () {ObjO(rectangle,'f')};
+	ID('p').onclick = function () {ObjO(CollP,'p',1)};
+	ID('k').onclick = function () {ObjO(CollK,'k',1)};
+	ID('a').onclick = function () {ObjO(CollA,'a',1)};
+	ID('z').onclick = function () {ObjO(CollZ,'z',0.6)};
+	ID('s').onclick = function () {ObjO(CollS,'s',1)};
+	ID('g').onclick = function () {ObjO(CollG,'g',1)};
+	ID('f').onclick = function () {ObjO(rectangle,'f',1)};
 
-	ObjO(rectangle,'f'); ObjC(rectangle,1); ObjC(CollS,1); ObjC(CollA,1); ObjC(CollK,1); ObjC(CollP,1); ObjC(CollZ,1); ObjC(CollG,1); ObjC(CollSk,1);
+	ObjO(rectangle,'f',0); ObjO(CollK,'a',0); ObjO(CollZ,'z',0);
+	ObjC(rectangle,1);
+	ObjC(CollP,1);	// Площадки
+	ObjC(CollZ,1);	// Полигоны произрастания
+	ObjC(CollS,1);	// Дорожки
+	ObjC(CollG,1);	// Гидрография
+	ObjC(CollA,1);	// Территория объекта
+	ObjC(CollK,1);	// Кадастровый ЗУ
+	ObjC(CollSk,1);	// Инфраструктура
 
 	myMap.events.add('boundschange', function (e) {
 		//if (myMap.getZoom()<16 && ID('sk').checked) {ID('sk').click()}
@@ -203,22 +212,22 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 //	}),
 
 	var listBoxItems = [], cl = function (a,b) { return new ymaps.control.ListBoxItem({ data:{content:"  <img src='"+a+".png'>   "+b}, state:{selected:true} }) };
-	listBoxItems.push(cl('mediumpurple','Акация'));
-	listBoxItems.push(cl('maroon','Барбарис'));
-	listBoxItems.push(cl('lime','Берёза'));
-	listBoxItems.push(cl('green','Вяз'));
-	listBoxItems.push(cl('white','Дуб'));
-	listBoxItems.push(cl('pink','Ива'));
-	listBoxItems.push(cl('brown','Клён'));
-	listBoxItems.push(cl('teal','Лапчатка'));
-	listBoxItems.push(cl('yellow','Липа'));
-	listBoxItems.push(cl('olive','Лиственница'));
-	listBoxItems.push(cl('magenta','Ольха'));
-	listBoxItems.push(cl('purple','Осина'));
-	listBoxItems.push(cl('red','Рябина'));
-	listBoxItems.push(cl('cyan','Тополь'));
-	listBoxItems.push(cl('orange','Яблоня'));
-	listBoxItems.push(cl('blue','Ясень'));
+	listBoxItems.push(cl('mediumpurple','Акация'));	// #9370db
+	listBoxItems.push(cl('maroon','Барбарис'));	// #800000
+	listBoxItems.push(cl('lime','Берёза'));		// #0f0
+	listBoxItems.push(cl('green','Вяз'));		// #008000
+	listBoxItems.push(cl('white','Дуб'));		// #fff
+	listBoxItems.push(cl('pink','Ива'));		// #ffc0cb
+	listBoxItems.push(cl('brown','Клён'));		// #a52a2a
+	listBoxItems.push(cl('teal','Лапчатка'));	// #008080
+	listBoxItems.push(cl('yellow','Липа'));		// #ff0
+	listBoxItems.push(cl('olive','Лиственница'));	// #808000
+	listBoxItems.push(cl('magenta','Ольха'));	// #f0f
+	listBoxItems.push(cl('purple','Осина'));	// #800080
+	listBoxItems.push(cl('red','Рябина'));		// #f00
+	listBoxItems.push(cl('cyan','Тополь'));		// #0ff
+	listBoxItems.push(cl('orange','Яблоня'));	// #ffa500
+	listBoxItems.push(cl('blue','Ясень'));		// #00f
 	listBoxItems.push(new ymaps.control.ListBoxItem({options: {type:'separator'}}));
 	listBoxItems.push(cl('gray','Другие'));		//<svg width='10' height='10'><circle cx='5' cy='5' r='4' style='fill:blue; stroke:black; stroke-width:1'/></svg>
 	// Теперь создадим список, содержащий пункты
@@ -270,7 +279,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	});
 	myMap.events.add('mousedown', function(e) {
 		if (event.which == 2) {
-			if (myMap.getCenter()[1] > 39.87) {myMap.setCenter([59.2116, 39.8323]); myMap.setZoom(17)}
+			if (myMap.getCenter()[1] > 39.87) {myMap.setCenter([59.2116, 39.8323]); myMap.setZoom(18)}
 			else {myMap.setCenter([59.21, 39.9078]); myMap.setZoom(18)}
 		}
 	});
