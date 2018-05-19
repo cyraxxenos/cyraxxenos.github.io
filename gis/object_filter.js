@@ -71,7 +71,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 // y = hybrid
 
 	var myMap = new ymaps.Map('map', {
-		center: (location.href.split('?')[1]=='v' ? [59.21, 39.9078] : [59.2116, 39.8323]),
+		center: (location.href.split('?')[1]=='v' ? [59.21, 39.9078] : [59.2118, 39.8323]),
 		zoom: (location.href.split('?')[1]=='v' ? 19 : 18),
 		type: 'yandex#satellite', // или null, чтобы не загружался слой Схема Яндекс.Карт // 'yandex#satellite', 'yandex#hybrid'
 		controls: ['zoomControl','rulerControl','typeSelector','geolocationControl'] //'fullscreenControl'
@@ -278,7 +278,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	});
 	myMap.events.add('mousedown', function(e) {
 		if (event.which == 2) {
-			if (myMap.getCenter()[1] > 39.87) {myMap.setCenter([59.2116, 39.8323]); myMap.setZoom(18)}
+			if (myMap.getCenter()[1] > 39.87) {myMap.setCenter([59.2118, 39.8323]); myMap.setZoom(18)}
 			else {myMap.setCenter([59.21, 39.9078]); myMap.setZoom(18)}
 		}
 	});
