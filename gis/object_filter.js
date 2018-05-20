@@ -121,6 +121,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 
 	var ObjC = function (a,b) {a.forEach( function (obj) {if(b) {PolyColl.add(obj)} else PolyColl.remove(obj)} )}
 	var ObjO = function (a,b,c) {a.forEach( function (obj) {obj.options.set('opacity', ID(b).checked ? c:0)} )}
+	var ObjV = function (a,b) {a.forEach( function (obj) {obj.options.set('visible', b ? true:false)} )}
 
 	var ID = function(a) {return document.getElementById(a)};
 	ID('sk').onclick = function () {ObjC(CollSk, ID('sk').checked)};
@@ -185,7 +186,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
     for (var i = 0, l = jsdata.length; i < l; i++) {
 	var point = jsdata[i];
 	myCollection.add(new ymaps.Placemark(
-	    point.geometry.coordinates, {balloonContentBody: JSON.stringify(point.properties.Обозначение)}
+	    point.geometry.coordinates, {balloonContentBody: JSON.stringify(point.properties.Key)}
 	));
     }
 	// Добавляем коллекцию меток на карту
@@ -337,7 +338,7 @@ CustomSearchProvider.prototype.geocode = function (request, options) {
     // Ищем в свойстве properties каждого элемента массива
     for (var i = 0, l = this.points.length; i < l; i++) {
 	var point = this.points[i];
-	if (JSON.stringify(point.properties.Обозначение).toLowerCase().indexOf(request.toLowerCase()) != -1) {
+	if (JSON.stringify(point.properties.Key).toLowerCase().indexOf(request.toLowerCase()) != -1) {
 	    points.push(point);
 	}
     }
@@ -345,7 +346,7 @@ CustomSearchProvider.prototype.geocode = function (request, options) {
     for (var i = 0, l = points.length; i < l; i++) {	// Добавляем точки в результирующую коллекцию
 	var point = points[i],
 		coor = point.geometry.coordinates,
-		properties = JSON.stringify(point.properties.Обозначение);
+		properties = JSON.stringify(point.properties.Key);
 	geoObjects.add(new ymaps.Placemark(coor, {
 	    name: properties +' name',
 	    description: properties +' description',
