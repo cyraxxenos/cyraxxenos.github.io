@@ -132,7 +132,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	ID('p').onclick = function () {ObjO(CollP,'p',1)};
 	ID('k').onclick = function () {ObjO(CollK,'k',1)};
 	ID('a').onclick = function () {ObjO(CollA,'a',1)};
-	ID('z').onclick = function () {ObjO(CollZ,'z',0.6)};
+	ID('z').onclick = function () {ObjO(CollZ,'z',0.85)};
 	ID('s').onclick = function () {ObjO(CollS,'s',1)};
 	ID('g').onclick = function () {ObjO(CollG,'g',1)};
 	ID('f').onclick = function () {ObjO(rectangle,'f',1)};
