@@ -109,9 +109,13 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	HomeSk.forEach( function (obj) {CollSk.push(new ymaps.GeoObject(obj,{iconLayout:"default#image",iconImageHref:"icon/sk.svg",iconImageSize:[16,16],iconImageOffset:[-8,-8]}))} );
 	HomeFo.forEach( function (obj) {CollSk.push(new ymaps.GeoObject(obj,{iconLayout:"default#image",iconImageHref:"icon/fo.svg",iconImageSize:[16,16],iconImageOffset:[-8,-16]}))} );
 
-	var CollZ = [], CollZcolor = ["#9370db","#800000","#0f0","#ffc0cb","#a52a2a","#ff0","#f0f","#f00","#0ff","#ffa500","#00f"];
+	var CollZ = [], CollZcolorS = ["#9370db","#0f0","#008000","#ffc0cb","#a52a2a","#ff0","#f0f","#f00","#0ff","#ffa500","#00f"];
 	for (var i=0; i<my297grP.length; i++){
-		my297grP[i].forEach( function (obj) {CollZ.push(new ymaps.GeoObject(obj, {fillColor:CollZcolor[i], strokeColor:"#000", opacity:0.6}))} );	// Зоны произрастания
+		my297grP[i].forEach( function (obj) {CollZ.push(new ymaps.GeoObject(obj, {fillColor:CollZcolorS[i], strokeColor:"#000", opacity:0.6}))} );	// Зоны произрастания
+	}
+	var CollZcolorV = ["#9370db","#800000","#0f0","#008000","#fff","#008080","#ff0","#808000","#800080","#f00"];
+	for (var i=0; i<HomegrP.length; i++){
+		HomegrP[i].forEach( function (obj) {CollZ.push(new ymaps.GeoObject(obj, {fillColor:CollZcolorV[i], strokeColor:"#000", opacity:0.6}))} );	// Зоны произрастания
 	}
 
 	var rectangle = [new ymaps.Rectangle([[59.2150061667 + x, 39.8239375556 + y], [59.2075578889 + x, 39.8433379722 + y]], {}, {fillImageHref:'Photo.png'})];
