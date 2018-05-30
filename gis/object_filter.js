@@ -126,26 +126,34 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	var ObjC = function (a,b) {a.forEach( function (obj) {if(b) {PolyColl.add(obj)} else PolyColl.remove(obj)} )}
 	var ObjO = function (a,b,c) {a.forEach( function (obj) {obj.options.set('opacity', ID(b).checked ? c:0)} )}
 	var ObjV = function (a,b) {a.forEach( function (obj) {obj.options.set('visible', b ? true:false)} )}
+	var zI = function (a,b) {a.forEach( function (obj) {obj.options.set('zIndex', b)} )}
 
 	var ID = function(a) {return document.getElementById(a)};
-	ID('sk').onclick = function () {ObjC(CollSk, ID('sk').checked)};
-	ID('p').onclick = function () {ObjO(CollP,'p',1)};
-	ID('k').onclick = function () {ObjO(CollK,'k',1)};
-	ID('a').onclick = function () {ObjO(CollA,'a',1)};
-	ID('z').onclick = function () {ObjO(CollZ,'z',0.85)};
-	ID('s').onclick = function () {ObjO(CollS,'s',1)};
-	ID('g').onclick = function () {ObjO(CollG,'g',1)};
-	ID('f').onclick = function () {ObjO(rectangle,'f',1)};
+	ID('sk').onclick = function () {ObjC(CollSk, ID('sk').checked ? 1:0)};
+	ID('p').onclick = function () {ObjC(CollP,ID('p').checked ? 1:0)};
+	ID('k').onclick = function () {ObjC(CollK,ID('k').checked ? 1:0)};	// Кадастровый ЗУ
+	ID('a').onclick = function () {ObjC(CollA,ID('a').checked ? 1:0)};
+	ID('z').onclick = function () {ObjC(CollZ,ID('z').checked ? 1:0)};
+	ID('s').onclick = function () {ObjC(CollS,ID('s').checked ? 1:0)};
+	ID('g').onclick = function () {ObjC(CollG,ID('g').checked ? 1:0)};
+	ID('f').onclick = function () {ObjC(rectangle,ID('f').checked ? 1:0)};
 
-	ObjO(rectangle,'f',0); ObjO(CollK,'a',0); ObjO(CollZ,'z',0);
-	ObjC(rectangle,1);
+	//ObjC(rectangle,0);
+	ObjC(CollA,1);	// Территория объекта
+	//ObjC(CollZ,1);	// Полигоны произрастания
+	//ObjC(CollK,1);	// Кадастровый ЗУ
 	ObjC(CollP,1);	// Площадки
-	ObjC(CollZ,1);	// Полигоны произрастания
 	ObjC(CollS,1);	// Дорожки
 	ObjC(CollG,1);	// Гидрография
-	ObjC(CollA,1);	// Территория объекта
-	ObjC(CollK,1);	// Кадастровый ЗУ
 	ObjC(CollSk,1);	// Инфраструктура
+
+	zI(CollA,1);	// Территория объекта
+	zI(CollK,2);	// Кадастровый ЗУ
+	zI(CollZ,3);	// Полигоны произрастания
+	zI(CollP,4);	// Площадки
+	zI(CollS,5);	// Дорожки
+	zI(CollG,6);	// Гидрография
+	zI(CollSk,7);	// Инфраструктура
 
 	myMap.events.add('boundschange', function (e) {
 		//if (myMap.getZoom()<16 && ID('sk').checked) {ID('sk').click()}
