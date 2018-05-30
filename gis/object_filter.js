@@ -138,7 +138,6 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	ID('g').onclick = function () {ObjC(CollG,ID('g').checked ? 1:0)};
 	ID('f').onclick = function () {ObjC(rectangle,ID('f').checked ? 1:0)};
 
-	//ObjC(rectangle,0);
 	ObjC(CollA,1);	// Территория объекта
 	//ObjC(CollZ,1);	// Полигоны произрастания
 	//ObjC(CollK,1);	// Кадастровый ЗУ
@@ -147,6 +146,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	ObjC(CollG,1);	// Гидрография
 	ObjC(CollSk,1);	// Инфраструктура
 
+	zI(rectangle,0);// Территория объекта
 	zI(CollA,1);	// Территория объекта
 	zI(CollK,2);	// Кадастровый ЗУ
 	zI(CollZ,3);	// Полигоны произрастания
