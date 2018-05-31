@@ -191,8 +191,8 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	$.getJSON('https://cyraxxenos.github.io/gis/dataV.json').done(function (geoJson) {
 		objectManager.add(geoJson);
 		objectManager.objects.each(function (object) { var a = object.geometry.coordinates;
-			a[0] -= 0; a[0] += 0.000005 + 0.00001;
-			a[1] -= 0; a[1] += 0.00003 + 0.00001;
+			a[0] -= 0.00001; a[0] += 0.000005 + 0.00001;
+			a[1] -= 0.00007; a[1] += 0.00003 + 0.00001;
 		});
 		myMap.geoObjects.add(objectManager);
 		objectManager.objects.each(function (object) { jdata.push(object.properties); jsdata.push(object) });
