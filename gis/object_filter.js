@@ -159,7 +159,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 		//if (myMap.getZoom()<16 && ID('sk').checked) {ID('sk').click()}
 	});
 
-	// Если используется стандартный набор типов карты, и мы хотим добавить свой из хранилища mapType.storage между типами Спутник и Схема.
+	// Если используется стандартный набор типов карты, и мы хотим добавить слой из хранилища mapType.storage между типами Спутник и Схема.
 	var typeSelector = myMap.controls.get('typeSelector');
 	typeSelector.addMapType('Yandex#mapType', 15);
 	typeSelector.addMapType('OSM#mapType', 20);
@@ -177,13 +177,23 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	typeSelector.addMapType('ESRIS#mapType', 37);
 	typeSelector.addMapType('Concrete#mapType', 40);
 
+	// 0.00001 и 0.00007 - для Ковыринского сада, 0.000005 и 0.00003 - для сквера Петра
+
 	$.getJSON('https://cyraxxenos.github.io/gis/data.json').done(function (geoJson) {
 		objectManager.add(geoJson);		// Добавляем описание объектов в формате JSON в менеджер объектов
+		objectManager.objects.each(function (object) { var a = object.geometry.coordinates;
+			a[0] += 0.00001;
+			a[1] += 0.00007;
+		});
 		myMap.geoObjects.add(objectManager);	// Добавляем объекты на карту
 		objectManager.objects.each(function (object) { jdata.push(object.properties); jsdata.push(object) });
 	});
 	$.getJSON('https://cyraxxenos.github.io/gis/dataV.json').done(function (geoJson) {
 		objectManager.add(geoJson);
+		objectManager.objects.each(function (object) { var a = object.geometry.coordinates;
+			a[0] -= 0; a[0] += 0.000005 + 0.00001;
+			a[1] -= 0; a[1] += 0.00003 + 0.00001;
+		});
 		myMap.geoObjects.add(objectManager);
 		objectManager.objects.each(function (object) { jdata.push(object.properties); jsdata.push(object) });
 	});
