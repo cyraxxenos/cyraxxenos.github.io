@@ -149,9 +149,9 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	zI(rectangle,0);// Территория объекта
 	zI(CollA,1);	// Территория объекта
 	zI(CollK,2);	// Кадастровый ЗУ
-	zI(CollZ,3);	// Полигоны произрастания
+	zI(CollS,3);	// Дорожки
 	zI(CollP,4);	// Площадки
-	zI(CollS,5);	// Дорожки
+	zI(CollZ,5);	// Полигоны произрастания
 	zI(CollG,6);	// Гидрография
 	zI(CollSk,7);	// Инфраструктура
 
