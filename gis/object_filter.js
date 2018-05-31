@@ -177,13 +177,13 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	typeSelector.addMapType('ESRIS#mapType', 37);
 	typeSelector.addMapType('Concrete#mapType', 40);
 
-	// 0.00001 и 0.00007 - для Ковыринского сада, 0.000005 и 0.00003 - для сквера Петра
+	// 0.00001 (x) и 0.00007 (y) - для Ковыринского сада, 0.000005 (xH) и 0.00003 (yH) - для сквера Петра
 
 	$.getJSON('https://cyraxxenos.github.io/gis/data.json').done(function (geoJson) {
 		objectManager.add(geoJson);		// Добавляем описание объектов в формате JSON в менеджер объектов
 		objectManager.objects.each(function (object) { var a = object.geometry.coordinates;
-			a[0] += 0.00001;
-			a[1] += 0.00007;
+			a[0] += x;
+			a[1] += y;
 		});
 		myMap.geoObjects.add(objectManager);	// Добавляем объекты на карту
 		objectManager.objects.each(function (object) { jdata.push(object.properties); jsdata.push(object) });
@@ -191,8 +191,8 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	$.getJSON('https://cyraxxenos.github.io/gis/dataV.json').done(function (geoJson) {
 		objectManager.add(geoJson);
 		objectManager.objects.each(function (object) { var a = object.geometry.coordinates;
-			a[0] -= 0.00001; a[0] += 0.000005 + 0.00001;
-			a[1] -= 0.00007; a[1] += 0.00003 + 0.00001;
+			a[0] -= x; a[0] += xH;
+			a[1] -= y; a[1] += yH + 0.000008;
 		});
 		myMap.geoObjects.add(objectManager);
 		objectManager.objects.each(function (object) { jdata.push(object.properties); jsdata.push(object) });
