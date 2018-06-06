@@ -22,7 +22,7 @@
 	<script src="object_filter.js" type="text/javascript"></script>
 <style>
 	html, body, #map {width: 100%; height: 100%; padding: 0; margin: 0}
-
+	label {position:relative; left:0; top:3px}
 	.ac label {cursor:pointer}
 	.ac label:hover {color:Aquamarine}
 	.ac input:checked + label, .ac input:checked + label:hover {color:Aquamarine}
@@ -42,37 +42,37 @@
 <div id="mapC" style='position:fixed; bottom:120px; top:auto; left:10px; right:auto; font:italic 12pt Consolas; color:White; background-color:rgba(5,5,5,0.5); padding:5px 5px; border-radius:5px; cursor:default'><input style="width:55pt; border-color:'White'; border-radius:5px; padding-left:5px" oninput="this.style.backgroundColor = this.value || 'White'; ID('coloro').innerHTML = ' '+ hexc(window.getComputedStyle(this).backgroundColor) +' = '+ window.getComputedStyle(this).backgroundColor"><output id="coloro"></output></div>
 
 <section class="ac">
-<div style='position:fixed; top:50px; right:9px; font:12pt Consolas; color:White; background-color:rgba(5,5,5,0.5); padding:5px 5px; border-radius:5px; cursor:default' onselectstart='return false'><input id="ac-a" type="checkbox" checked/><label for="ac-a">   <i>Фильтр по фигурам</i> ⯆ </label><article><br>
+<div style='position:fixed; top:50px; right:9px; font:14px Consolas; color:White; background-color:rgba(5,5,5,0.5); padding:5px 5px; border-radius:5px; cursor:default' onselectstart='return false'><input id="ac-a" type="checkbox" checked/><label for="ac-a">   <i>Фильтр по фигурам</i> ⯆ </label><article><br>
 
 	<input type='checkbox' class='checkbox' id='gr' checked hidden></input>
-	<label for="gr" style="position:relative; left:0; top:5px"></label>    <span style="color:Lime">Растительность</span><br><br>
+	<label for="gr"></label>    <span style="color:Lime">Растительность</span><br><br>
 
 	<input type='checkbox' class='checkbox' id='sk' checked hidden></input>
-	<label for="sk" style="position:relative; left:0; top:5px"></label>    Инфраструктура<br><br>
+	<label for="sk"></label>    Инфраструктура<br><br>
 
 	<input type='checkbox' class='checkbox' id='g' checked hidden></input>
-	<label for="g" style="position:relative; left:0; top:5px"></label>    <span style="color:Cyan">Гидрография</span><br><br>
+	<label for="g"></label>    <span style="color:Cyan">Гидрография</span><br><br>
 
 	<input type='checkbox' class='checkbox' id='z' hidden></input>
-	<label for="z" style="position:relative; left:0; top:5px"></label>    Зоны произрастания<br><br>
+	<label for="z"></label>    Зоны произрастания<br><br>
 
 	<input type='checkbox' class='checkbox' id='p' checked hidden></input>
-	<label for="p" style="position:relative; left:0; top:5px"></label>    <span style="color:Gold">Площадки</span><br><br>
+	<label for="p"></label>    <span style="color:Gold">Площадки</span><br><br>
 
 	<input type='checkbox' class='checkbox' id='s' checked hidden></input>
-	<label for="s" style="position:relative; left:0; top:5px"></label>    <span style="color:Silver">Покрытые области</span><br><br>
+	<label for="s"></label>    <span style="color:Silver">Покрытые области</span><br><br>
 
 	<input type='checkbox' class='checkbox' id='k' hidden></input>
-	<label for="k" style="position:relative; left:0; top:5px"></label>    <span style="color:LightCoral">Земельный участок</span><br><br>
+	<label for="k"></label>    <span style="color:LightCoral">Земельный участок</span><br><br>
 
 	<input type='checkbox' class='checkbox' id='a' checked hidden></input>
-	<label for="a" style="position:relative; left:0; top:5px"></label>    Объект озеленения<br><br>
+	<label for="a"></label>    Объект озеленения<br><br>
 
 	<input type='checkbox' class='checkbox' id='f' hidden></input>
-	<label for="f" style="position:relative; left:0; top:5px"></label>    Снимок<br><br>
+	<label for="f"></label>    Снимок<br><br>
 
 	<input type='checkbox' class='checkbox' id='i' checked hidden></input>
-	<label for="i" style="position:relative; left:0; top:5px"></label>    Интерфейс &#10176;
+	<label for="i"></label>    Интерфейс &#10176;
 </article></div>
 </section>
 <script>
