@@ -137,6 +137,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	ID('s').onclick = function () {ObjC(CollS,ID('s').checked ? 1:0)};
 	ID('g').onclick = function () {ObjC(CollG,ID('g').checked ? 1:0)};
 	ID('f').onclick = function () {ObjC(rectangle,ID('f').checked ? 1:0)};
+	ID('i').onclick = function () {ID('map5').style.display = ID('mapC').style.display = ID('i').checked ? '':'none'};
 
 	ObjC(CollA,1);	// Территория объекта
 	//ObjC(CollZ,1);	// Полигоны произрастания
