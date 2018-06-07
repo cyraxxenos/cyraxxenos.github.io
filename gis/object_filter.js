@@ -186,9 +186,9 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 			a[0] += x;
 			a[1] += y;
 		});
-	});
 		myMap.geoObjects.add(objectManager);	// Добавляем объекты на карту
 		objectManager.objects.each(function (object) { jdata.push(object.properties); jsdata.push(object) });
+	});
 
 	$.getJSON('https://cyraxxenos.github.io/gis/dataV.json').done(function (geoJson) {
 		objectManager.add(geoJson);
@@ -197,8 +197,6 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 			a[1] -= y; a[1] += yH + 0.000008;
 		});
 	});
-		myMap.geoObjects.add(objectManager);
-		objectManager.objects.each(function (object) { jdata.push(object.properties); jsdata.push(object) });
 
     // Создаем коллекцию
 	var myCollection = new ymaps.GeoObjectCollection({},{preset:"twirl#greenIcon" });
