@@ -293,7 +293,8 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	});
 	myMap.events.add('contextmenu', function(e) {
 		var coor = e.get('coords');
-		myMap.hint.open( coor, [coor[0].toFixed(8), coor[1].toFixed(8)].join(' ; ') +'<br>'+  [deg_dms3(coor[0].toFixed(12)), deg_dms3(coor[1].toFixed(12))].join(' ; '))
+		myMap.hint.open( coor, [coor[0].toFixed(8), coor[1].toFixed(8)].join(' ; ') +'<br>'+  [deg_dms3(coor[0].toFixed(12)), deg_dms3(coor[1].toFixed(12))].join(' ; '));
+		ID("cs").value += [coor[0].toFixed(8), coor[1].toFixed(8)].join(' ; ') +'\n'
 	});
 	myMap.events.add('mousedown', function(e) {
 		if (event.which == 2) {
@@ -306,7 +307,11 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	myMap.controls.get('rulerControl').events.add('contextmenu', function() {
 		ID("cg").style.display = ID("cv").style.display = ID("cg").style.display==''?'none':''
 	});
-	myMap.controls.get('rulerControl').data.set('title','Измерение расстояний на карте (двойной клик управляет отображением перекрестия в центре карты)');
+	myMap.controls.get('rulerControl').data.set('title','Измерение расстояний на карте (правый клик управляет отображением перекрестия в центре карты)');
+	myMap.controls.get('geolocationControl').data.set('title','Определить ваше местоположение (правый клик управляет отображением информационного поля)');
+	myMap.controls.get('geolocationControl').events.add('contextmenu', function() {
+		ID("cs").style.display = ID("cs").style.display==''?'none':''
+	});
 	myMap.controls.get('typeSelector').events.add('contextmenu', function() {
 		myMap.setType('none');
 		//myMap.layers.add(new ymaps.Layer('http://mt0.google.com/vt/lyrs=m@176000000&hl=ru&%c', {projection: ymaps.projection.sphericalMercator}));
