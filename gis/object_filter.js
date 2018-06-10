@@ -186,6 +186,19 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 		objectManager.objects.each(function (object) { var a = object.geometry.coordinates;
 			a[0] += x;
 			a[1] += y;
+			object.properties.balloonContentBody = "<strong>Имя: </strong>"+ object.properties.Имя +"<br/>"+
+				"<strong>Обозначение: </strong>"+ object.properties.Обозначение +"<br/>"+
+				"<strong>Название: </strong>"+ object.properties.Название +"<br/>"+
+				"<strong>Высота (м): </strong>"+ object.properties["Высота (м)"] +"<br/>"+
+				"<strong>Диаметр на высоте 1,3 м (см): </strong>"+ object.properties["Диаметр на высоте 1,3 м (см)"] +"<br/>"+
+				"<strong>Диаметр на высоте 0,1 м (см): </strong>"+ object.properties["Диаметр на высоте 0,1 м (см)"] +"<br/>"+
+				"<strong>Протяженность зоны без сучьв (м): </strong>"+ object.properties["Протяженность зоны без сучьв (м)"] +"<br/>"+
+				"<strong>Диаметр кроны (м): </strong>"+ object.properties["Диаметр кроны (м)"] +"<br/>"+
+				"<strong>Балл санитарного состояния: </strong>"+ object.properties["Балл санитарного состояния"] +"<br/>"+
+				"<strong>Ступень толщины: </strong>"+ object.properties["Ступень толщины"] +"<br/>"+
+				"<strong>Пороки: </strong>"+ object.properties.Пороки +"<br/>"+
+				"<strong>Долгота: </strong>"+ a[0].toFixed(8) +" = "+ deg_dms3(a[0]) +"<br/>"+
+				"<strong>Широта: </strong>"+ a[1].toFixed(8) +" = "+ deg_dms3(a[1]);
 		});
 		myMap.geoObjects.add(objectManager);	// Добавляем объекты на карту
 		objectManager.objects.each(function (object) { jdata.push(object.properties); jsdata.push(object) });
