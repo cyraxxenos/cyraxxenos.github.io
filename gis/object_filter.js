@@ -197,8 +197,8 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 				"<strong>Балл санитарного состояния: </strong>"+ object.properties["Балл санитарного состояния"] +"<br/>"+
 				"<strong>Ступень толщины: </strong>"+ object.properties["Ступень толщины"] +"<br/>"+
 				"<strong>Пороки: </strong>"+ object.properties.Пороки +"<br/>"+
-				"<strong>Долгота: </strong>"+ a[0].toFixed(8) +" = "+ deg_dms3(a[0]) +"<br/>"+
-				"<strong>Широта: </strong>"+ a[1].toFixed(8) +" = "+ deg_dms3(a[1]);
+				"<strong>Долгота: </strong>"+ a[0].toFixed(8) +" = "+ deg_dms3(a[0],5) +"<br/>"+
+				"<strong>Широта: </strong>"+ a[1].toFixed(8) +" = "+ deg_dms3(a[1],5);
 		});
 		myMap.geoObjects.add(objectManager);	// Добавляем объекты на карту
 		objectManager.objects.each(function (object) { jdata.push(object.properties); jsdata.push(object) });
@@ -291,7 +291,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	function round_4(a) {return Math.round(parseFloat(a)*10000)/10000}
 	function rplN(a) {return (a+'').replace(/[,]/g,'.')}
 	function z2(a){var b=a; if (parseFloat(rplN(a))<10){b ='0'+ b} return b}
-	function deg_dms3(val) {var R = deg_dms(val); return (R[0]==0?R[3]:"")+R[0]+"&#176;"+z2(R[1])+"&#8242;"+z2(R[2].toFixed(3))+"&#8243;"}
+	function deg_dms3(val,a) {var R = deg_dms(val); return (R[0]==0?R[3]:"")+R[0]+"&#176;"+z2(R[1])+"&#8242;"+z2(R[2].toFixed(3))+(a?"&#8242;&#8242;":"&#8243;")}
 	function deg_dms(val) {
 		var val_s = (val<0?"-":""), val_u = Math.abs(val);
 		var g = Math.floor(val_u);
