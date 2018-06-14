@@ -109,6 +109,8 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	my297fo.forEach( function (obj) {CollSk.push(new ymaps.GeoObject(obj,{iconLayout:"default#image",iconImageHref:"icon/fo.svg",iconImageSize:[16,16],iconImageOffset:[-8,-16]}))} );
 	HomeSk.forEach( function (obj) {CollSk.push(new ymaps.GeoObject(obj,{iconLayout:"default#image",iconImageHref:"icon/sk.svg",iconImageSize:[16,16],iconImageOffset:[-8,-8]}))} );
 	HomeFo.forEach( function (obj) {CollSk.push(new ymaps.GeoObject(obj,{iconLayout:"default#image",iconImageHref:"icon/fo.svg",iconImageSize:[16,16],iconImageOffset:[-8,-16]}))} );
+	HomeCannon.forEach( function (obj) {CollSk.push(new ymaps.GeoObject(obj,{iconLayout:"default#image",iconImageHref:"icon/cannon.svg",iconImageSize:[24,24],iconImageOffset:[-12,-24]}))} );
+	HomePam.forEach( function (obj) {CollSk.push(new ymaps.GeoObject(obj,{iconLayout:"default#image",iconImageHref:"icon/p.svg",iconImageSize:[24,24],iconImageOffset:[-12,-24]}))} );
 
 	var CollZ = [], CollZcolorS = ["#9370db","#0f0","#008000","#ffc0cb","#a52a2a","#ff0","#f0f","#f00","#0ff","#ffa500","#00f"];
 	for (var i=0; i<my297grP.length; i++){
