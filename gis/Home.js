@@ -77,11 +77,11 @@ HomeFo = [
 ],
 
 HomeCannon = [ 
-{ geometry: { type: "Point", coordinates: [59.20980, 39.9079948 ] } }
+{ geometry: { type: "Point", coordinates: [xH + 59.20980, yH + 39.90797 ] } }
 ],
 
 HomePam = [
-{ geometry: { type: "Point", coordinates: [59.21042, 39.90664 ] } }
+{ geometry: { type: "Point", coordinates: [xH + 59.21043, yH + 39.90661 ] } }
 ],
 
 HomegrP = [];
