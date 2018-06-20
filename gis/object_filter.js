@@ -183,7 +183,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 
 	// 0.00001 (x) и 0.00007 (y) - для Ковыринского сада, 0.000005 (xH) и 0.00003 (yH) - для сквера Петра
 
-	$.getJSON('https://cyraxxenos.github.io/gis/data.json').done(function (geoJson) {
+	$.getJSON('data.json').done(function (geoJson) {
 		objectManager.add(geoJson);		// Добавляем описание объектов в формате JSON в менеджер объектов
 		objectManager.objects.each(function (object) { var a = object.geometry.coordinates;
 			a[0] += x;
@@ -206,7 +206,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 		objectManager.objects.each(function (object) { jdata.push(object.properties); jsdata.push(object) });
 	});
 
-	$.getJSON('https://cyraxxenos.github.io/gis/dataV.json').done(function (geoJson) {
+	$.getJSON('dataV.json').done(function (geoJson) {
 		objectManager.add(geoJson);
 		objectManager.objects.each(function (object) { var a = object.geometry.coordinates;
 			a[0] -= x; a[0] += xH;
