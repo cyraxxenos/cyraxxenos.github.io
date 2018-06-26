@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<meta http-equiv="content-type" content="text/html; charset=windows-1251"/>
+
+<body style="margin:0; padding:0" onkeydown="hotkeydown(event)">
+<iframe src="http://prxq.nextgis.com/resource/13/display" frameborder="0" style="overflow:hidden; position:absolute; height:100%; width:100%"></iframe>
+</body>
+
+<script>
+function hotkeydown(event) { var e = event.keyCode;
+	if (e==112) {window.open('https://cyraxxenos.github.io/gis/ColorHTML.html','_blank')}
+	if (e==112) stop(event)
+}
+
+function stop(e) {
+	if (e.preventDefault) {e.preventDefault(); e.stopPropagation()} // стандарт
+	else {e.returnValue = false; e.cancelBubble = true} // IE8-
+}
+</script>
