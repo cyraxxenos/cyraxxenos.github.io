@@ -85,7 +85,7 @@
 function hotkeydown(event) { var e = event.keyCode;
 	if (e==112) {window.open('https://cyraxxenos.github.io/gis/ColorHTML.html','_blank')}
 	if (e==115) {window.open('http://prxq.nextgis.com/resource/13/display','_blank')}
-	if (e>=112 || e<=115) stop(event)
+	if (e>=112 && e<=115) {stop(event)}
 }
 
 function stop(e) {
