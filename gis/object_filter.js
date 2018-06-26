@@ -204,6 +204,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 		});
 		myMap.geoObjects.add(objectManager);	// Добавляем объекты на карту
 		objectManager.objects.each(function (object) { jdata.push(object.properties); jsdata.push(object) });
+		getCou()
 	});
 
 	$.getJSON('https://cyraxxenos.github.io/gis/dataV.json').done(function (geoJson) {

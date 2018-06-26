@@ -17,7 +17,7 @@
 
 	.ymaps-2-1-64-balloon__layout {border-radius:5px}
 </style>
-	<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+	<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&coordorder=latlong" type="text/javascript"></script>
 	<script src="https://yandex.st/jquery/2.2.3/jquery.min.js" type="text/javascript"></script>
 	<script src="35_24_0401008_297.js" type="text/javascript"></script>
 	<script src="Home.js" type="text/javascript"></script>
@@ -35,7 +35,7 @@
 </style>
 
 </head>
-<body>
+<body onkeydown="hotkeydown(event)">
 <div id="map"></div>
 <div id="cg" style='position:fixed; top:50%; left:50%; width:24px; height:2px; background-color:rgba(255,255,255,0.5); margin: -1px 0 0 -12px; display:none'></div>
 <div id="cv" style='position:fixed; top:50%; left:50%; width:2px; height:24px; background-color:rgba(255,255,255,0.5); margin: -12px 0 0 -1px; display:none'></div>
@@ -81,6 +81,16 @@
 <script>
 	// src="json.txt" "https://yandex.st/jquery/2.2.3/jquery.min.js"
 	// src="jquery.min.js" "https://api-maps.yandex.ru/2.1/?lang=ru_RU"
+
+function hotkeydown(event) { var e = event.keyCode;
+	if (e==112) {window.open('https://cyraxxenos.github.io/gis/ColorHTML.html','_blank')}
+	if (e==112) stop(event)
+}
+
+function stop(e) {
+	if (e.preventDefault) {e.preventDefault(); e.stopPropagation()} // стандарт
+	else {e.returnValue = false; e.cancelBubble = true} // IE8-
+}
 
 function hexc(colorval) {
     var parts = colorval.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
