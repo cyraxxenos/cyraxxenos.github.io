@@ -74,7 +74,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 		center: (location.href.split('?')[1]=='v' ? [59.21, 39.9078] : [59.2118, 39.8323]),
 		zoom: (location.href.split('?')[1]=='v' ? 19 : 18),
 		type: 'yandex#satellite', // или null, чтобы не загружался слой Схема Яндекс.Карт // 'yandex#satellite', 'yandex#hybrid'
-		controls: ['zoomControl','rulerControl','typeSelector','geolocationControl'] //'fullscreenControl'
+		controls: ['zoomControl','rulerControl','typeSelector']
 	}, {	searchControlProvider: 'yandex#search'
 	}),
 	objectManager = new ymaps.ObjectManager({
@@ -83,6 +83,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 		maxZoom: 17,
 		clusterIconLayout: "default#pieChart"	// Макет метки кластера pieChart
 	}), jdata = [], jsdata = [], st;
+	myMap.controls.add('fullscreenControl',{float:'left'});
 	myMap.cursors.push('arrow');
 
 	var PolyColl = new ymaps.GeoObjectCollection();	myMap.geoObjects.add(PolyColl);
@@ -325,8 +326,8 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 		ID("cg").style.display = ID("cv").style.display = ID("cg").style.display==''?'none':''
 	});
 	myMap.controls.get('rulerControl').data.set('title','Измерение расстояний на карте (правый клик управляет отображением перекрестия в центре карты)');
-	myMap.controls.get('geolocationControl').data.set('title','Определить ваше местоположение (правый клик управляет отображением информационного поля)');
-	myMap.controls.get('geolocationControl').events.add('contextmenu', function() {
+	myMap.controls.get('fullscreenControl').data.set('title','Определить ваше местоположение (правый клик управляет отображением информационного поля)');
+	myMap.controls.get('fullscreenControl').events.add('contextmenu', function() {
 		ID("cs").style.display = ID("cs").style.display==''?'none':''
 	});
 	myMap.controls.get('typeSelector').events.add('contextmenu', function() {
