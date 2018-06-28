@@ -326,7 +326,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 		ID("cg").style.display = ID("cv").style.display = ID("cg").style.display==''?'none':''
 	});
 	myMap.controls.get('rulerControl').data.set('title','Измерение расстояний на карте (правый клик управляет отображением перекрестия в центре карты)');
-	myMap.controls.get('fullscreenControl').data.set('title','Определить ваше местоположение (правый клик управляет отображением информационного поля)');
+	myMap.controls.get('fullscreenControl').data.set('title','Управляет видимостью интерфейса (правый клик управляет отображением информационного поля)');
 	myMap.controls.get('fullscreenControl').events.add('contextmenu', function() {
 		ID("cs").style.display = ID("cs").style.display==''?'none':''
 	});
