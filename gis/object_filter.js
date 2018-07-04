@@ -122,7 +122,9 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 		HomegrP[i].forEach( function (obj) {CollZ.push(new ymaps.GeoObject(obj, {fillColor:CollZcolorV[i], strokeColor:"#000", opacity:0.6}))} );	// Зоны произрастания
 	}
 
-	var rectangle = [new ymaps.Rectangle([[59.2150061667 + x, 39.8239375556 + y], [59.2075578889 + x, 39.8433379722 + y]], {}, {fillImageHref:'Photo.png'})];
+	//var rectangle = [new ymaps.Rectangle([[59.2150061667 + x, 39.8239375556 + y], [59.2075578889 + x, 39.8433379722 + y]], {}, {fillImageHref:'Photo.png'})];
+	var rectangle = [new ymaps.Rectangle([[59.220934074710016, 39.858398443312105], [59.198438573765031, 39.902343755813284]], {}, {fillImageHref:'_ags_map0eb070febd664d088f1ab826330a85a5.svg'})];
+
 	//myMap.geoObjects.add(rectangle);
 
 	myMap.geoObjects.each( function (obj) {obj.options.set('opacity', 1)} );
