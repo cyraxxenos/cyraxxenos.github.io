@@ -123,7 +123,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	}
 
 	var rectangle = [new ymaps.Rectangle([[59.2150061667 + x, 39.8239375556 + y], [59.2075578889 + x, 39.8433379722 + y]], {}, {fillImageHref:'Photo.png'}),
-	new ymaps.Rectangle([[59.220934074710016, 39.858398443312105], [59.198438573765031, 39.902343755813284]], {}, {fillImageHref:'_ags_mapfa3405067af844488c361106646cdae8.svg'})];
+	new ymaps.Rectangle([[59.198438573765031 + x, 39.858398443312105 + y], [59.220934074710016 + x, 39.902343755813284 + y]], {}, {fillImageHref:'_ags_mapfa3405067af844488c361106646cdae8.svg'})];
 
 	//myMap.geoObjects.add(rectangle);
 
