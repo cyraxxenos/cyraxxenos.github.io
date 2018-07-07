@@ -2,8 +2,8 @@
 <head>
   <meta charset="utf-8">
   <title>ClusterPies</title>
-  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
-  <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.css' rel='stylesheet' />
+  <link rel="stylesheet" href="leaflet.css" />
+  <link href='MarkerCluster.css' rel='stylesheet' />
   <link rel="stylesheet" href="clusterpies.css" />
 </head>  
 <body>
@@ -18,7 +18,7 @@
   "use strict"
   var geojson,
     metadata,
-    geojsonPath = 'traffic_accidents.geojson',
+    geojsonPath = 'https://cyraxxenos.github.io/cluster/traffic_accidents.geojson',
     categoryField = '5074', //This is the fieldname for marker category (used in the pie and legend)
     iconField = '5065', //This is the fieldame for marker icon
     popupFields = ['5065','5055','5074'], //Popup will display these fields
