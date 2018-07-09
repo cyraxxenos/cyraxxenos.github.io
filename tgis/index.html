@@ -5,7 +5,6 @@
         <script src="https://maps.api.2gis.ru/2.0/loader.js?pkg=full"></script>
         <link rel="stylesheet" href="https://2gis.github.io/mapsapi/vendors/Leaflet.markerCluster/MarkerCluster.css" />
         <link rel="stylesheet" href="https://2gis.github.io/mapsapi/vendors/Leaflet.markerCluster/MarkerCluster.Default.css" />
-        <script src="https://maps.api.2gis.ru/2.0/cluster_realworld.js"></script>
 	<script src="data.js" type="text/javascript"></script>
     </head>
     <body>
@@ -26,6 +25,10 @@
 		return [(val_s+g)*1, m, s, val_s]
 	}
 
+	DG.then(function() {	// загрузка кода модуля
+		return DG.plugin('leaflet.markercluster-src.js'); // https://2gis.github.io/mapsapi/vendors/Leaflet.markerCluster/leaflet.markercluster-src.js
+	});
+
             DG.then(function() {	// API карт использует сферическую проекцию Меркатора (EPSG:3857)
 		var map = DG.map('map', {
 			center: [59.2107592707,39.8326271923],
@@ -33,35 +36,43 @@
 			dragging : true,
 			touchZoom: true,
 			scrollWheelZoom: true,
-			doubleClickZoom: true,
+			doubleClickZoom: false,
 			boxZoom: true,
 			geoclicker: false,
 			zoomControl: true,
 			fullscreenControl: true
 		});
 
-DG.geoJson(data, {
+var markers = DG.markerClusterGroup({maxClusterRadius:80, disableClusteringAtZoom:18});
+
+var geoJsonLayer = DG.geoJson(data, {
 	onEachFeature: function (feature, layer) {
-		layer.bindLabel(feature.properties.Название);
+	   layer.bindLabel(feature.properties.Название);
+
+	   layer.bindPopup(function (layer) { var object = layer.feature, a = object.geometry.coordinates;
+		return "<strong>Имя: </strong>"+ object.properties.Имя +"<br/>"+
+			"<strong>Обозначение: </strong>"+ object.properties.Обозначение +"<br/>"+
+			"<strong>Название: </strong>"+ object.properties.Название +"<br/>"+
+			"<strong>Высота (м): </strong>"+ object.properties["Высота (м)"] +"<br/>"+
+			"<strong>Диаметр на высоте 1,3 м (см): </strong>"+ object.properties["Диаметр на высоте 1,3 м (см)"] +"<br/>"+
+			"<strong>Диаметр на высоте 0,1 м (см): </strong>"+ object.properties["Диаметр на высоте 0,1 м (см)"] +"<br/>"+
+			"<strong>Протяженность зоны без сучьв (м): </strong>"+ object.properties["Протяженность зоны без сучьв (м)"] +"<br/>"+
+			"<strong>Диаметр кроны (м): </strong>"+ object.properties["Диаметр кроны (м)"] +"<br/>"+
+			"<strong>Балл санитарного состояния: </strong>"+ object.properties["Балл санитарного состояния"] +"<br/>"+
+			"<strong>Ступень толщины: </strong>"+ object.properties["Ступень толщины"] +"<br/>"+
+			"<strong>Пороки: </strong>"+ object.properties.Пороки +"<br/>"+
+			"<strong>Долгота: </strong>"+ a[0].toFixed(8) +" = "+ deg_dms3(a[0],5) +"<br/>"+
+			"<strong>Широта: </strong>"+ a[1].toFixed(8) +" = "+ deg_dms3(a[1],5);
+	   })
 	},
 	style: function (feature) {
 		return {color: feature.properties.color};	// Для линий и полигонов
 	}
-}).bindPopup(function (layer) { var object = layer.feature, a = object.geometry.coordinates;
-	return "<strong>Имя: </strong>"+ object.properties.Имя +"<br/>"+
-		"<strong>Обозначение: </strong>"+ object.properties.Обозначение +"<br/>"+
-		"<strong>Название: </strong>"+ object.properties.Название +"<br/>"+
-		"<strong>Высота (м): </strong>"+ object.properties["Высота (м)"] +"<br/>"+
-		"<strong>Диаметр на высоте 1,3 м (см): </strong>"+ object.properties["Диаметр на высоте 1,3 м (см)"] +"<br/>"+
-		"<strong>Диаметр на высоте 0,1 м (см): </strong>"+ object.properties["Диаметр на высоте 0,1 м (см)"] +"<br/>"+
-		"<strong>Протяженность зоны без сучьв (м): </strong>"+ object.properties["Протяженность зоны без сучьв (м)"] +"<br/>"+
-		"<strong>Диаметр кроны (м): </strong>"+ object.properties["Диаметр кроны (м)"] +"<br/>"+
-		"<strong>Балл санитарного состояния: </strong>"+ object.properties["Балл санитарного состояния"] +"<br/>"+
-		"<strong>Ступень толщины: </strong>"+ object.properties["Ступень толщины"] +"<br/>"+
-		"<strong>Пороки: </strong>"+ object.properties.Пороки +"<br/>"+
-		"<strong>Долгота: </strong>"+ a[0].toFixed(8) +" = "+ deg_dms3(a[0],5) +"<br/>"+
-		"<strong>Широта: </strong>"+ a[1].toFixed(8) +" = "+ deg_dms3(a[1],5);
-}).addTo(map);
+});
+
+//geoJsonLayer.addTo(map);
+markers.addLayer(geoJsonLayer);
+map.addLayer(markers);
 
 DG.control.scale().addTo(map);
 DG.control.ruler().addTo(map);
