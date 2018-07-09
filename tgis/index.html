@@ -44,8 +44,7 @@ DG.geoJson(data, {
 	style: function (feature) {
 		return {color: feature.properties.color};
 	}
-}).bindPopup(function (layer) { var object = layer.feature;
-	var a = object.geometry.coordinates;
+}).bindPopup(function (layer) { var object = layer.feature, a = object.geometry.coordinates;
 	return "<strong>Имя: </strong>"+ object.properties.Имя +"<br/>"+
 		"<strong>Обозначение: </strong>"+ object.properties.Обозначение +"<br/>"+
 		"<strong>Название: </strong>"+ object.properties.Название +"<br/>"+
