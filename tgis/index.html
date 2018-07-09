@@ -41,8 +41,11 @@
 		});
 
 DG.geoJson(data, {
+	onEachFeature: function (feature, layer) {
+		layer.bindLabel(feature.properties.Название);
+	},
 	style: function (feature) {
-		return {color: feature.properties.color};
+		return {color: feature.properties.color};	// Для линий и полигонов
 	}
 }).bindPopup(function (layer) { var object = layer.feature, a = object.geometry.coordinates;
 	return "<strong>Имя: </strong>"+ object.properties.Имя +"<br/>"+
