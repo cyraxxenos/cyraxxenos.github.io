@@ -47,7 +47,12 @@ var markers = DG.markerClusterGroup({maxClusterRadius:80, disableClusteringAtZoo
 
 var geoJsonLayer = DG.geoJson(data, {
 	pointToLayer: function (feature, latlng) {
-		return DG.marker(latlng, {icon: DG.icon({iconUrl:'https://cyraxxenos.github.io/gis/'+feature.options.iconImageHref})});
+		return DG.marker(latlng, {icon: DG.icon({
+			iconUrl:'https://cyraxxenos.github.io/gis/'+feature.options.iconImageHref,
+			iconSize:     [8, 8],	// размер значка
+			iconAnchor:   [4, 4],	// точка значка, которая будет соответствовать местоположению маркера
+			popupAnchor:  [0, 0]	// точка, из которой всплывающее окно должно открываться относительно значка
+		})});
 	},
 	onEachFeature: function (feature, layer) {
 	   layer.bindLabel(feature.properties.Название);
