@@ -1,4 +1,4 @@
-<html>
+п»ї<html>
 <head>
   <meta charset="utf-8">
   <title>ClusterPies</title>
@@ -59,10 +59,10 @@ function defineFeature(feature, latlng) {
     iconVal = feature.properties[iconField];
     var myClass = 'marker category-'+categoryVal+' icon-'+iconVal;
     var myIcon = L.divIcon({
-	iconUrl:	'https://cyraxxenos.github.io/gis/'+feature.options.iconColor+'.png'
-	iconSize:	[8, 8],	// размер значка
-	iconAnchor:	[4, 4],	// точка значка, которая будет соответствовать местоположению маркера
-	popupAnchor:	[0, 0]	// точка, из которой всплывающее окно должно открываться относительно значка
+	iconUrl:	'https://cyraxxenos.github.io/gis/'+feature.options.iconColor+'.png',
+	iconSize:	[8, 8],	// СЂР°Р·РјРµСЂ Р·РЅР°С‡РєР°
+	iconAnchor:	[4, 4],	// С‚РѕС‡РєР° Р·РЅР°С‡РєР°, РєРѕС‚РѕСЂР°СЏ Р±СѓРґРµС‚ СЃРѕРѕС‚РІРµС‚СЃС‚РІРѕРІР°С‚СЊ РјРµСЃС‚РѕРїРѕР»РѕР¶РµРЅРёСЋ РјР°СЂРєРµСЂР°
+	popupAnchor:	[0, 0]	// С‚РѕС‡РєР°, РёР· РєРѕС‚РѕСЂРѕР№ РІСЃРїР»С‹РІР°СЋС‰РµРµ РѕРєРЅРѕ РґРѕР»Р¶РЅРѕ РѕС‚РєСЂС‹РІР°С‚СЊСЃСЏ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ Р·РЅР°С‡РєР°
     });
     return L.marker(latlng, {icon: myIcon});
 }
