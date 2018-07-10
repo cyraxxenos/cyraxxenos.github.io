@@ -47,8 +47,7 @@ window.onload = function () {
 			zoomControl: true,
 			fullscreenControl: true
 		});
-
-var markers = DG.markerClusterGroup({maxClusterRadius:80, disableClusteringAtZoom:18});
+DG.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}').addTo(map);
 
 var geoJsonLayer = DG.geoJson(data, {
 	pointToLayer: function (feature, latlng) {
@@ -84,13 +83,12 @@ var geoJsonLayer = DG.geoJson(data, {
 });
 
 //geoJsonLayer.addTo(map);
+var markers = DG.markerClusterGroup({maxClusterRadius:80, disableClusteringAtZoom:18});
 markers.addLayer(geoJsonLayer);
 map.addLayer(markers);
 
 DG.control.scale().addTo(map);
 DG.control.ruler({position: 'bottomright'}).addTo(map);
-DG.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}').addTo(map);
-
 	    });
 } ()
 	</script>
