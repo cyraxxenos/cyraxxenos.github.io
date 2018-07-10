@@ -7,9 +7,9 @@
   <link rel="stylesheet" href="clusterpies.css" />
 </head>  
 <body>
-<script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js" charset="utf-8"></script>
+<script src="leaflet.js" charset="utf-8"></script>
 <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/leaflet.markercluster.js'></script>
-<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 
 <div id="container">
   <div id="map" />
@@ -22,7 +22,7 @@
     categoryField = '5074', //This is the fieldname for marker category (used in the pie and legend)
     iconField = '5065', //This is the fieldame for marker icon
     popupFields = ['5065','5055','5074'], //Popup will display these fields
-    tileServer = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    tileServer = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     tileAttribution = 'Map data: <a href="http://openstreetmap.org">OSM</a>',
     rmax = 30, //Maximum radius for cluster pies
     markerclusters = L.markerClusterGroup({
