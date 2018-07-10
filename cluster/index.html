@@ -8,6 +8,7 @@
 </head>  
 <body style="margin:0">
 <script src="leaflet.js" charset="utf-8"></script>
+<script src="TileLayer.Rosreestr.js"></script>
 <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/leaflet.markercluster.js'></script>
 <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 	<style type="text/css">
@@ -37,19 +38,41 @@
     categoryField = 'Название',				// This is the fieldname for marker category (used in the pie and legend)
     iconField = 'balloonContent',			// This is the fieldame for marker icon
     popupFields = ['balloonContent','id','Название'],	// Popup will display these fields
-    tileServer = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    tileAttribution = 'Map data: <a href="http://openstreetmap.org">OSM</a>',
     rmax = 30, //Maximum radius for cluster pies
     markerclusters = L.markerClusterGroup({
 	maxClusterRadius: 2.5*rmax,
 	disableClusteringAtZoom: 18,
 	iconCreateFunction: defineClusterIcon 			// this is where the magic happens
-    }),
-    map = L.map('map').setView([59.95, 10.78], 19);
-    
-  // Add basemap
-  L.tileLayer(tileServer, {attribution: tileAttribution,  maxZoom: 19}).addTo(map);
-  //and the empty markercluster layer
+    });
+	var ArcGIS = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+		maxZoom: 19
+		});
+	var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		maxZoom: 19
+		});
+	var map = new L.Map('map', {
+		layers: [osm, ArcGIS],
+		center: new L.LatLng(59.2118, 39.8323),
+		zoom: 18
+	});
+
+	var rosreestr = L.tileLayer.Rosreestr('http://{s}.pkk5.rosreestr.ru/arcgis/rest/services/Cadastre/Cadastre/MapServer/export?dpi=96&transparent=true&format=png32&bbox={bbox}&size=1024,1024&bboxSR=102100&imageSR=102100&f=image', {
+	   tileSize: 1024,
+	   clickable: true,
+	   attribution: 'Rosreestr'
+	}).on('click', function (ev) {
+	    console.log('click', ev);
+	});
+
+	var LayersControl = L.control.layers({
+		OSM: osm,
+		ArcGIS: ArcGIS
+		
+	    }, {
+		Rosreestr: rosreestr
+	    }, {collapsed: true}).addTo(map);
+
+  //Add the empty markercluster layer
   map.addLayer(markerclusters);
 
   // Ready to go, load the geojson
@@ -101,22 +124,22 @@ function defineClusterIcon(cluster) {
     var children = cluster.getAllChildMarkers(),
 	n = children.length,					// Get number of markers in cluster
 	strokeWidth = 1,					// Set clusterpie stroke width
-	r = rmax-2*strokeWidth-(n<10?12:n<100?8:n<1000?4:0),	// Calculate clusterpie radius ...
+	r = rmax-2*strokeWidth-(n<10?10:n<100?8:n<1000?4:0),	// Calculate clusterpie radius ...
 	iconDim = (r+strokeWidth)*2,				// ... and divIcon dimensions (leaflet really want to know the size)
 	data = d3.nest()					// Build a dataset for the pie chart
-	  .key(function(d) { return d.feature.properties[categoryField]; })
+	  .key(function(d) { return d.feature.properties[categoryField] })
 	  .entries(children, d3.map),
 	// bake some svg markup
 	html = bakeThePie({data: data,
-		valueFunc: function(d){return d.values.length;},
+		valueFunc: function(d){return d.values.length},
 		strokeWidth: 1,
 		outerRadius: r,
 		innerRadius: r-10,
 		pieClass: 'cluster-pie',
 		pieLabel: n,
 		pieLabelClass: 'marker-cluster-pie-label',
-		pathClassFunc: function(d){return "category-"+d.data.key;},
-		pathTitleFunc: function(d){return metadata.fields[categoryField].lookup[d.data.key]+' ('+d.data.values.length+' accident'+(d.data.values.length!=1?'s':'')+')';}
+		pathClassFunc: function(d){return "category-"+d.data.key},
+		pathTitleFunc: function(d){return d.data.key+' ('+d.data.values.length+')';}
 	}),
 	// Create a new divIcon and assign the svg markup to the html property
 	myIcon = new L.DivIcon({
@@ -128,7 +151,7 @@ function defineClusterIcon(cluster) {
 }
 
 function bakeThePie(options) {		// function that generates a svg markup for the pie chart
-	/*data and valueFunc are required*/
+	// data and valueFunc are required
     if (!options.data || !options.valueFunc) {return ''}
     var data = options.data,
 	valueFunc = options.valueFunc,
