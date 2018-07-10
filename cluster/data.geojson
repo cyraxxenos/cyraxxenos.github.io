@@ -1099,5 +1099,23 @@
 "properties": {"fields": {"balloonContent":
 {"lookup": {"1": "Pedestrian", "3": "Motorcycle", "2": "Bicycle", "4": "Car"}, "name": "Accident type"},
 "id": {"name": "Date"},
-"Название": {"lookup": {"1": "Fatal", "3": "Serious injuries", "2": "Very serious injuries", "5": "No injuries", "4": "Minor injuries", "6": "Not recorded"}, "name": "Injuries"}},
+"Название": {"lookup": {
+	"Акация": "mediumpurple",
+	"Барбарис": "maroon",
+	"Берёза": "lime",
+	"Вяз": "green",
+	"Дуб": "white",
+	"Ива": "pink",
+	"Клён": "brown",
+	"Лапчатка": "teal",
+	"Липа": "yellow",
+	"Лиственница": "olive",
+	"Ольха": "magenta",
+	"Осина": "purple",
+	"Рябина": "red",
+	"Тополь": "cyan",
+	"Яблоня": "orange",
+	"Ясень": "blue",
+	"Другие": "gray"
+}, "name": "Injuries"}},
 "attribution": "Traffic accidents: <a href=\"http://data.norge.no/data/nasjonal-vegdatabank-api\" target=\"blank\">NVDB</a>", "description": "Traffic accidents in 2013 in Oslo, Norway"}}
