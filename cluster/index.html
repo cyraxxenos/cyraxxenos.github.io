@@ -18,7 +18,7 @@
   "use strict"
   var geojson,
     metadata,
-    geojsonPath = 'https://cyraxxenos.github.io/cluster/traffic_accidents.geojson',
+    geojsonPath = 'https://cyraxxenos.github.io/cluster/data.geojson',
     categoryField = '5074', //This is the fieldname for marker category (used in the pie and legend)
     iconField = '5065', //This is the fieldame for marker icon
     popupFields = ['5065','5055','5074'], //Popup will display these fields
@@ -59,8 +59,10 @@ function defineFeature(feature, latlng) {
     iconVal = feature.properties[iconField];
     var myClass = 'marker category-'+categoryVal+' icon-'+iconVal;
     var myIcon = L.divIcon({
-        className: myClass,
-        iconSize:null
+	iconUrl:	'https://cyraxxenos.github.io/gis/'+feature.options.iconColor+'.png'
+	iconSize:	[8, 8],	// размер значка
+	iconAnchor:	[4, 4],	// точка значка, которая будет соответствовать местоположению маркера
+	popupAnchor:	[0, 0]	// точка, из которой всплывающее окно должно открываться относительно значка
     });
     return L.marker(latlng, {icon: myIcon});
 }
