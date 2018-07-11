@@ -46,21 +46,32 @@
 	iconCreateFunction: defineClusterIcon 			// this is where the magic happens
     });
 	var ArcGIS = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-		maxZoom: 19
+		maxZoom: 20
 		});
 
-	var Yandex = L.tileLayer('https://vec{s}.maps.yandex.net/tiles?l=map&v=4.55.2&z={z}&x={x}&y={y}&scale=2&lang=ru_RU', {
-	subdomains: ['01', '02', '03', '04'],
-	attribution: '<a http="yandex.ru" target="_blank">Яндекс</a>',
-	reuseTiles: true,
-	updateWhenIdle: false
+	var YandexSat = L.tileLayer('https://sat{s}.maps.yandex.net/tiles?l=sat&z={z}&x={x}&y={y}', {
+		maxZoom: 20,
+		subdomains: ['01', '02', '03', '04'],
+		reuseTiles: true,
+		updateWhenIdle: false
+	});
+	var YandexMap = L.tileLayer('https://vec{s}.maps.yandex.net/tiles?l=map&z={z}&x={x}&y={y}', {
+		maxZoom: 20,
+		subdomains: ['01', '02', '03', '04'],
+		reuseTiles: true,
+		updateWhenIdle: false
 	});
 
+	var GoogleSat = L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+		maxZoom: 20,
+		subdomains:['mt0','mt1','mt2','mt3']
+		});
+
 	var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-		maxZoom: 19
+		maxZoom: 20
 		});
 	var map = new L.Map('map', {
-		layers: [osm, Yandex, ArcGIS],
+		layers: [osm, YandexMap, YandexSat, GoogleSat, ArcGIS],
 		//crs:L.CRS.EPSG3395,
 		center: new L.LatLng(59.2118, 39.8323),
 		zoom: 18
@@ -68,8 +79,8 @@
 
 	L.Map.prototype.setCrs = function(newCrs) {this.options.crs = newCrs}
 	map.on('baselayerchange', function(layer) {
-		if(layer.name == 'ArcGIS') map.setCrs(L.CRS.EPSG3857);
-		else if(layer.name == 'Yandex') map.setCrs(L.CRS.EPSG3395);
+		if('ArcGIS,OSM,Google Спутник'.split(',').some(function(a) {return layer.name == a})) map.setCrs(L.CRS.EPSG3857);
+		else if(false !== layer.name.indexOf('Yandex')) map.setCrs(L.CRS.EPSG3395);
 		map.setView(new L.LatLng(59.2118, 39.8323), 17);
 	});
 
@@ -80,9 +91,11 @@
 	}).on('click', function (ev) {console.log('click', ev)});
 
 	var LayersControl = L.control.layers({
-		OSM:	osm,
-		Yandex:	Yandex,
-		ArcGIS:	ArcGIS		
+		'Yandex Спутник':	YandexSat,
+		'Yandex Схема':		YandexMap,
+		'OSM':			osm,
+		'Google Спутник':	GoogleSat,
+		'ArcGIS':		ArcGIS		
 	    }, {
 		Точки: markerclusters,
 		Кадастр: rosreestr
