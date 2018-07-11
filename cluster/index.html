@@ -1,4 +1,5 @@
-﻿<html>
+﻿<!DOCTYPE html>
+<html>
 <head>
   <meta charset="utf-8">
   <title>ClusterPies</title>
@@ -47,11 +48,20 @@
 	var ArcGIS = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
 		maxZoom: 19
 		});
+
+	var Yandex = L.tileLayer('http://vec{s}.maps.yandex.net/tiles?l=map&v=4.55.2&z={z}&x={x}&y={y}&scale=2&lang=ru_RU', {
+	subdomains: ['01', '02', '03', '04'],
+	attribution: '<a http="yandex.ru" target="_blank">Яндекс</a>',
+	reuseTiles: true,
+	updateWhenIdle: false
+	});
+
 	var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 		maxZoom: 19
 		});
 	var map = new L.Map('map', {
-		layers: [osm, ArcGIS],
+		layers: [osm, Yandex, ArcGIS],
+		//crs:L.CRS.EPSG3395,
 		center: new L.LatLng(59.2118, 39.8323),
 		zoom: 18
 	});
@@ -60,17 +70,23 @@
 	   tileSize: 1024,
 	   clickable: true,
 	   attribution: 'Rosreestr'
-	}).on('click', function (ev) {
-	    console.log('click', ev);
-	});
+	}).on('click', function (ev) {console.log('click', ev)});
 
 	var LayersControl = L.control.layers({
 		OSM: osm,
-		ArcGIS: ArcGIS
-		
+		Yandex: Yandex,
+		ArcGIS: ArcGIS		
 	    }, {
 		Rosreestr: rosreestr
 	    }, {collapsed: true}).addTo(map);
+
+	L.Map.prototype.setCrs = function(newCrs) {this.options.crs = newCrs}
+
+	map.on('baselayerchange', function(layer) {
+		if(layer.name == 'ArcGIS') map.setCrs(L.CRS.EPSG3857);
+		else if(layer.name == 'Yandex') map.setCrs(L.CRS.EPSG3395);
+		map.setView(new L.LatLng(59.2118, 39.8323), 17);
+	});
 
   //Add the empty markercluster layer
   map.addLayer(markerclusters);
