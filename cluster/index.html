@@ -4,11 +4,13 @@
   <meta charset="utf-8">
   <title>ClusterPies</title>
   <link rel="stylesheet" href="leaflet.css" />
+  <link rel="stylesheet" href="leaflet.label.css" />
   <link href='MarkerCluster.css' rel='stylesheet' />
   <link rel="stylesheet" href="clusterpies.css" />
 </head>  
 <body style="margin:0">
 <script src="leaflet.js" charset="utf-8"></script>
+<script src="leaflet.label.js"></script>
 <script src="TileLayer.Rosreestr.js"></script>
 <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/leaflet.markercluster.js'></script>
 <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
@@ -147,6 +149,7 @@ function defineFeaturePopup(feature, layer) {
 		"<strong>Широта: </strong>"+ a[1].toFixed(8) +" = "+ deg_dms3(a[1],5);
 	popupContent = '<div class="map-popup">'+popupContent+'</div>';
 	layer.bindPopup(popupContent,{offset: L.point(1,-2)});
+	layer.bindLabel(feature.properties.Название, {pane:'popupPane', direction:'auto'});
 }
 
 function defineClusterIcon(cluster) {
