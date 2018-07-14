@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8 />
+<title>turf</title>
+<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+<script src='https://api.tiles.mapbox.com/mapbox.js/plugins/turf/v1.3.0/turf.min.js'></script>
+<script src='https://api.tiles.mapbox.com/mapbox.js/v2.0.1/mapbox.js'></script>
+<link href='https://api.tiles.mapbox.com/mapbox.js/v2.0.1/mapbox.css' rel='stylesheet' />
+<style>
+  body { margin:0; padding:0; }
+  #map { position:absolute; top:0; bottom:0; width:100%; }
+</style>
+</head>
+<body>
+<div id='map'></div>
+
+<script>
+L.mapbox.accessToken = 'pk.eyJ1IjoibW9yZ2FuaGVybG9ja2VyIiwiYSI6Ii1zLU4xOWMifQ.FubD68OEerk74AYCLduMZQ';
+//L.mapbox.accessToken = 'pk.eyJ1IjoibWF0dHJ1c3NvIiwiYSI6IjVlYzk3OTEzOTczZTEwYTMyNDRjZDA4NDY1MjYzNWNmIn0.0wkKxVGJyO8nEKjn2GcV3A';
+
+var point1 = turf.point(59.2117, 39.832, {
+    "title": "OKC Thunder",
+    "description": "100 W Reno Ave, Oklahoma City",
+    "marker-color": "#6BC65F",
+    "marker-size": "large",
+    "marker-symbol": "basketball"
+});
+
+var point2 = turf.point(59.2119, 39.8324, {
+    "title": "Devon Tower",
+    "description": "333 West Sheridan Ave, Oklahoma City",
+    "marker-color": "#6BC65F",
+    "marker-size": "large",
+    "marker-symbol": "building"
+});
+
+var point3 = turf.point(59.2118, 39.833, {
+    "title": "OKC Redhawks",
+    "description": "2 South Mickey Mantle Dr, Oklahoma City",
+    "marker-color": "#6BC65F",
+    "marker-size": "large",
+    "marker-symbol": "baseball"
+});
+
+var feature_collection = turf.featurecollection([point1, point2, point3]);
+var feature_collection = turf.flip(feature_collection);
+
+var map = L.mapbox.map('map', 'null')
+    .setView([59.2118, 39.8323], 16)
+    .featureLayer.setGeoJSON(feature_collection);
+
+var baseMaps = {
+  Streets: L.mapbox.tileLayer('mapbox.streets'),
+  Outdoors: L.mapbox.tileLayer('mapbox.outdoors'),
+  Satellite: L.mapbox.tileLayer('mapbox.satellite'),
+};
+
+baseMaps.Satellite.addTo(map);
+</script>
+</body>
+</html>

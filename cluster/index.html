@@ -14,14 +14,13 @@
 <script src="TileLayer.Rosreestr.js"></script>
 <script src='leaflet.markercluster.js'></script>
 <script src="d3.v3.min.js" charset="utf-8"></script>
-	<style type="text/css">
-		[class*="leaflet-control-attribution"] {display:none}
-		#map, [class*="leaflet-marker-icon"]:active {cursor:default}
-	</style>
+<script src="turf.min.js" charset="utf-8"></script>
+<style type="text/css">
+	[class*="leaflet-control-attribution"] {display:none}
+	#map, [class*="leaflet-marker-icon"]:active {cursor:default}
+</style>
 
-<div id="container">
-  <div id="map" style="width:100%; height:100vh" />
-</div>
+<div id="map" style="width:100%; height:100vh" />
 <script>
 	function round_4(a) {return Math.round(parseFloat(a)*10000)/10000}
 	function rplN(a) {return (a+'').replace(/[,]/g,'.')}
@@ -42,11 +41,11 @@
     categoryField = 'Название',				// This is the fieldname for marker category (used in the pie and legend)
     iconField = 'balloonContent',			// This is the fieldame for marker icon
     popupFields = ['balloonContent','id','Название'],	// Popup will display these fields
-    rmax = 30, //Maximum radius for cluster pies
+    rmax = 30,						//Maximum radius for cluster pies
     markerclusters = L.markerClusterGroup({
 	maxClusterRadius: 2.5*rmax,
 	disableClusteringAtZoom: 18,
-	iconCreateFunction: defineClusterIcon 			// this is where the magic happens
+	iconCreateFunction: defineClusterIcon 		// this is where the magic happens
     });
 	var ArcGIS = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
 		maxZoom: 20
@@ -54,13 +53,13 @@
 
 	var YandexSat = L.tileLayer('https://sat{s}.maps.yandex.net/tiles?l=sat&z={z}&x={x}&y={y}', {
 		maxZoom: 20,
-		subdomains: ['01', '02', '03', '04'],
+		subdomains: ['01','02','03','04'],
 		reuseTiles: true,
 		updateWhenIdle: false
 	});
 	var YandexMap = L.tileLayer('https://vec{s}.maps.yandex.net/tiles?l=map&z={z}&x={x}&y={y}', {
 		maxZoom: 20,
-		subdomains: ['01', '02', '03', '04'],
+		subdomains: ['01','02','03','04'],
 		reuseTiles: true,
 		updateWhenIdle: false
 	});
@@ -73,11 +72,12 @@
 	var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 		maxZoom: 20
 		});
+
 	var map = new L.Map('map', {
 		layers: [osm, YandexMap, YandexSat, GoogleSat, ArcGIS],
 		//crs:L.CRS.EPSG3395,
 		center: new L.LatLng(59.2118, 39.8323),
-		zoom: 18
+		zoom: 17
 	});
 
 	L.Map.prototype.setCrs = function(newCrs) {this.options.crs = newCrs}
@@ -93,6 +93,25 @@
 	   attribution: 'Rosreestr'
 	}).on('click', function (ev) {console.log('click', ev)});
 
+	var x = 0.00001, y = 0.00007, geojsonFeature = { type: "Polygon", coordinates: [ [ [ x + 59.2130466, y + 39.830244 ], [ x + 59.2106448, y + 39.8306239 ], [ x + 59.2105021, y + 39.8307317 ], [ x + 59.2103848, y + 39.8308715 ], [ x + 59.2092224, y + 39.8328451 ], [ x + 59.2105127, y + 39.835721 ], [ x + 59.21112714311782, y + 39.8346137275642 ], [ x + 59.2121203529806, y + 39.833167439951275 ], [ x + 59.212497397306066, y + 39.83286201275351 ], [ x + 59.21305835798602, y + 39.83269133284889 ], [ x + 59.21316, y + 39.83267 ], [ x + 59.2130466, y + 39.830244 ] ] ] };
+
+	var geojsonFeature = turf.flip(geojsonFeature);
+	var Area = L.geoJson(geojsonFeature, {style:
+		{fillColor:"#f805",color:"#f80",weight:3},
+		onEachFeature: function(feature) {
+		    var coords = feature.coordinates;
+		    var lengthOfCoords = feature.coordinates.length;
+		
+		    // Reverse lng, lat order (from GeoJSON format) to lat, lng for L.polyline
+		    for (i = 0; i < lengthOfCoords; i++) {
+		      // Swap lng and lat, save lng in var holdLon then drop back into second position
+		      holdLon = coords[i][0];
+		      coords[i][0] = coords[i][1];
+		      coords[i][1] = holdLon;
+		    }
+		}
+	});
+
 	var LayersControl = L.control.layers({
 		'Yandex Спутник':	YandexSat,
 		'Yandex Схема':		YandexMap,
@@ -100,12 +119,13 @@
 		'Google Спутник':	GoogleSat,
 		'ArcGIS':		ArcGIS		
 	    }, {
-		Точки: markerclusters,
-		Кадастр: rosreestr
+		'Точки':		markerclusters,
+		'Полигон':		Area,
+		'Кадастр':		rosreestr
 	    }, {collapsed: true}).addTo(map);
 
-  //Add the empty markercluster layer
-  map.addLayer(markerclusters);
+	map.addLayer(markerclusters);
+	map.addLayer(Area);
 
   // Ready to go, load the geojson
   d3.json(geojsonPath, function(error, data) {
@@ -162,7 +182,7 @@ function defineClusterIcon(cluster) {
 	data = d3.nest()					// Build a dataset for the pie chart
 	  .key(function(d) { return d.feature.properties[categoryField] })
 	  .entries(children, d3.map),
-	// bake some svg markup
+		// bake some svg markup
 	html = bakeThePie({data: data,
 		valueFunc: function(d){return d.values.length},
 		strokeWidth: 1,
@@ -171,10 +191,10 @@ function defineClusterIcon(cluster) {
 		pieClass: 'cluster-pie',
 		pieLabel: n,
 		pieLabelClass: 'marker-cluster-pie-label',
-		pathClassFunc: function(d){return "category-"+d.data.key},
-		pathTitleFunc: function(d){return d.data.key+' ('+d.data.values.length+')';}
+		pathClassFunc: function(d){return "category-"+ d.data.key},
+		pathTitleFunc: function(d){return d.data.key +' ('+ d.data.values.length +')'}
 	}),
-	// Create a new divIcon and assign the svg markup to the html property
+		// Create a new divIcon and assign the svg markup to the html property
 	myIcon = new L.DivIcon({
 	    html: html,
 	    className: 'marker-cluster', 
@@ -203,9 +223,9 @@ function bakeThePie(options) {		// function that generates a svg markup for the 
 	donut = d3.layout.pie(),
 	arc = d3.svg.arc().innerRadius(rInner).outerRadius(r);
 
-    // Create an svg element
+	// Create an svg element
     var svg = document.createElementNS(d3.ns.prefix.svg, 'svg');
-    // Create the pie chart
+	// Create the pie chart
     var vis = d3.select(svg)
 	.data([data])
 	.attr('class', pieClass)
@@ -216,7 +236,7 @@ function bakeThePie(options) {		// function that generates a svg markup for the 
 	.data(donut.value(valueFunc))
 	.enter().append('svg:g')
 	.attr('class', 'arc')
-	.attr('transform', 'translate(' + origo + ',' + origo + ')');
+	.attr('transform','translate('+ origo +','+ origo +')');
 
     arcs.append('svg:path')
 	.attr('class', pathClassFunc)
@@ -226,15 +246,15 @@ function bakeThePie(options) {		// function that generates a svg markup for the 
 	  .text(pathTitleFunc);
 
     vis.append('text')
-	.attr('x',origo)
-	.attr('y',origo)
+	.attr('x', origo)
+	.attr('y', origo)
 	.attr('class', pieLabelClass)
-	.attr('text-anchor', 'middle')
-	//.attr('dominant-baseline', 'central')
+	.attr('text-anchor','middle')
+	//.attr('dominant-baseline','central')
 	/*IE doesn't seem to support dominant-baseline, but setting dy to .3em does the trick*/
 	.attr('dy','.3em')
 	.text(pieLabel);
-    // Return the svg-markup rather than the actual element
+	// Return the svg-markup rather than the actual element
     return serializeXmlNode(svg);
 }
 
