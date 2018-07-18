@@ -184,6 +184,8 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	typeSelector.addMapType('ESRIS#mapType', 37);
 	typeSelector.addMapType('Concrete#mapType', 40);
 
+	clr = function (a) { return "<svg width='8' height='8'><rect width='8' height='8' style='fill:"+a+"; stroke:black; stroke-width:1'/></svg>"};
+
 	// 0.00001 (x) и 0.00007 (y) - для Ковыринского сада, 0.000012 (xH) и 0.000033 (yH) - для сквера Петра
 
 	$.getJSON('https://cyraxxenos.github.io/gis/data.json').done(function (geoJson) {
@@ -191,9 +193,9 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 		objectManager.objects.each(function (object) { var a = object.geometry.coordinates;
 			a[0] += x;
 			a[1] += y;
-			object.properties.balloonContentBody = "<strong>Имя: </strong>"+ object.properties.Имя +"<br/>"+
+			object.properties.balloonContentBody = "<strong> Имя: </strong>"+ object.properties.Имя +"<br/>"+
 				"<strong>Обозначение: </strong>"+ object.properties.Обозначение +"<br/>"+
-				"<strong>Название: </strong>"+ object.properties.Название +"<br/>"+
+				"<strong>Название: </strong>"+ clr(object.options.iconColor) +" "+ object.properties.Название +"<br/>"+
 				"<strong>Высота (м): </strong>"+ object.properties["Высота (м)"] +"<br/>"+
 				"<strong>Диаметр на высоте 1,3 м (см): </strong>"+ object.properties["Диаметр на высоте 1,3 м (см)"] +"<br/>"+
 				"<strong>Диаметр на высоте 0,1 м (см): </strong>"+ object.properties["Диаметр на высоте 0,1 м (см)"] +"<br/>"+
@@ -249,8 +251,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 //		return new ymaps.control.ListBoxItem({ data: {content: ' <span style="color:Green">'+ title +'</span>'}, state: {selected: true} })
 //	}),
 
-	var listBoxItems = [], cl = function (a,b) { return new ymaps.control.ListBoxItem({ data:{content:"  <img src='"+a+".png'>   "+b}, state:{selected:true} }) },
-	clr = function (a) { return "<svg width='10' height='10'><circle cx='5' cy='5' r='4' style='fill:"+a+"; stroke:black; stroke-width:1'/></svg>"};
+	var listBoxItems = [], cl = function (a,b) { return new ymaps.control.ListBoxItem({ data:{content:"  <img src='"+a+".png'>   "+b}, state:{selected:true} }) };
 	listBoxItems.push(cl('mediumpurple','Акация'));	// #9370db
 	listBoxItems.push(cl('maroon','Барбарис'));	// #800000
 	listBoxItems.push(cl('lime','Берёза'));		// #0f0
@@ -268,7 +269,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	listBoxItems.push(cl('orange','Яблоня'));	// #ffa500
 	listBoxItems.push(cl('blue','Ясень'));		// #00f
 	listBoxItems.push(new ymaps.control.ListBoxItem({options: {type:'separator'}}));
-	listBoxItems.push(cl('gray',"Другие"));
+	listBoxItems.push(cl('gray','Другие'));
 	// Теперь создадим список, содержащий пункты
 	listBoxControl = new ymaps.control.ListBox({
 		data: {content:'Растительность', title:'Фильтр по тематическим слоям'},
