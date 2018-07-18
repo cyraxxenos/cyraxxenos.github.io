@@ -193,6 +193,10 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 		objectManager.objects.each(function (object) { var a = object.geometry.coordinates;
 			a[0] += x;
 			a[1] += y;
+			object.options.iconLayout = 'default#image';
+			object.options.iconImageSize = [8,8];
+			object.options.iconImageOffset = [-4,-4];
+			object.options.iconImageHref = 'icon/'+ object.options.iconColor +'.png' ;
 			object.properties.balloonContentBody = "<strong> Имя: </strong>"+ object.properties.Имя +"<br/>"+
 				"<strong>Обозначение: </strong>"+ object.properties.Обозначение +"<br/>"+
 				"<strong>Название: </strong>"+ clr(object.options.iconColor) +" "+ object.properties.Название +"<br/>"+
@@ -251,7 +255,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 //		return new ymaps.control.ListBoxItem({ data: {content: ' <span style="color:Green">'+ title +'</span>'}, state: {selected: true} })
 //	}),
 
-	var listBoxItems = [], cl = function (a,b) { return new ymaps.control.ListBoxItem({ data:{content:"  <img src='"+a+".png'>   "+b}, state:{selected:true} }) };
+	var listBoxItems = [], cl = function (a,b) { return new ymaps.control.ListBoxItem({ data:{content:" "+ clr(a) +"  "+ b}, state:{selected:true} }) };
 	listBoxItems.push(cl('mediumpurple','Акация'));	// #9370db
 	listBoxItems.push(cl('maroon','Барбарис'));	// #800000
 	listBoxItems.push(cl('lime','Берёза'));		// #0f0
@@ -348,7 +352,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 
 	function getFilterFunction(categories){
 		return function(obj){
-			var content = obj.properties.balloonContent;
+			var content = " "+ clr(obj.options.iconColor) +"  "+ obj.properties.Название;
 			return categories[content]
 		}
 	}
