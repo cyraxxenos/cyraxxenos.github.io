@@ -196,7 +196,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 			object.options.iconLayout = "default#image";
 			object.options.iconImageSize = [8,8];
 			object.options.iconImageOffset = [-4,-4];
-			object.options.iconImageHref = "icon/"+ object.options.iconColor +".png" ;
+			object.options.iconImageHref = "icon/"+ object.options.iconColor +".svg" ;
 			object.properties.balloonContentBody = "<strong> Имя: </strong>"+ object.properties.Имя +"<br/>"+
 				"<strong>Обозначение: </strong>"+ object.properties.Обозначение +"<br/>"+
 				"<strong>Название: </strong>"+ clr(object.options.iconColor) +" "+ object.properties.Название +"<br/>"+
