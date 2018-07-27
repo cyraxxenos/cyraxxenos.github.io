@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Калькулятор списка координат</title>
+</head>
+<body>
+	 
+<script src="sites/all/modules/proj4js/lib/proj4js/lib/proj4js.js"></script>
+<script src="sites/all/modules/proj4js/lib/proj4js/lib/defs/msk.js"></script><script>
+<!--//--><![CDATA[// ><!--
+
+var projHash = {};
+function initProj4js() {
+  var crsSource = document.getElementById('crsSource');
+  var crsDest = document.getElementById('crsDest');
+  var optIndex = 0;
+  for (var def in Proj4js.defs) {
+	projHash[def] = new Proj4js.Proj(def);
+	var label = def+" - "+ (projHash[def].title ? projHash[def].title : '');
+	var opt = new Option(label, def);
+	crsSource.options[optIndex]= opt;
+	var opt = new Option(label, def);
+	crsDest.options[optIndex]= opt;
+	++optIndex;
+  }
+  updateCrs('Source');
+  updateCrs('Dest');
+}
+function updateCrs(id) {
+  var crs = document.getElementById('crs'+id);
+  if (crs.value) {
+    var proj = projHash[crs.value];
+    var str = 'projection: ' + proj.projName + ' - datum: ' + proj.datumName;
+    var desc = document.getElementById('desc'+id);
+    desc.innerHTML = str;
+    var units = document.getElementById('units'+id);
+    units.innerHTML = proj.units;
+  }
+}
+function togms(decDegree, intNumDecPlace) {
+  var d = Math.pow(10, intNumDecPlace);
+  var degree = parseInt(decDegree); 
+  var minute = parseInt((decDegree - degree) * 60); 
+  var second = ((decDegree - degree) * 60 - minute) * 60;
+  second = Math.round(second * d) / d
+  if (Math.abs(second) >= 60) {
+    minute = minute + second / 60;
+    second = 0;
+  }
+  if (Math.abs(minute) >= 60) {
+    degree = degree + minute / 60;
+    minute = 0;
+  }
+//  return degree.toFixed(0) + '°' + minute.toFixed(0) + '′' + second.toFixed(intNumDecPlace) + '″';
+  return degree.toString() + '°' + minute.toString() + '′' + second.toString() + '″';
+}
+function transform() {
+  var crsSource = document.getElementById('crsSource');
+  var projSource = null;
+  if (crsSource.value) {
+    projSource = projHash[crsSource.value];
+  } else {
+    alert("Выберите исходную систему координат");
+    return;
+  }
+  var crsDest = document.getElementById('crsDest');
+  var projDest = null;
+  if (crsDest.value) {
+    projDest = projHash[crsDest.value];
+  } else {
+    alert("Выберите целевую систему координат");
+    return;
+  }
+  var pointInput = document.getElementById('xySource');
+  var numDecPlace = document.getElementById('numDecPlace');
+  var listOutput = '';
+  var x = '';
+  var y = '';
+  var fx = 0.0;
+  var fy = 0.0;
+  if (numDecPlace.value) {
+    try {
+	   var intNumDecPlace = parseInt(numDecPlace.value);
+    }
+    catch (err) {
+	   var intNumDecPlace = 6;
+    }
+  }
+  if (pointInput.value) {
+    var myList = pointInput.value.split('\n');
+    for (var i = 0, ln = myList.length; i < ln; ++i) {
+	   var pointSource = new Proj4js.Point(myList[i]);
+	   if (isNaN(parseFloat(pointSource.x))) {
+		  continue;
+	   }
+	   if (isNaN(parseFloat(pointSource.y))) {
+		  continue;
+	   }
+	   if (document.getElementById('orderXY').checked) {
+		  var pointSourceSorted = new Proj4js.Point(pointSource.x, pointSource.y);
+	   }
+	   else {
+		  var pointSourceSorted = new Proj4js.Point(pointSource.y, pointSource.x);
+	   }
+	   var pointDest = Proj4js.transform(projSource, projDest, pointSourceSorted);
+	   if (document.getElementById('orderXY').checked) {
+		  var pointDestSorted = new Proj4js.Point(pointDest.x, pointDest.y);
+	   }
+	   else {
+		  var pointDestSorted = new Proj4js.Point(pointDest.y, pointDest.x);
+	   }
+	   if (document.getElementById('unitsDest').innerHTML == 'degrees') {
+		  if (document.getElementById('fDegMinSec').checked) {
+			 fx = parseFloat(pointDestSorted.x);
+			 fy = parseFloat(pointDestSorted.y);
+			 x = fx.toFixed(intNumDecPlace);
+			 y = fy.toFixed(intNumDecPlace);
+		  }
+		  else {
+			 x = togms(pointDestSorted.x, intNumDecPlace);
+			 y = togms(pointDestSorted.y, intNumDecPlace);
+		  }
+	   }
+	   else {
+		  fx = parseFloat(pointDestSorted.x);
+		  fy = parseFloat(pointDestSorted.y);
+		  x = fx.toFixed(intNumDecPlace);
+		  y = fy.toFixed(intNumDecPlace);
+	   }
+	   listOutput =  listOutput + x + ',' + y + '\n';
+    }
+    document.getElementById('xyDest').value = listOutput;
+  } else {
+    alert("Введите исходные координаты");
+    return;
+  }
+}
+
+//--><!]]>
+</script>
+<h3>Перевод координат</h3>
+<p>Разделитель пар координат (точек) - перевод строки. Разделитель значений координат - запятая. Разделитель между целой и дробной частью - точка.</p>
+<form>
+<table><tbody><tr><td><strong>Порядок перечисления координат</strong></td>
+</tr><tr><td>
+	<input type="radio" name="orderXY" id="orderXY" checked="checked" />Долгота, Широта (Y, X для МСК, СК-42, СК-63)<br /><input type="radio" name="orderXY" id="orderXY" />Широта, Долгота (X, Y для МСК, СК-42, СК-63)
+    </td>
+</tr><tr><td><strong>Источник</strong></td>
+</tr><tr><td>
+<select name="crsSource" id="crsSource" onchange="updateCrs('Source')"><option value="" selected="selected">Выбор системы координат</option><br /></select></td>
+</tr><tr><td id="descSource">Проекция - датум</td>
+</tr><tr><td><textarea rows="10" name="xySource" id="xySource" style="width:100%"></textarea></td>
+</tr><tr><td id="unitsSource">единицы измерения</td>
+</tr><tr><td><strong>Цель</strong></td>
+</tr><tr><td>
+<select name="crsDest" id="crsDest" onchange="updateCrs('Dest')"><option value="" selected="selected">Выбор системы координат</option><br /></select></td>
+</tr><tr><td id="descDest">Проекция - датум</td>
+</tr><tr><td>
+	<input type="radio" name="fDegMinSec" id="fDegMinSec" checked="checked" />Расчётные координаты в формате десятичных градусов<br /><input type="radio" name="fDegMinSec" id="fDegMinSec" />Расчётные координаты в формате градусы-минуты-секунды
+    </td>
+</tr><tr><td>Округлять расчётные координаты до</td>
+</tr><tr><td><input name="numDecPlace" id="numDecPlace" type="text" style="width:33%" value="6" /></td>
+</tr><tr><td>десятичных знаков.</td>
+</tr><tr><td><textarea rows="10" name="xyDest" id="xyDest" style="width:100%"></textarea></td>
+</tr><tr><td id="unitsDest">единицы измерения</td>
+</tr></tbody></table><p></p><center><input type="button" value=" Пересчитать кооординаты" onclick="transform();" />   <input type="reset" value=" Очистить форму " /></center><br /></form>
+<script>
+<!--//--><![CDATA[// ><!--
+initProj4js()
+//--><!]]>
+</script>
+
+</body>
+</html>
