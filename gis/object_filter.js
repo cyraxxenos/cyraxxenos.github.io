@@ -331,7 +331,8 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	myMap.events.add('actionbegin', function() {getCou()});
 	myMap.events.add('actionend', function() {getCou()});
 	myMap.controls.get('rulerControl').events.add('contextmenu', function() {
-		ID("cg").style.display = ID("cv").style.display = ID("cg").style.display==''?'none':''
+		var s = ID("cg").style.display; bounds();
+		"cg,cv,cgu,cgd,cvl,cvr".split(',').forEach(a => {if (ID(a)) ID(a).style.display = s==''?'none':''})
 	});
 	myMap.controls.get('rulerControl').data.set('title','Измерение расстояний на карте (правый клик управляет отображением перекрестия в центре карты)');
 	myMap.controls.get('fullscreenControl').data.set('title','Управляет видимостью интерфейса (правый клик управляет отображением информационного поля)');
@@ -344,6 +345,19 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	});
 
 	document.addEventListener("mouseup", function() {getCou(); myMap.balloon.close(); myMap.hint.close();});
+	document.addEventListener('mousedown', function() {if (ID("cg").style.display == '') bounds()});	
+
+	function bounds(){
+		var elem = document.getElementsByTagName('ymaps');
+		for (var i=elem.length-1; i>=0; i--){
+			if (elem[i].className.slice(-9) == "scaleline") { var ew = elem[i].offsetWidth;
+				ID("cgu").style.width = ID("cgd").style.width = ID("cvl").style.height = ID("cvr").style.height = ew-5 +"px";
+				ID("cgu").style.marginLeft = ID("cgd").style.marginLeft = ID("cvl").style.marginTop = ID("cvr").style.marginTop = 3-ew/2 +"px";
+				ID("cgu").style.marginTop = ID("cvl").style.marginLeft = -ew/2 +"px";
+				ID("cgd").style.marginTop = ID("cvr").style.marginLeft = ew/2 +"px";
+			}
+		}
+	}
 
 	var filterMonitor = new ymaps.Monitor(listBoxControl.state);
 	filterMonitor.add('filters', function(filters) {
