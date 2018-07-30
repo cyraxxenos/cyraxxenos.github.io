@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<style type="text/css">
+	td, th {border: 1px solid White}
+	a, a:focus, a:hover, a:active {text-decoration:none; outline:none}
+</style>
+<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+
+<body style="color:White; background-color:Black; font: 14px Segoe UI">
+
+<textarea cols="45" rows="15" id="names" style="color:White; background:transparent; border:1px solid #58B;"></textarea><br>
+<input type="button" value="Геокодирование на Яндекс" onClick="ymaps.ready(init)">
+<input type="checkbox" id='v' checked>Вологодская область<br><br>
+<table cellpadding=5 id="res" style="color:White; border-collapse:collapse"></table>
+
+<script>
+var ID = function(a) {return document.getElementById(a)}, Area,
+    IR = function(a) {
+	var tr = document.createElement("tr");
+	tr.innerHTML = a; ID("res").appendChild(tr);
+}
+var toDeg = 180/Math.PI, toRad = Math.PI/180,
+Midpoint = function(φ1, λ1, φ2, λ2) { // Координаты средней точки
+	var Δλ = λ2-λ1;
+	var Bx = Math.cos(φ2) * Math.cos(Δλ);
+	var By = Math.cos(φ2) * Math.sin(Δλ);
+	var x = Math.sqrt((Math.cos(φ1)+Bx) * (Math.cos(φ1)+Bx) + By*By);
+	var y = Math.sin(φ1) + Math.sin(φ2);
+	var φ3 = Math.atan2(y,x);
+	var λ3 = λ1 + Math.atan2(By, Math.cos(φ1)+Bx);
+	return {X:toDeg*φ3, Y:toDeg*λ3}
+}
+
+ID("names").focus();
+
+//ymaps.ready(init)	//вызываем код по факту готовности объекта ymaps
+
+function init() {
+	if (ID("names").value == "") {return false}; ID("res").innerHTML = '';
+	Area = ID("names").value.split('\n').filter(str=>str.length>1);
+	IR("<th rowspan=2>Местоположение</th><th rowspan=2>Название</th><th colspan=2>ЮВ угол</th><th colspan=2>СЗ угол</th><th colspan=2>Средние</th>");
+	IR("<th>X</th><th>Y</th><th>X</th><th>Y</th><th>X</th><th>Y</th>");
+   for (j=0; j<Area.length; j++) {
+	var myGeocoder = ymaps.geocode((ID("v").checked?'Россия, Вологодская область, ':'')+ Area[j]);
+	myGeocoder.then(function (res) {
+		var objs = res.geoObjects.toArray();
+		for (i=0; i<objs.length; i++) { var obi = objs[i].properties.getAll();
+		    var	φ1 = obi.boundedBy[0][0],
+			λ1 = obi.boundedBy[0][1],
+			φ2 = obi.boundedBy[1][0],
+			λ2 = obi.boundedBy[1][1],
+			φλ = Midpoint(toRad*φ1, toRad*λ1, toRad*φ2, toRad*λ2);
+			IR("<td>"+ obi.description +"</td>"+
+			"<td><a href='http://maps.yandex.ru/?text="+ φλ.X +","+ φλ.Y +"' style='color:#5FF' target='_blank'>"+ obi.name +"</a></td>"+
+			"<td>"+ φ1.toFixed(6) +"</td><td>"+ λ1.toFixed(6) +"</td><td>"+ φ2.toFixed(6) +"</td><td>"+ λ2.toFixed(6) +"</td>"+
+			"<td style='color:SpringGreen'>"+ φλ.X.toFixed(6) +"</td><td style='color:SpringGreen'>"+ φλ.Y.toFixed(6) +"</td>");
+		}
+	});
+   }
+}
+</script>
+
+</body>
