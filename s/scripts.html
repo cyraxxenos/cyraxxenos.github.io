@@ -206,6 +206,137 @@ QObject::tr( "Atlas BNA" )	QStringLiteral( "*.bna" )
 	</textarea>
       </div>
     </div>
+
+    <div class="tab">
+      <input id="tab-4" type="checkbox" name="tabs">
+      <label for="tab-4">Назначение стилей</label>
+      <div class="tab-content">
+	<textarea>
+# -*- coding: utf-8 -*-
+from PyQt4.QtGui import *
+layer = qgis.utils.iface.activeLayer()
+
+# define some rules: label, expression, color name, (min scale, max scale)
+road_rules = (
+    (u'Акация', u'"Название" = '+u"'Акация'", 'mediumpurple', (0, 10000,)),
+    (u'Барбарис', u'"Название" = '+u"'Барбарис'", 'maroon', (0, 10000,)),
+    (u'Берёза', u'"Название" = '+u"'Берёза'", 'lime', (0, 10000,)),
+    (u'Вяз', u'"Название" = '+u"'Вяз'", 'green', (0, 10000,)),
+    (u'Дуб', u'"Название" = '+u"'Дуб'", 'white', (0, 10000,)),
+    (u'Ива', u'"Название" = '+u"'Ива'", 'pink', (0, 10000,)),
+    (u'Клён', u'"Название" = '+u"'Клён'", 'brown', (0, 10000,)),
+    (u'Лапчатка', u'"Название" = '+u"'Лапчатка'", 'teal', (0, 10000,)),
+    (u'Липа', u'"Название" = '+u"'Липа'", 'yellow', (0, 10000,)),
+    (u'Лиственница', u'"Название" = '+u"'Лиственница'", 'olive', (0, 10000,)),
+    (u'Ольха', u'"Название" = '+u"'Ольха'", 'magenta', (0, 10000,)),
+    (u'Осина', u'"Название" = '+u"'Осина'", 'purple', (0, 10000,)),
+    (u'Рябина', u'"Название" = '+u"'Рябина'", 'red', (0, 10000,)),
+    (u'Тополь', u'"Название" = '+u"'Тополь'", 'cyan', (0, 10000,)),
+    (u'Яблоня', u'"Название" = '+u"'Яблоня'", 'orange', (0, 10000,)),
+    (u'Ясень', u'"Название" = '+u"'Ясень'", 'blue', (0, 10000,)),
+    (u'Другие', u'"Название" = '+u"'Другие'", 'gray', (0, 10000,))
+)
+
+# create a new rule-based renderer
+symbol = QgsSymbolV2.defaultSymbol(layer.geometryType())
+renderer = QgsRuleBasedRendererV2(symbol)
+
+# get the "root" rule
+root_rule = renderer.rootRule()
+
+for label, expression, color_name, scale in road_rules:
+    # create a clone (i.e. a copy) of the default rule
+    rule = root_rule.children()[0].clone()
+    # set the label, expression and color
+    rule.setLabel(label)
+    rule.setFilterExpression(expression)
+    rule.symbol().setColor(QColor(color_name))
+    # set the scale limits if they have been specified
+    if scale is not None:
+        rule.setScaleMinDenom(scale[0])
+        rule.setScaleMaxDenom(scale[1])
+    # append the rule to the list of rules
+    root_rule.appendChild(rule)
+
+# delete the default rule
+root_rule.removeChildAt(0)
+
+# apply the renderer to the layer
+layer.setRendererV2(renderer)
+	</textarea>
+      </div>
+    </div>
+
+    <div class="tab">
+      <input id="tab-5" type="checkbox" name="tabs">
+      <label for="tab-5">Копирование объекта на центроид</label>
+      <div class="tab-content">
+	<textarea>
+from PyQt4.QtCore import *
+from PyQt4.QtGui import *
+from qgis.core import *
+from qgis.gui import *
+
+registry = QgsMapLayerRegistry.instance()
+
+n = registry.count()
+
+layers = registry.mapLayers().values() 
+
+layers_names = [ layers[i].name() for i in range(n) ]
+
+name1 = 'building1'
+name2 = 'building2'
+
+idx1 = layers_names.index(name1)
+idx2 = layers_names.index(name2)
+
+#features
+feat1 = layers[idx1].getFeatures().next()
+feat2 = layers[idx2].getFeatures().next()
+
+#polygons geometry
+pol1 = feat1.geometry().asPolygon() #polygon1
+pol2 = feat2.geometry().asPolygon() #polygon2
+
+#centroid coordinates
+c1 = feat1.geometry().centroid().asPoint() #centroid1
+c2 = feat2.geometry().centroid().asPoint() #centroid2
+
+pol_t = pol1
+n = len(pol_t[0])
+
+#calculating displacement based in centroids
+px = c2.x() - c1.x()
+py = c2.y() - c1.y()
+
+#translation as an affine transformation
+for i in range(n):
+    pol_t[0][i].setX(pol1[0][i].x() + px)
+    pol_t[0][i].setY(pol1[0][i].y() + py)
+
+#creating a memory layer for displaced polygon (building1)
+crs = layers[1].crs()
+epsg = crs.postgisSrid()
+uri = "Polygon?crs=epsg:" + str(epsg) + "&field=id:integer""&index=yes"
+mem_layer = QgsVectorLayer(uri, "building1_displaced", "memory")
+QgsMapLayerRegistry.instance().addMapLayer(mem_layer)
+mem_layer.startEditing()
+feat = QgsFeature()
+
+#Set geometry
+feat.setGeometry(QgsGeometry.fromPolygon(pol_t))
+
+#set attributes values
+feat.setAttributes([1])
+mem_layer.addFeature(feat, True)
+
+#stop editing and save changes
+mem_layer.commitChanges()
+	</textarea>
+      </div>
+    </div>
+
   </div>
 </div>
 
