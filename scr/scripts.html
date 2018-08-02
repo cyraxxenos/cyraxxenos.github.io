@@ -1,86 +1,61 @@
 ﻿<!DOCTYPE html>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title>Шифрование</title>
+<title>Scripts</title>
 <style type="text/css">
-body {
-  color: #2c3e50;
-  background: #ecf0f1;
-}
-h1 {
-  text-align: center;
-}
-.half {
-  float: left;
-  width: 50%;
-  padding: 0 1em;
-}
+body::-webkit-scrollbar, div::-webkit-scrollbar {display:none}
+body {color: White; background: Black; padding: 0 1em}
+h1 {text-align: center}
+.half {width: 100%}
 /* Acordeon styles */
 .tab {
   position: relative;
   margin-bottom: 1px;
-  width: 100%;
   color: #fff;
   overflow: hidden;
 }
-input {
-  position: absolute;
-  opacity: 0;
-  z-index: -1;
-}
+input {position: absolute; opacity: 0; z-index: -1}
 label {
   position: relative;
   display: block;
-  padding: 0 0 0 1em;
-  background: #16a085;
-  font-weight: bold;
+  padding: 0 1em;
+  background: Green;
+  font: medium sans-serif;
   line-height: 3;
   cursor: pointer;
 }
 .tab-content {
   max-height: 0;
+  padding: 0 1em 0 .6em;
   overflow: hidden;
-  background: #1abc9c;
-  -webkit-transition: max-height .35s;
-  -o-transition: max-height .35s;
-  transition: max-height .35s;
+  background: linear-gradient(Green, YellowGreen);
+  -webkit-transition: max-height .5s;
+  -o-transition: max-height .5s;
+  transition: max-height .5s;
 }
-.tab-content textarea {
-  margin: 1em;
-  width: 95%;
-  height: 30em;
-}
+.tab-content textarea {width: 100%; height: 30em}
 /* :checked */
-input:checked ~ .tab-content {
-  max-height: 500em;
-}
+input:checked ~ .tab-content {max-height: 35em}
 /* Icon */
 label::after {
-  position: absolute;
-  right: 0;
-  top: 0;
+  position: absolute; right: 0; top: 0;
   display: block;
   width: 3em;
   height: 3em;
   line-height: 3;
   text-align: center;
-  -webkit-transition: all .35s;
-  -o-transition: all .35s;
-  transition: all .35s;
+  -webkit-transition: all .5s;
+  -o-transition: all .5s;
+  transition: all .5s;
 }
-input[type=checkbox] + label::after {
-  content: "+";
-}
-input[type=checkbox]:checked + label::after {
-  transform: rotate(315deg);
-}
+input[type=checkbox] + label::after {content: "+"}
+input[type=checkbox]:checked + label::after {transform: rotate(315deg)}
 
 </style>
 
 <body>
 
-<div class="wrapper">
   <h1>Scripts</h1>
-  
+
   <div class="half">
     <p>QGIS</p>
     <div class="tab">
@@ -338,6 +313,5 @@ mem_layer.commitChanges()
     </div>
 
   </div>
-</div>
 
 </body>
