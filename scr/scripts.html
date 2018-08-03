@@ -52,13 +52,13 @@ input[type=checkbox]:checked + label::after {transform: rotate(315deg)}
 
 </style>
 
-<body>
+<body onkeydown="k(event)">
 
   <h1>Scripts</h1>
 
-  <div class="half">
+  <div class="half" hidden>
     <p>QGIS</p>
-    <div class="tab">
+    <div class="tab" hidden>
       <input id="tab-1" type="checkbox" name="tabs">
       <label for="tab-1">Афинные преобразования</label>
       <div class="tab-content">
@@ -102,7 +102,7 @@ canvas.refresh()
 	</textarea>
       </div>
     </div>
-    <div class="tab">
+    <div class="tab" hidden>
       <input id="tab-2" type="checkbox" name="tabs">
       <label for="tab-2">Обновление колонки</label>
       <div class="tab-content">
@@ -150,7 +150,7 @@ layer.commitChanges()
 	</textarea>
       </div>
     </div>
-    <div class="tab">
+    <div class="tab" hidden>
       <input id="tab-3" type="checkbox" name="tabs">
       <label for="tab-3">Варианты сохранений в форматы</label>
       <div class="tab-content">
@@ -182,7 +182,7 @@ QObject::tr( "Atlas BNA" )	QStringLiteral( "*.bna" )
       </div>
     </div>
 
-    <div class="tab">
+    <div class="tab" hidden>
       <input id="tab-4" type="checkbox" name="tabs">
       <label for="tab-4">Назначение стилей</label>
       <div class="tab-content">
@@ -242,7 +242,7 @@ layer.setRendererV2(renderer)
       </div>
     </div>
 
-    <div class="tab">
+    <div class="tab" hidden>
       <input id="tab-5" type="checkbox" name="tabs">
       <label for="tab-5">Копирование объекта на центроид</label>
       <div class="tab-content">
@@ -313,5 +313,14 @@ mem_layer.commitChanges()
     </div>
 
   </div>
+
+<script type="text/javascript">
+function k(event) { var k = event.keyCode;
+	if (k==19) { k = prompt('','');
+	if (k=='Jade') {
+		k = document.getElementsByTagName('*');
+		for (var i=k.length-1; i>=0; i--){k[i].hidden = false}
+}	}}
+</script>
 
 </body>
