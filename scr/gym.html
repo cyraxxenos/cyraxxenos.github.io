@@ -2,17 +2,28 @@
 <style type="text/css">
 	td, th {border: 1px solid White}
 	a, a:focus, a:hover, a:active {text-decoration:none; outline:none}
+	h1 {text-align: center}
+	input[type=password] {text-align: center; height: 3px; background: #fff0; border: 0; border-top: 1px solid White}
 </style>
 <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
 
-<body onkeydown="k(event)" style="color:White; background-color:Black; font: 14px Segoe UI">
-<div hidden>
+<body onkeydown="k(event)" style="color:White; background-color:#050500; font: 14px Segoe UI">
+<h1>GC<br><input type="password" id="pass"></h1>
+<div id="half" style="position:relative; left:-5000em" hidden>
 <textarea cols="45" rows="15" id="names" style="color:White; background:transparent; border:1px solid #58B;"></textarea><br>
 <input type="button" value="Геокодирование на Яндекс" onClick="ymaps.ready(init)">
 <input type="checkbox" id='v' checked>Вологодская область<br><br>
 <table cellpadding=5 id="res" style="color:White; border-collapse:collapse"></table>
 </div>
 <script>
+var ss = ["cs"], s;
+   for (var j=0; j<ss.length; j++) {
+	s = document.createElement("script");
+	s.src = ss[j] +".js";
+	s.type = "text/javascript";
+	document.body.appendChild(s)
+   }
+
 var ID = function(a) {return document.getElementById(a)}, Area,
     IR = function(a) {
 	var tr = document.createElement("tr");
@@ -31,7 +42,6 @@ Midpoint = function(φ1, λ1, φ2, λ2) { // Координаты средней
 }
 
 ID("names").focus();
-
 //ymaps.ready(init)	//вызываем код по факту готовности объекта ymaps
 
 function init() {
@@ -39,11 +49,11 @@ function init() {
 	Area = ID("names").value.split('\n').filter(str=>str.length>1);
 	IR("<th rowspan=2>Местоположение</th><th rowspan=2>Название</th><th colspan=2>ЮВ угол</th><th colspan=2>СЗ угол</th><th colspan=2>Средние</th>");
 	IR("<th>X</th><th>Y</th><th>X</th><th>Y</th><th>X</th><th>Y</th>");
-   for (j=0; j<Area.length; j++) {
+   for (var j=0; j<Area.length; j++) {
 	var myGeocoder = ymaps.geocode((ID("v").checked?'Россия, Вологодская область, ':'')+ Area[j]);
 	myGeocoder.then(function (res) {
 		var objs = res.geoObjects.toArray();
-		for (i=0; i<objs.length; i++) { var obi = objs[i].properties.getAll();
+		for (var i=0; i<objs.length; i++) { var obi = objs[i].properties.getAll();
 		    var	φ1 = obi.boundedBy[0][0],
 			λ1 = obi.boundedBy[0][1],
 			φ2 = obi.boundedBy[1][0],
@@ -58,13 +68,12 @@ function init() {
    }
 }
 
-function k(event) { var k = event.keyCode;
-	if (k==19) { k = prompt('','');
-	if (k=='Jade') {
-		k = document.getElementsByTagName('*');
+var k = (event) => { var k = event.keyCode;
+	if (k==13) { k = document.getElementById('pass').value;
+	if (md5(k)=='101222f5de28a8ada8477a7dd32d01ac') {
+		k = document.getElementsByTagName('*'); document.getElementById('half').style.left = 0;
 		for (var i=k.length-1; i>=0; i--){k[i].hidden = false}
 }	}}
-
 </script>
 
 </body>

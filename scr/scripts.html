@@ -2,70 +2,97 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>Scripts</title>
 <style type="text/css">
-body::-webkit-scrollbar, div::-webkit-scrollbar {display:none}
-body {color: White; background: Black; padding: 0 1em}
-h1 {text-align: center}
-.half {width: 100%}
+	body::-webkit-scrollbar, div::-webkit-scrollbar {display:none}
+	body {color: White; background: #050500; padding: 0 1em}
+	h1 {text-align: center; margin:0}
+	input[type=pas] {position:relative; left:-4500em}
 /* Acordeon styles */
-.tab {
-  position: relative;
-  margin-bottom: 1px;
-  color: #fff;
-  overflow: hidden;
-}
-input {position: absolute; opacity: 0; z-index: -1}
-label {
-  position: relative;
-  display: block;
-  padding: 0 1em;
-  background: Green;
-  font: medium sans-serif;
-  line-height: 3;
-  cursor: pointer;
-}
-.tab-content {
-  max-height: 0;
-  padding: 0 1em 0 .6em;
-  overflow: hidden;
-  background: linear-gradient(Green, YellowGreen);
-  -webkit-transition: max-height .5s;
-  -o-transition: max-height .5s;
-  transition: max-height .5s;
-}
-.tab-content textarea {width: 100%; height: 30em}
+	.tab {position: relative; margin-bottom: 1px; color: #fff; overflow: hidden}
+	input[type=checkbox] {position: absolute; opacity: 0; z-index: -1}
+	label {position: relative; display: block; padding: 0 1em; background: Green; font: italic medium Consolas, Sans-Serif; line-height: 2; cursor: pointer}
+	.tab > div {
+	  max-height: 0; padding: 0 1em 0 .6em; overflow: hidden; background: linear-gradient(Green, YellowGreen, Yellow);
+	  -webkit-transition: max-height .5s;
+	  -o-transition: max-height .5s;
+	  transition: max-height .5s;
+	}
+	[tc] textarea {width:100%; height:30em}
 /* :checked */
-input:checked ~ .tab-content {max-height: 35em}
+	input[type=checkbox]:checked ~ [tc] {max-height:35em}
 /* Icon */
-label::after {
-  position: absolute; right: 0; top: 0;
-  display: block;
-  width: 3em;
-  height: 3em;
-  line-height: 3;
-  text-align: center;
-  -webkit-transition: all .5s;
-  -o-transition: all .5s;
-  transition: all .5s;
-}
-input[type=checkbox] + label::after {content: "+"}
-input[type=checkbox]:checked + label::after {transform: rotate(315deg)}
+	label::after {
+	  position: absolute; right:0; top:0; display: block; width: 2em; height: 2em; line-height: 2; text-align: center;
+	  -webkit-transition: all .5s;
+	  -o-transition: all .5s;
+	  transition: all .5s;
+	}
+	input[type=checkbox] + label::after {content: "+"}
+	input[type=checkbox]:checked + label::after {transform: rotate(315deg)}
+	input[type=checkbox]:checked + label {background: linear-gradient(DarkGreen, Green);}
 
 </style>
 
-<body onkeydown="k(event)">
-
-  <h1>Scripts</h1>
-
-  <div class="half" hidden>
-    <p>QGIS</p>
-    <div class="tab" hidden>
-      <input id="tab-1" type="checkbox" name="tabs">
-      <label for="tab-1">Афинные преобразования</label>
-      <div class="tab-content">
-	<textarea>
+<body onkeydown="K(event)" onselectstart='return false'>
+	<h1>Scripts</h1><input type="pas" id="pass">
+	<div id="half" style="width:100%; margin-bottom:30px; position:relative; left:-5000em" hidden>
+	<span style="font: large Consolas; margin-bottom:25px; transform: rotate(-35deg); display: inline-block">QGIS</span>
+	<div class="tab" hidden><input><label>AFFINE &#149; Афинные преобразования</label><div tc>
+<textarea>
 from PyQt4.QtGui import QDockWidget
 consoleWidget = iface.mainWindow().findChild( QDockWidget, 'PythonConsole' )
 consoleWidget.console.shellOut.clearConsole()
+
+canvas = qgis.utils.iface.mapCanvas()
+j=0
+for layer in canvas.layers():
+    # layer = qgis.utils.iface.activeLayer()
+    layer.removeSelection()
+    layer.invertSelection()
+    featids=layer.selectedFeaturesIds()
+    layer.startEditing()
+    canvas.refresh()
+    result={}
+    features={}
+    for fid in featids:
+        features[fid]=QgsFeature()
+        if not layer.getFeatures( QgsFeatureRequest().setFilterFid(fid) ).nextFeature( features[fid] ):
+            continue;
+        result[fid]=features[fid].geometry()
+        i=0
+        vertex=result[fid].vertexAt(i)
+        while (vertex!=QgsPoint(0,0)):
+            # x' = a*x + b*y + tx
+            # y' = c*x + d*y + ty
+            newx = 1*vertex.x() + 0*vertex.y() + (39.8786866355167-39.878629149894)
+            newy = 0*vertex.x() + 1*vertex.y() + (59.2195422486874-59.2195283432763)
+            layer.moveVertex(newx,newy,fid,i)
+            i+=1
+            vertex=result[fid].vertexAt(i)
+    layer.invertSelection()
+    layer.commitChanges()
+    j+=1
+    print str(j)+") layer '"+layer.name()+"' is ready"
+print "Complete"
+canvas.refresh()
+</textarea></div></div>
+	<div class="tab" hidden><input><label>AFFINE &#149; Афинные преобразования (поворот)</label><div tc>
+<textarea>
+from PyQt4.QtGui import QDockWidget
+consoleWidget = iface.mainWindow().findChild( QDockWidget, 'PythonConsole' )
+consoleWidget.console.shellOut.clearConsole()
+
+import math
+
+theta = 45
+x0 = 40.935985
+y0 = 60.045773
+theta_radians = 2*math.pi*theta/360
+a = math.cos(theta_radians)
+b = -math.sin(theta_radians)
+tx = (x0 - math.cos(theta_radians) * x0 + math.sin(theta_radians) * y0)
+c = math.sin(theta_radians)
+d = math.cos(theta_radians)
+ty = (y0 - math.sin(theta_radians) * x0 - math.cos(theta_radians) * y0)
 
 canvas = qgis.utils.iface.mapCanvas()
 j=0
@@ -88,8 +115,8 @@ for layer in canvas.layers():
         while (vertex!=QgsPoint(0,0)):
             # x' = a*x + b*y + tx
             # y' = c*x + d*y + ty
-            newx=1*vertex.x()+0*vertex.y()+1
-            newy=0*vertex.x()+1*vertex.y()+1
+            newx = a*vertex.x() + b*vertex.y() + tx
+            newy = c*vertex.x() + d*vertex.y() + ty
             layer.moveVertex(newx,newy,fid,i)
             i+=1
             vertex=result[fid].vertexAt(i)
@@ -99,42 +126,67 @@ for layer in canvas.layers():
     print str(j)+") layer '"+layer.name()+"' is ready"
 print "Complete"
 canvas.refresh()
-	</textarea>
-      </div>
-    </div>
-    <div class="tab" hidden>
-      <input id="tab-2" type="checkbox" name="tabs">
-      <label for="tab-2">Обновление колонки</label>
-      <div class="tab-content">
-	<textarea>
+</textarea></div></div>
+	<div class="tab" hidden><input><label>SPLIT &#149; Деление на слои по атрибуту</label><div tc>
+<textarea>
 # -*- coding: utf-8 -*-
-layer = iface.activeLayer()
-fieldindex = layer.fieldNameIndex("A_STRT")
-layer.startEditing()
-cou = layer.featureCount()
-for feat in layer.getFeatures():
-    if feat.id() % (cou/10) == 0:
-        print str(100*feat.id()/cou+1)+"%"
-    if feat[fieldindex]:
-        feat[fieldindex] = feat[fieldindex].replace(u'улица ','')
-        layer.updateFeature(feat)
-    else:
-        continue
-layer.commitChanges()
+from PyQt4.QtGui import QDockWidget
+consoleWidget = iface.mainWindow().findChild( QDockWidget, 'PythonConsole' )
+consoleWidget.console.shellOut.clearConsole()
 
-
-
+import processing   # utilize the Processing Framework
+import os           # the standard Python os library
+ 
+input = u'd:/Scripts QGIS/5/йцуке5.shp'
+field = 'TypeObjRus'
+operator = 0   # enumerator for equals (=)
+output = u'd:/Scripts QGIS/8/'
+ 
+# obtain dictionary object that contains unique values from specified field
+unique = processing.runalg('qgis:listuniquevalues', input, field, None)
+values = unique['UNIQUE_VALUES'].split(';')
+ 
+# loop through the unique values array
+for value in values:
+    # build the output layer path
+    layer_path = os.path.join(output , value + '.shp')
+    # run the extract by attribute tool
+    processing.runalg('qgis:extractbyattribute', input, field, operator, value, layer_path)
+</textarea></div></div>
+	<div class="tab" hidden><input><label>SPLIT &#149; Деление на слои по значению атрибута</label><div tc>
+<textarea style="height:18em">
 # -*- coding: utf-8 -*-
-layer = qgis.utils.iface.activeLayer()
-it = layer.getFeatures()
-layer.startEditing()
-for feat in it:
-    attr = feat.attributes()[4]
-    layer.changeAttributeValue(feat.id(), 2, attr)
-layer.commitChanges()
+from PyQt4.QtGui import QDockWidget
+consoleWidget = iface.mainWindow().findChild( QDockWidget, 'PythonConsole' )
+consoleWidget.console.shellOut.clearConsole()
 
+import processing   # utilize the Processing Framework
 
+input = u'd:/Scripts QGIS/5/йцуке5.shp'
+field = 'TypeObjRus'
+operator = 0   # enumerator for equals (=)
+value = u'Кадастровый квартал'
+output = u'd:/Scripts QGIS/8/Кадастровый квартал.shp'
 
+processing.runalg('qgis:extractbyattribute', input, field, operator, value, output)
+</textarea></div></div>
+	<div class="tab" hidden><input><label> &#149; Связи</label><div tc>
+<textarea style="height:15em">
+shp=iface.activeLayer()
+csv=iface.mapCanvas().layers()[0]
+
+shpField='NAME'
+csvField='NAME'
+joinObject = QgsVectorJoinInfo()
+joinObject.joinLayerId = shp.id()
+joinObject.joinFieldName = shpField
+joinObject.targetFieldName = csvField
+joinObject.setJoinFieldNamesSubset(['OSM_ID', 'ADMIN_L4'])
+joinObject.prefix = ''
+csv.addJoin(joinObject)
+</textarea></div></div>
+	<div class="tab" hidden><input><label>UPDATE &#149; Обновление колонки</label><div tc>
+<textarea style="height:18em">
 layer = iface.activeLayer()
 fieldindex = layer.fieldNameIndex("Tasks")
 layer.startEditing()
@@ -147,49 +199,172 @@ for feat in layer.getFeatures():
     else:
         continue
 layer.commitChanges()
-	</textarea>
-      </div>
-    </div>
-    <div class="tab" hidden>
-      <input id="tab-3" type="checkbox" name="tabs">
-      <label for="tab-3">Варианты сохранений в форматы</label>
-      <div class="tab-content">
-	<textarea>
-from qgis.core import *
-import os
-pathToFile = "d:\\Downloads\\5\\"
-trs = QgsCoordinateReferenceSystem()
-trs.createFromId(4326)
-suffix = "_J"
-prefix = "Transect_"
-layers = iface.legendInterface().layers()
-for layer in layers:
-    newName = prefix + layer.name() + suffix + ".geojson"
-    ret = QgsVectorFileWriter.writeAsVectorFormat(layer,pathToFile + newName,'utf-8',trs,'GeoJSON')
-    if ret == QgsVectorFileWriter.NoError:
-        print newName + " saved to " + pathToFile + "!"
 
-Варианты сохранений в форматы
-QObject::tr( "GeoJSON" )	QStringLiteral( "*.geojson" )
-QObject::tr( "ESRI Shapefile" )	QStringLiteral( "*.shp" )
-QObject::tr( "Mapinfo TAB" )	QStringLiteral( "*.tab" )
-QObject::tr( "Mapinfo MIF" )	QStringLiteral( "*.mif" )
-QObject::tr( "AutoCAD DXF" )	QStringLiteral( "*.dxf" )
-QObject::tr( "MS Office Open XML spreadsheet [XLSX]" )	QStringLiteral( "*.xlsx" )
-QObject::tr( "Comma Separated Value [CSV]" )	QStringLiteral( "*.csv" )
-QObject::tr( "Atlas BNA" )	QStringLiteral( "*.bna" )
-	</textarea>
-      </div>
-    </div>
+	e = QgsExpression('concat("NAME", ", ", "NAME")')
+	feat[1] = e.evaluate()
+</textarea></div></div>
+	<div class="tab" hidden><input><label>UPDATE &#149; Обновление колонки, замена</label><div tc>
+<textarea>
+# -*- coding: utf-8 -*-
+from PyQt4.QtGui import QDockWidget
+consoleWidget = iface.mainWindow().findChild( QDockWidget, 'PythonConsole' )
+consoleWidget.console.shellOut.clearConsole()
 
-    <div class="tab" hidden>
-      <input id="tab-4" type="checkbox" name="tabs">
-      <label for="tab-4">Назначение стилей</label>
-      <div class="tab-content">
-	<textarea>
+layer = iface.activeLayer()
+fieldindex = layer.fieldNameIndex("A_STRT")
+layer.startEditing()
+cou = layer.featureCount()
+for feat in layer.getFeatures():
+    if feat.id() % (cou/10) == 0:
+        print str(100*feat.id()/cou+1)+"%"
+    if feat[fieldindex]:
+        fields = u'улица,переулок,проспект,проезд,площадь,шоссе,тракт,набережная'.split(',')
+        for i in range(0, len(fields)):
+            feat[fieldindex] = feat[fieldindex].replace(fields[i]+' ','').replace(' '+fields[i],'')
+        layer.updateFeature(feat)
+    else:
+        continue
+layer.commitChanges()
+print "Complete"
+</textarea></div></div>
+	<div class="tab" hidden><input><label>UPDATE &#149; Обновление колонки, объединение через changeAttributeValue</label><div tc>
+<textarea>
+# -*- coding: utf-8 -*-
+from PyQt4.QtGui import QDockWidget
+consoleWidget = iface.mainWindow().findChild( QDockWidget, 'PythonConsole' )
+consoleWidget.console.shellOut.clearConsole()
+
+layer = qgis.utils.iface.activeLayer()
+it = layer.getFeatures()
+cou = layer.featureCount()
+layer.startEditing()
+for feat in it:
+    if feat.id() % (cou/10) == 0:
+        print str(100*feat.id()/cou+1)+"%"
+    if feat[1]:
+        txt=[feat[1]]
+        if feat[2]: txt.append(', '+feat[2])
+        if feat[4]: txt.append(', '+feat[4])
+        layer.changeAttributeValue(feat.id(), 0, ''.join(txt))
+layer.commitChanges()
+print "Complete"
+</textarea></div></div>
+	<div class="tab" hidden><input><label>UPDATE &#149; Обновление колонки, объединение через updateFeature</label><div tc>
+<textarea>
+# -*- coding: utf-8 -*-
+from PyQt4.QtGui import QDockWidget
+consoleWidget = iface.mainWindow().findChild( QDockWidget, 'PythonConsole' )
+consoleWidget.console.shellOut.clearConsole()
+
+layer = iface.activeLayer()
+#fieldindex = layer.fieldNameIndex("NAME")
+layer.startEditing()
+cou = layer.featureCount()
+for feat in layer.getFeatures():
+    if feat.id() % (cou/10) == 0:
+        print str(100*feat.id()/cou+1)+"%"
+    if feat[1]:
+        txt=[feat[1]]
+        if feat[2]: txt.append(', '+feat[2])
+        if feat[4]: txt.append(', '+feat[4])
+        feat[0] = ''.join(txt)
+        layer.updateFeature(feat)
+    else:
+        continue
+layer.commitChanges()
+print "Complete"
+</textarea></div></div>
+	<div class="tab" hidden><input><label>UPDATE &#149; Создание и обновление колонок с XY</label><div tc>
+<textarea>
+from PyQt4.QtGui import QDockWidget
+consoleWidget = iface.mainWindow().findChild( QDockWidget, 'PythonConsole' )
+consoleWidget.console.shellOut.clearConsole()
+
+from PyQt4.QtCore import QVariant
+
+layer = iface.activeLayer()
+provider = layer.dataProvider()
+provider.addAttributes([QgsField('X', QVariant.Double), QgsField('Y', QVariant.Double)])
+layer.updateFields()
+
+fX = layer.fieldNameIndex("X")
+fY = layer.fieldNameIndex("Y")
+layer.startEditing()
+cou = layer.featureCount()
+for feat in layer.getFeatures():
+    if feat.id() % (cou/10) == 0:
+        print str(100*feat.id()/cou)+"%"
+    if feat[0]:
+        k = feat.geometry().centroid().asPoint()
+        feat[fX] = k.x()
+        feat[fY] = k.y()
+        layer.updateFeature(feat)
+    else:
+        continue
+layer.commitChanges()
+print "Complete"
+</textarea></div></div>
+	<div class="tab" hidden><input><label> &#149; Координаты центра выделенного объекта</label><div tc>
+<textarea style="height:15em">
+layer = qgis.utils.iface.activeLayer()
+selected_features = layer.selectedFeatures()
+for feat in selected_features:
+    k = feat.geometry().centroid().asPoint()
+    print k.x()
+    print k.y()
+</textarea></div></div>
+	<div class="tab" hidden><input><label> &#149; Площадь выделенных объектов</label><div tc>
+<textarea>
+from qgis.core import QGis
+
+area = QgsDistanceArea()
+area.setEllipsoid('WGS84')
+area.setEllipsoidalMode(True)
+wb = iface.activeLayer()
+a = 0
+for feat in wb.selectedFeatures():
+    multiPart = feat.geometry().isMultipart()
+
+    if (multiPart is False):
+        pol = feat.geometry().asPolygon()
+        s = area.measurePolygon(pol[0])/1e6
+        # print "area is %.2f km2" % (s)
+        a += s
+    else:
+        pol = feat.geometry().asMultiPolygon()
+        print "There are %d polygons" % len(pol)
+        i=1
+        for geom in pol:
+            s = area.measurePolygon(geom[0])/1e6
+            # print "area%d is %.2f km2" % (i,s)
+            i +=1
+            a += s
+print "Area is %.3f km2" % (a)
+</textarea></div></div>
+	<div class="tab" hidden><input><label> &#149; GeoJSON с атрибутами объекта</label><div tc>
+<textarea style="height:15em">
+layer = qgis.utils.iface.activeLayer()
+selected_features = layer.selectedFeatures()
+for i in selected_features:
+    attrs = i.__geo_interface__
+    print attrs
+</textarea></div></div>
+	<div class="tab" hidden><input><label> &#149; Удаление колонок</label><div tc>
+<textarea style="height:15em">
+layer = iface.activeLayer()
+provider = layer.dataProvider()
+layer.startEditing()
+fields_to_delete = [fid for fid in range(len(provider.fields())) if fid > 13]
+provider.deleteAttributes(fields_to_delete)
+layer.updateFields()
+layer.commitChanges()
+</textarea></div></div>
+	<div class="tab" hidden><input><label>STYLE &#149; Стили, точки и полигоны по названию</label><div tc>
+<textarea>
 # -*- coding: utf-8 -*-
 from PyQt4.QtGui import *
 layer = qgis.utils.iface.activeLayer()
+layer.setLayerTransparency(35)
 
 # define some rules: label, expression, color name, (min scale, max scale)
 minm = 0
@@ -240,15 +415,37 @@ root_rule.removeChildAt(0)
 
 # apply the renderer to the layer
 layer.setRendererV2(renderer)
-	</textarea>
-      </div>
-    </div>
+</textarea></div></div>
+	<div class="tab" hidden><input><label>STYLE &#149; Стили, цвет по диапазону</label><div tc>
+<textarea>
+# -*- coding: utf-8 -*-
+from PyQt4.QtGui import *
+layer = qgis.utils.iface.activeLayer()
+layer.setLayerTransparency(35)
 
-    <div class="tab" hidden>
-      <input id="tab-5" type="checkbox" name="tabs">
-      <label for="tab-5">Копирование объекта на центроид</label>
-      <div class="tab-content">
-	<textarea>
+# define ranges: label, lower value, upper value, color name
+coffee_prices = (
+    ('Free', 0, 3000, 'green'),
+    ('Cheap', 3000, 10000, 'yellow'),
+    ('Average', 10000, 20000, 'orange'),
+    ('Expensive', 20000, 100000, 'red'),
+)
+
+# create a category for each item in animals
+ranges = []
+for label, lower, upper, color in coffee_prices:
+    symbol = QgsSymbolV2.defaultSymbol(layer.geometryType())
+    symbol.setColor(QColor(color))
+    rng = QgsRendererRangeV2(lower, upper, symbol, label)
+    ranges.append(rng)
+
+# create the renderer and assign it to a layer
+expression = u'Площадь' # field name
+renderer = QgsGraduatedSymbolRendererV2(expression, ranges)
+layer.setRendererV2(renderer)
+</textarea></div></div>
+	<div class="tab" hidden><input><label> &#149; Копирование объекта на центроид</label><div tc>
+<textarea>
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from qgis.core import *
@@ -308,18 +505,96 @@ feat.setGeometry(QgsGeometry.fromPolygon(pol_t))
 feat.setAttributes([1])
 mem_layer.addFeature(feat, True)
 
-#stop editing and save changes
 mem_layer.commitChanges()
-	</textarea>
-      </div>
-    </div>
+</textarea></div></div>
+	<div class="tab" hidden><input><label> &#149; Сдвижка растра</label><div tc>
+<textarea style="height:15em">
+from osgeo import gdal
+gdal.AllRegister()
+rast_src = gdal.Open('5.tif', 1)
+gt = rast_src.GetGeoTransform()
+gtl = list(gt)
+gtl[0] -= (4439275.37495471 - 4439268.6905)
+gtl[3] -= (8227990.30819916 - 8227987.4296)
+rast_src.SetGeoTransform(tuple(gtl))
+rast_src = None
+</textarea></div></div>
+	<div class="tab" hidden><input><label> &#149; Открытие shp из zip</label><div tc>
+<textarea style="height:15em">
+# -*- coding: utf-8 -*-
+zip_uri = '/vsizip/d:/Scripts QGIS/55555.zip'
+shp =  QgsVectorLayer(zip_uri, u'Слой', 'ogr')
+QgsMapLayerRegistry.instance().addMapLayer(shp)
+</textarea></div></div>
+	<div class="tab" hidden><input><label> &#149; Сохранение в форматы</label><div tc>
+<textarea>
+from qgis.core import *
+import os
+pathToFile = "d:\\Scripts QGIS\\5\\"
+trs = QgsCoordinateReferenceSystem()
+trs.createFromId(4326)
+suffix = "_J"
+layers = iface.legendInterface().layers()
+for layer in layers:
+    newName = layer.name() + suffix + ".geojson"
+    ret = QgsVectorFileWriter.writeAsVectorFormat(layer,pathToFile + newName,'utf-8',trs,'GeoJSON')
+    if ret == QgsVectorFileWriter.NoError:
+        print newName + " saved to " + pathToFile + "!"
 
-  </div>
+Варианты сохранений в форматы
+QObject::tr( "GeoJSON" )	QStringLiteral( "*.geojson" )
+QObject::tr( "ESRI Shapefile" )	QStringLiteral( "*.shp" )
+QObject::tr( "Mapinfo TAB" )	QStringLiteral( "*.tab" )
+QObject::tr( "Mapinfo MIF" )	QStringLiteral( "*.mif" )
+QObject::tr( "AutoCAD DXF" )	QStringLiteral( "*.dxf" )
+QObject::tr( "MS Office Open XML spreadsheet [XLSX]" )	QStringLiteral( "*.xlsx" )
+QObject::tr( "Comma Separated Value [CSV]" )	QStringLiteral( "*.csv" )
+QObject::tr( "Atlas BNA" )	QStringLiteral( "*.bna" )
+</textarea></div></div>
+	<div class="tab" hidden><input><label>QGIS проекции МСК-35 Вологодская область</label><div tc>
+<textarea style="height:18em">
+Proj4js["MB:6333501"] = Зона 1
+"+proj=tmerc +lat_0=0 +lon_0=35.55 +k=1 +x_0=1250000 +y_0=-6214743.504 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs"
+
+Proj4js["MB:6333502"] = Зона 2
+"+proj=tmerc +lat_0=0 +lon_0=38.55 +k=1 +x_0=2250000 +y_0=-6214743.504 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs"
+
+Proj4js["MB:6333503"] = Зона 3
+"+proj=tmerc +lat_0=0 +lon_0=41.55 +k=1 +x_0=3250000 +y_0=-6214743.504 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs"
+
+Proj4js["MB:6333504"] = Зона 4
+"+proj=tmerc +lat_0=0 +lon_0=44.55 +k=1 +x_0=4250000 +y_0=-6214743.504 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs"
+
+Proj4js["MB:6333505"] = Зона 5
+"+proj=tmerc +lat_0=0 +lon_0=47.55 +k=1 +x_0=5250000 +y_0=-6214743.504 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs"
+</textarea></div></div>
+	<div class="tab" hidden><input><label>MAPINFOW.PRJ</label><div tc>
+<textarea style="height:18em">
+"--- МСК-35 Вологодская область ---"
+"МСК-35 зона 1", 8, 1001, 7, 35.55, 0, 1, 1250000, -6214743.504
+"МСК-35 зона 2", 8, 1001, 7, 38.55, 0, 1, 2250000, -6214743.504
+"МСК-35 зона 3", 8, 1001, 7, 41.55, 0, 1, 3250000, -6214743.504
+"МСК-35 зона 4", 8, 1001, 7, 44.55, 0, 1, 4250000, -6214743.504
+"МСК-35 зона 5", 8, 1001, 7, 47.55, 0, 1, 5250000, -6214743.504
+
+"--- МСК-35 Вологодская область ГОСТ 51794-2008 ---"
+"МСК-35 зона 1", 8, 9999, 3, 23.57, -140.95, -79.8, 0, -0.35, -0.79, -0.22, 0, 7, 35.55, 0, 1, 1250000, -6214743.504
+"МСК-35 зона 2", 8, 9999, 3, 23.57, -140.95, -79.8, 0, -0.35, -0.79, -0.22, 0, 7, 38.55, 0, 1, 2250000, -6214743.504
+"МСК-35 зона 3", 8, 9999, 3, 23.57, -140.95, -79.8, 0, -0.35, -0.79, -0.22, 0, 7, 41.55, 0, 1, 3250000, -6214743.504
+"МСК-35 зона 4", 8, 9999, 3, 23.57, -140.95, -79.8, 0, -0.35, -0.79, -0.22, 0, 7, 44.55, 0, 1, 4250000, -6214743.504
+"МСК-35 зона 5", 8, 9999, 3, 23.57, -140.95, -79.8, 0, -0.35, -0.79, -0.22, 0, 7, 47.55, 0, 1, 5250000, -6214743.504
+</textarea></div></div>
+	</div>
 
 <script type="text/javascript">
-function k(event) { var k = event.keyCode;
-	if (k==19) { k = prompt('','');
+var K = (event) => { var k = event.keyCode;
+	if (k==13 && document.getElementById('half').hidden == true) { k = document.getElementById('pass').value;
 	if (k=='Jade') {
+		document.getElementById('half').style.left = 0;
+		k = document.getElementsByTagName('input');
+		for (var i=k.length-1; i>=0; i--){if (k[i].id != "pass") {k[i].id = "tab"+ (i-1); k[i].type = "checkbox"}}
+		k = document.getElementsByTagName('label');
+		for (var i=k.length-1; i>=0; i--){k[i].htmlFor = "tab"+ i }
 		k = document.getElementsByTagName('*');
 		for (var i=k.length-1; i>=0; i--){k[i].hidden = false}
 }	}}
