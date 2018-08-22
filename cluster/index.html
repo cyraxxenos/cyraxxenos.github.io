@@ -48,29 +48,34 @@
 	iconCreateFunction: defineClusterIcon 		// this is where the magic happens
     });
 	var ArcGIS = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-		maxZoom: 20
+		maxZoom: 20,
+		noWrap: true	// Не загружает до бесконечности лишние тайлы вне рамок карты
 		});
 
 	var YandexSat = L.tileLayer('https://sat{s}.maps.yandex.net/tiles?l=sat&z={z}&x={x}&y={y}', {
 		maxZoom: 20,
 		subdomains: ['01','02','03','04'],
 		reuseTiles: true,
-		updateWhenIdle: false
+		updateWhenIdle: false,
+		noWrap: true
 	});
 	var YandexMap = L.tileLayer('https://vec{s}.maps.yandex.net/tiles?l=map&z={z}&x={x}&y={y}', {
 		maxZoom: 20,
 		subdomains: ['01','02','03','04'],
 		reuseTiles: true,
-		updateWhenIdle: false
+		updateWhenIdle: false,
+		noWrap: true
 	});
 
 	var GoogleSat = L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
 		maxZoom: 20,
-		subdomains:['mt0','mt1','mt2','mt3']
+		subdomains:['mt0','mt1','mt2','mt3'],
+		noWrap: true
 		});
 
 	var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-		maxZoom: 20
+		maxZoom: 20,
+		noWrap: true
 		});
 
 	var map = new L.Map('map', {
