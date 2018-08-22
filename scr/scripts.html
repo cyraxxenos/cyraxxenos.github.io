@@ -16,9 +16,9 @@
 	  -o-transition: max-height .5s;
 	  transition: max-height .5s;
 	}
-	[tc] textarea {width:100%; height:30em}
+	[tc] textarea {width: 100%; max-width: 100%; min-width: 45%; height: 30em; max-height: 50em; min-height: 5em; white-space: pre; overflow: auto}
 /* :checked */
-	input[type=checkbox]:checked ~ [tc] {max-height:35em}
+	input[type=checkbox]:checked ~ [tc] {max-height: 55em}
 /* Icon */
 	label::after {
 	  position: absolute; right:0; top:0; display: block; width: 2em; height: 2em; line-height: 2; text-align: center;
@@ -154,7 +154,7 @@ for value in values:
     processing.runalg('qgis:extractbyattribute', input, field, operator, value, layer_path)
 </textarea></div></div>
 	<div class="tab" hidden><input><label>SPLIT &#149; Деление на слои по значению атрибута</label><div tc>
-<textarea style="height:18em">
+<textarea>
 # -*- coding: utf-8 -*-
 from PyQt4.QtGui import QDockWidget
 consoleWidget = iface.mainWindow().findChild( QDockWidget, 'PythonConsole' )
@@ -171,7 +171,7 @@ output = u'd:/Scripts QGIS/8/Кадастровый квартал.shp'
 processing.runalg('qgis:extractbyattribute', input, field, operator, value, output)
 </textarea></div></div>
 	<div class="tab" hidden><input><label> &#149; Связи</label><div tc>
-<textarea style="height:15em">
+<textarea>
 shp=iface.activeLayer()
 csv=iface.mapCanvas().layers()[0]
 
@@ -186,7 +186,7 @@ joinObject.prefix = ''
 csv.addJoin(joinObject)
 </textarea></div></div>
 	<div class="tab" hidden><input><label>UPDATE &#149; Обновление колонки</label><div tc>
-<textarea style="height:18em">
+<textarea>
 layer = iface.activeLayer()
 fieldindex = layer.fieldNameIndex("Tasks")
 layer.startEditing()
@@ -305,7 +305,7 @@ layer.commitChanges()
 print "Complete"
 </textarea></div></div>
 	<div class="tab" hidden><input><label> &#149; Координаты центра выделенного объекта</label><div tc>
-<textarea style="height:15em">
+<textarea>
 layer = qgis.utils.iface.activeLayer()
 selected_features = layer.selectedFeatures()
 for feat in selected_features:
@@ -350,7 +350,7 @@ for i in selected_features:
     print attrs
 </textarea></div></div>
 	<div class="tab" hidden><input><label> &#149; Удаление колонок</label><div tc>
-<textarea style="height:15em">
+<textarea>
 layer = iface.activeLayer()
 provider = layer.dataProvider()
 layer.startEditing()
@@ -508,7 +508,7 @@ mem_layer.addFeature(feat, True)
 mem_layer.commitChanges()
 </textarea></div></div>
 	<div class="tab" hidden><input><label> &#149; Сдвижка растра</label><div tc>
-<textarea style="height:15em">
+<textarea>
 from osgeo import gdal
 gdal.AllRegister()
 rast_src = gdal.Open('5.tif', 1)
@@ -520,7 +520,7 @@ rast_src.SetGeoTransform(tuple(gtl))
 rast_src = None
 </textarea></div></div>
 	<div class="tab" hidden><input><label> &#149; Открытие shp из zip</label><div tc>
-<textarea style="height:15em">
+<textarea>
 # -*- coding: utf-8 -*-
 zip_uri = '/vsizip/d:/Scripts QGIS/55555.zip'
 shp =  QgsVectorLayer(zip_uri, u'Слой', 'ogr')
@@ -552,7 +552,7 @@ QObject::tr( "Comma Separated Value [CSV]" )	QStringLiteral( "*.csv" )
 QObject::tr( "Atlas BNA" )	QStringLiteral( "*.bna" )
 </textarea></div></div>
 	<div class="tab" hidden><input><label>QGIS проекции МСК-35 Вологодская область</label><div tc>
-<textarea style="height:18em">
+<textarea>
 Proj4js["MB:6333501"] = Зона 1
 "+proj=tmerc +lat_0=0 +lon_0=35.55 +k=1 +x_0=1250000 +y_0=-6214743.504 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs"
 
@@ -569,7 +569,7 @@ Proj4js["MB:6333505"] = Зона 5
 "+proj=tmerc +lat_0=0 +lon_0=47.55 +k=1 +x_0=5250000 +y_0=-6214743.504 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs"
 </textarea></div></div>
 	<div class="tab" hidden><input><label>MAPINFOW.PRJ</label><div tc>
-<textarea style="height:18em">
+<textarea>
 "--- МСК-35 Вологодская область ---"
 "МСК-35 зона 1", 8, 1001, 7, 35.55, 0, 1, 1250000, -6214743.504
 "МСК-35 зона 2", 8, 1001, 7, 38.55, 0, 1, 2250000, -6214743.504
@@ -589,15 +589,23 @@ Proj4js["MB:6333505"] = Зона 5
 <script type="text/javascript">
 var K = (event) => { var k = event.keyCode;
 	if (k==13 && document.getElementById('half').hidden == true) { k = document.getElementById('pass').value;
-	if (k=='Jade') {
+	//if (k=='Jade') {
 		document.getElementById('half').style.left = 0;
 		k = document.getElementsByTagName('input');
 		for (var i=k.length-1; i>=0; i--){if (k[i].id != "pass") {k[i].id = "tab"+ (i-1); k[i].type = "checkbox"}}
 		k = document.getElementsByTagName('label');
-		for (var i=k.length-1; i>=0; i--){k[i].htmlFor = "tab"+ i }
+		for (var i=k.length-1; i>=0; i--){k[i].htmlFor = "tab"+ i}
+		k = document.getElementsByTagName('textarea');
+		for (var i=k.length-1; i>=0; i--){var s = k[i].value.split('\n').length + 2; k[i].style.height = (s>35?35:s) +"em"}
 		k = document.getElementsByTagName('*');
 		for (var i=k.length-1; i>=0; i--){k[i].hidden = false}
-}	}}
+}	}//}
+
+	window.document.querySelector("textarea").addEventListener("keydown", function() {
+		var content = window.document.querySelector("textarea").value;
+		window.document.querySelector("#divContainer").innerHTML = content;
+		window.document.querySelector("textarea").style.height = window.document.querySelector("#divContainer").scrollHeight + "px";
+	}, false);
 </script>
 
 </body>
