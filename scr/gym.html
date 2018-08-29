@@ -3,12 +3,12 @@
 	td, th {border: 1px solid White}
 	a, a:focus, a:hover, a:active {text-decoration:none; outline:none}
 	h1 {text-align: center}
-	input[type=password] {text-align: center; height: 3px; background: #fff0; border: 0; border-top: 1px solid White}
+	input[type=pas] {position:relative; left:-4500em}
 </style>
 <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
 
 <body onkeydown="k(event)" style="color:White; background-color:#050500; font: 14px Segoe UI">
-<h1>GC<br><input type="password" id="pass"></h1>
+<h1>GC</h1><input type="pas" id="pass">
 <div id="half" style="position:relative; left:-5000em" hidden>
 <textarea cols="45" rows="15" id="names" style="color:White; background:transparent; border:1px solid #58B;"></textarea><br>
 <input type="button" value="Геокодирование на Яндекс" onClick="ymaps.ready(init)">
