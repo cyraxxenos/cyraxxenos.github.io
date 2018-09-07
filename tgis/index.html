@@ -38,7 +38,7 @@ window.onload = function () {
 	    DG.then(function() {	// API карт использует сферическую проекцию Меркатора (EPSG:3857)
 		var map = DG.map('map', {
 			center: (location.href.split('?')[1]=='r' ? [59.219075, 39.88065] : [59.2118, 39.8323]),
-			zoom: 17,
+			zoom: (location.href.split('?')[1]=='v' ? 18 : 17),
 			dragging : true,
 			touchZoom: true,
 			scrollWheelZoom: true,
