@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<style>
+#mydiv {
+	position: absolute; z-index: 4;
+	background-color: transparent;
+	text-align: center;
+}
+
+#mydivheader {
+	cursor: move; z-index: 10;
+	background-color: transparent; color: #fff;
+}
+input[type=range] {
+	position: absolute; z-index: 6;
+	transform: rotate(270deg);
+	width: 95vh; top: 48%; left: 250px;
+}
+</style>
+<body style="margin:0">
+<input type="range" id="myr" min="-2729" max="297" step="0.5" value="0"/>
+<output id="myt" style="position: absolute; top:5px; left:5px; width:80px; color:White; z-index:7"></output>
+<div style="position: absolute; width:800px; height:2150px; z-index:5; background:transparent">
+<svg viewBox="0 0 800 2150" xmlns="http://www.w3.org/2000/svg"><g id="c">
+	'<circle r="1000" cx="300" cy="300" fill="none" stroke="#555" stroke-width="1500"/>'
+	'<circle r="248" cx="300" cy="300" fill="none" stroke="#000" stroke-width="5"/>'
+</g></svg></div>
+<div id="mydiv">
+ <div id="mydivheader" style="width:110px; height:3000px; margin-left:260px">
+	<svg viewBox="0 -3 109 3058" xmlns="http://www.w3.org/2000/svg"><g id="q"></g></svg>
+ </div>
+</div>
+
+<script>
+	function ID (a) {return document.getElementById(a)};
+	function Rnd(min,max,n) {var R = Math.abs((Math.random()*100000) % 1); return 1*(((max-min)*R + min).toFixed(n))}
+
+	var li = Rnd(80,120,0), li1 = 300 - li, li2 = 300 + li;
+	ID("c").innerHTML +=	'<rect x="200" y="'+ li1 +'" width="200" height="2"/>'+
+				'<rect x="53" y="300" width="494" height="2"/>'+
+				'<rect x="200" y="'+ li2 +'" width="200" height="2"/>';
+
+	function txt(a,b,c) {return '<text x="'+ c +'" y="'+ a +'" fill="#000" transform="scale(0.85,1)"><tspan font-family="GOST type A" font-size="35px" font-stretch="5px" stroke="#000" stroke-width="1.5">'+ (b<10?"0"+b:b) +'</tspan></text>'};
+	var recty = 0, texty = 30, textn = 0;
+	for (var i=1; i<16; i++){ ID("q").innerHTML +=
+		'<rect x="20" y="'+ (recty + 180) +'" width="20" height="10"/>'+
+		'<rect x="20" y="'+ (recty + 160) +'" width="20" height="10"/>'+
+		'<rect x="19.5" y="'+ (recty + 140) +'" width="20.5" height="10"/>'+
+		'<rect x="19.5" y="'+ (recty + 120) +'" width="20.5" height="10"/>'+
+		'<rect x="19.5" y="'+ (recty + 100) +'" width="20.5" height="10"/>'+
+		'<rect x="10" y="'+ (recty + 100) +'" width="10" height="50"/>'+
+
+		'<rect x="40" y="'+ (recty + 80) +'" width="20" height="10"/>'+
+		'<rect x="40" y="'+ (recty + 60) +'" width="20" height="10"/>'+
+		'<rect x="40" y="'+ (recty + 40) +'" width="20.5" height="10"/>'+
+		'<rect x="40" y="'+ (recty + 20) +'" width="20.5" height="10"/>'+
+		'<rect x="40" y="'+ (recty) +'" width="20.5" height="10"/>'+
+		'<rect x="60" y="'+ (recty) +'" width="10" height="50"/>'+
+
+		'<rect x="10" y="'+ (recty) +'" width="28" height="2"/>'+
+		'<rect x="42" y="'+ (recty + 100) +'" width="28" height="2"/>'+
+		txt(texty, textn, 12) + txt(texty + 100, textn + 1, 52);
+
+		recty += 200; texty += 200; textn += 2;
+	}
+
+	ID("q").innerHTML += '<rect fill="none" stroke="#000" stroke-width="2" x="5" y="1" width="70" height="2998"/>';
+
+ID('myr').addEventListener('input', function() { ID("mydiv").style.top = this.value +"px"; ID("myt").value = Math.round(294 + (-3000/3026)*this.value) });
+ID("mydiv").style.top = (ID('myr').value = -Rnd(500,2000,0)) +"px";
+
+	// Make the DIV element draggagle
+dragElement(ID("mydiv"));
+
+function dragElement(elmnt) {
+	var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+	if (ID(elmnt.id +"header")) {	// if present, the header is where you move the DIV from:
+		ID(elmnt.id +"header").onmousedown = dragMouseDown;
+	} else {	// otherwise, move the DIV from anywhere inside the DIV:
+		elmnt.onmousedown = dragMouseDown;
+	}
+
+	function dragMouseDown(e) {
+		e = e || window.event;
+		e.preventDefault();
+			// get the mouse cursor position at startup:
+		pos3 = e.clientX;
+		pos4 = e.clientY;
+		document.onmouseup = closeDragElement;
+			// call a function whenever the cursor moves:
+		document.onmousemove = elementDrag;
+	}
+
+	function elementDrag(e) {
+		e = e || window.event;
+		e.preventDefault();
+			// calculate the new cursor position:
+		pos1 = pos3 - e.clientX;
+		pos2 = pos4 - e.clientY;
+		pos3 = e.clientX;
+		pos4 = e.clientY;
+			// set the element's new position:
+		elmnt.style.top = (elmnt.offsetTop - pos2) +"px";
+		pos1 = 0;						// для смещения только по вертикали
+		elmnt.style.left = (elmnt.offsetLeft - pos1) +"px";	// pos1 можно не вычитать при смещений по вертикали
+	}
+
+	function closeDragElement() {	// stop moving when mouse button is released:
+		document.onmouseup = null;
+		document.onmousemove = null;
+	}
+}
+	document.onkeydown = document.ondragstart = document.onselectstart = document.oncontextmenu = function(){return false}
+</script>
+
+</body>
