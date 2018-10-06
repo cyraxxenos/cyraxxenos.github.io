@@ -9,7 +9,7 @@
 <body onkeydown="k(event)" style="color:White; background-color:#050500; font: 14px Segoe UI">
 <h1>GC</h1><input type="pas" id="pass" style="position:absolute; left:-500em">
 <div id="half" style="position:relative; left:-5000em" hidden>
-<textarea cols="45" rows="15" id="names" style="color:White; background:transparent; border:1px solid #58B;"></textarea><br>
+<textarea cols="150" rows="15" id="names" style="color:White; background:transparent; border:1px solid #58B;"></textarea><br>
 <input type="button" value="Геокодирование на Яндекс" onClick="ymaps.ready(init)">
 <input type="checkbox" id='v' checked>Вологодская область<br><br>
 <table cellpadding=5 id="res" style="color:White; border-collapse:collapse"></table>
@@ -46,7 +46,7 @@ var ID = function(a) {return document.getElementById(a)}, Area,
     IR = function(a) {
 	var tr = document.createElement("tr");
 	tr.innerHTML = a; ID("res").appendChild(tr);
-}
+	}
 var toDeg = 180/Math.PI, toRad = Math.PI/180,
 Midpoint = function(φ1, λ1, φ2, λ2) { // Координаты средней точки
 	var Δλ = λ2-λ1;
@@ -65,22 +65,23 @@ ID("names").focus();
 function init() {
 	if (ID("names").value == "") {return false}; ID("res").innerHTML = '';
 	Area = ID("names").value.split('\n').filter(str=>str.length>1);
-	IR("<th rowspan=2>Местоположение</th><th rowspan=2>Название<input type='button' style='margin-left:8px; border:none; border-radius:5px' value='*' onclick='selectElementContents(ID(\"res\"))'/></th><th colspan=2>ЮВ угол</th><th colspan=2>СЗ угол</th><th colspan=2>Средние</th>");
+	IR("<th rowspan=2>№</th><th rowspan=2>Местоположение</th><th rowspan=2>Название<input type='button' style='margin-left:8px; border:none; border-radius:5px' value='*' onclick='selectElementContents(ID(\"res\"))'/></th><th colspan=2>ЮВ угол</th><th colspan=2>СЗ угол</th><th colspan=2>Средние</th>");
 	IR("<th>X</th><th>Y</th><th>X</th><th>Y</th><th>X</th><th>Y</th>");
    for (var j=0; j<Area.length; j++) {
-	var myGeocoder = ymaps.geocode((ID("v").checked?'Россия, Вологодская область, ':'')+ Area[j]);
+	var myGeocoder = ymaps.geocode((ID("v").checked?'Россия, Вологодская область, ':'')+ Area[j]), num = -1;
 	myGeocoder.then(function (res) {
-		var objs = res.geoObjects.toArray();
+		var objs = res.geoObjects.toArray(); num++;
+		IR("<td colspan=9 style='color:Yellow; padding:15px 0 0 15px'>"+ (num+1) +") "+ Area[num] +"</td>");
 		for (var i=0; i<objs.length; i++) { var obi = objs[i].properties.getAll();
 		    var	φ1 = obi.boundedBy[0][0],
 			λ1 = obi.boundedBy[0][1],
 			φ2 = obi.boundedBy[1][0],
 			λ2 = obi.boundedBy[1][1],
 			φλ = Midpoint(toRad*φ1, toRad*λ1, toRad*φ2, toRad*λ2);
-			IR("<td>"+ obi.description +"</td>"+
+			IR("<td align='center'>"+ (i+1) +"</td><td>"+ obi.description +"</td>"+
 			"<td><a href='http://maps.yandex.ru/?text="+ φλ.X +","+ φλ.Y +"' style='color:#5FF' target='_blank'>"+ obi.name +"</a></td>"+
 			"<td>"+ φ1.toFixed(6) +"</td><td>"+ λ1.toFixed(6) +"</td><td>"+ φ2.toFixed(6) +"</td><td>"+ λ2.toFixed(6) +"</td>"+
-			"<td style='color:SpringGreen'>"+ φλ.X.toFixed(6) +"</td><td style='color:SpringGreen'>"+ φλ.Y.toFixed(6) +"</td>");
+			"<td style='color:SpringGreen'>"+ φλ.X.toFixed(8) +"</td><td style='color:SpringGreen'>"+ φλ.Y.toFixed(8) +"</td>");
 		}
 	});
    }
@@ -88,10 +89,10 @@ function init() {
 
 var k = (event) => { var k = event.keyCode;
 	if (k==13) { k = document.getElementById('pass').value;
-	if (md5(k)=='101222f5de28a8ada8477a7dd32d01ac') {
+	//if (md5(k)=='101222f5de28a8ada8477a7dd32d01ac') {
 		k = document.getElementsByTagName('*'); document.getElementById('half').style.left = 0;
 		for (var i=k.length-1; i>=0; i--){k[i].hidden = false}
-}	}}
+}	}//}
 </script>
 
 </body>
