@@ -127,6 +127,74 @@ for layer in canvas.layers():
 print "Complete"
 canvas.refresh()
 </textarea></div></div>
+
+	<div class="tab" hidden><input><label>MERGE &#149; Объединение слоёв St</label><div tc>
+<textarea>
+# -*- coding: utf-8 -*-
+from PyQt4.QtGui import QDockWidget
+consoleWidget = iface.mainWindow().findChild( QDockWidget, 'PythonConsole' )
+consoleWidget.console.shellOut.clearConsole()
+
+import glob, processing
+
+path = "e:/RU-VLG-725d99-20180721-ru/data/"
+files = glob.glob(path + "*.shp")
+output = path + "merged.shp"
+
+processing.runandload("saga:mergelayers", files, True, True, output)
+</textarea></div></div>
+	<div class="tab" hidden><input><label>MERGE &#149; Объединение слоёв</label><div tc>
+<textarea>
+# -*- coding: utf-8 -*-
+from PyQt4.QtGui import QDockWidget
+consoleWidget = iface.mainWindow().findChild( QDockWidget, 'PythonConsole' )
+consoleWidget.console.shellOut.clearConsole()
+
+from qgis.core import *
+import os
+ 
+# Set the directory where the input files are stored
+directory = "e:/RU-VLG-725d99-20180721-ru/data/"
+ 
+# Get the list of input files
+fileList = os.listdir(directory)
+ 
+# Copy the features from all the files in a new list
+feats = []
+for file in fileList:
+    if file.endswith('.shp'):
+        layer = QgsVectorLayer(directory + file, file, 'ogr')
+        for feat in layer.getFeatures():
+            geom = feat.geometry()
+            attrs = feat.attributes()
+            feature = QgsFeature()
+            feature.setGeometry(geom)
+            feature.setAttributes(attrs)
+            feats.append(feature)
+ 
+# Get the Coordinate Reference System and the list of fields from the last input file
+crs = layer.crs().toWkt()
+field_list = layer.dataProvider().fields().toList()
+ 
+# Create the merged layer by checking the geometry type of  the input files (for other types, please see the API documentation)
+if layer.wkbType()==QGis.WKBPoint:
+    v_layer = QgsVectorLayer('Point?crs=' + crs, 'Merged', "memory")
+if layer.wkbType()==QGis.WKBLineString:
+    v_layer = QgsVectorLayer('LineString?crs=' + crs, 'Merged', "memory")
+if layer.wkbType()==QGis.WKBPolygon:
+    v_layer = QgsVectorLayer('Polygon?crs=' + crs, 'Merged', "memory")
+ 
+# Add the features to the merged layer
+prov = v_layer.dataProvider()
+prov.addAttributes(field_list)
+v_layer.updateFields()
+v_layer.startEditing()
+prov.addFeatures(feats)
+v_layer.commitChanges()
+ 
+QgsMapLayerRegistry.instance().addMapLayer(v_layer)
+</textarea></div></div>
+
 	<div class="tab" hidden><input><label>SPLIT &#149; Деление на слои по атрибуту</label><div tc>
 <textarea>
 # -*- coding: utf-8 -*-
