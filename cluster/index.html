@@ -158,11 +158,13 @@ function defineFeature(feature, latlng) {
 	})});
 }
 
+var clr = function (a) { return "<svg width='8' height='8' style='position:relative'><rect width='8' height='8' style='fill:"+a+"; stroke:black; stroke-width:1'/></svg>"};
+
 function defineFeaturePopup(feature, layer) {
 	var props = feature.properties, object = layer.feature, a = object.geometry.coordinates,
 	popupContent = "<strong>Имя: </strong>"+ object.properties.Имя +"<br/>"+
 		"<strong>Обозначение: </strong>"+ object.properties.Обозначение +"<br/>"+
-		"<strong>Название: </strong>"+ object.properties.Название +"<br/>"+
+		"<strong>Название: </strong>"+ clr(object.options.iconColor) +" "+ object.properties.Название +"<br/>"+
 		"<strong>Высота (м): </strong>"+ object.properties["Высота (м)"] +"<br/>"+
 		"<strong>Диаметр на высоте 1,3 м (см): </strong>"+ object.properties["Диаметр на высоте 1,3 м (см)"] +"<br/>"+
 		"<strong>Диаметр на высоте 0,1 м (см): </strong>"+ object.properties["Диаметр на высоте 0,1 м (см)"] +"<br/>"+
