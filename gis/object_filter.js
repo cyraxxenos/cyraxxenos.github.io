@@ -184,7 +184,7 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	typeSelector.addMapType('ESRIS#mapType', 37);
 	typeSelector.addMapType('Concrete#mapType', 40);
 
-	clr = function (a) { return "<svg width='8' height='8'><rect width='8' height='8' style='fill:"+a+"; stroke:black; stroke-width:1'/></svg>"};
+	clr = function (a) { return "<svg width='8' height='8' style='position:relative'><rect width='8' height='8' style='fill:"+a+"; stroke:black; stroke-width:1'/></svg>"};
 
 	// 0.00001 (x) и 0.00007 (y) - для Ковыринского сада, 0.000012 (xH) и 0.000033 (yH) - для сквера Петра
 

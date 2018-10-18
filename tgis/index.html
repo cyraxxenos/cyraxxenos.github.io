@@ -49,6 +49,8 @@ window.onload = function () {
 		});
 DG.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}').addTo(map);
 
+var clr = function (a) { return "<svg width='8' height='8' style='position:relative'><rect width='8' height='8' style='fill:"+a+"; stroke:black; stroke-width:1'/></svg>"};
+
 var geoJsonLayer = DG.geoJson(data, {
 	pointToLayer: function (feature, latlng) {
 		return DG.marker(latlng, {icon: DG.icon({
@@ -64,7 +66,7 @@ var geoJsonLayer = DG.geoJson(data, {
 	   layer.bindPopup(function (layer) { var object = layer.feature, a = object.geometry.coordinates;
 		return "<strong>Имя: </strong>"+ object.properties.Имя +"<br/>"+
 			"<strong>Обозначение: </strong>"+ object.properties.Обозначение +"<br/>"+
-			"<strong>Название: </strong>"+ object.properties.Название +"<br/>"+
+			"<strong>Название: </strong>"+ clr(object.options.iconColor) +" "+ object.properties.Название +"<br/>"+
 			"<strong>Высота (м): </strong>"+ object.properties["Высота (м)"] +"<br/>"+
 			"<strong>Диаметр на высоте 1,3 м (см): </strong>"+ object.properties["Диаметр на высоте 1,3 м (см)"] +"<br/>"+
 			"<strong>Диаметр на высоте 0,1 м (см): </strong>"+ object.properties["Диаметр на высоте 0,1 м (см)"] +"<br/>"+
