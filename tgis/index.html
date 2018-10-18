@@ -9,6 +9,7 @@
 	<style type="text/css">
 		[class*="copyright"] {display:none}
 		.leaflet-popup-inner {border:1px solid White}
+		.leaflet-popup-content {color: White}
 	</style>
 
 </head>
@@ -75,8 +76,8 @@ var geoJsonLayer = DG.geoJson(data, {
 			"<strong>Балл санитарного состояния: </strong>"+ object.properties["Балл санитарного состояния"] +"<br/>"+
 			"<strong>Ступень толщины: </strong>"+ object.properties["Ступень толщины"] +"<br/>"+
 			"<strong>Пороки: </strong>"+ object.properties.Пороки +"<br/>"+
-			"<strong>Долгота: </strong>"+ a[0].toFixed(8) +" = "+ deg_dms3(a[0],5) +"<br/>"+
-			"<strong>Широта: </strong>"+ a[1].toFixed(8) +" = "+ deg_dms3(a[1],5);
+			("<strong>Долгота: </strong>"+ a[0].toFixed(8) +" = "+ deg_dms3(a[0],5) +"<br/>"+
+			  "<strong>Широта: </strong>"+ a[1].toFixed(8) +" = "+ deg_dms3(a[1],5)).replace(/[.]/g,',');
 	   })
 	},
 	style: function (feature) {

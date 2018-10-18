@@ -208,8 +208,8 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 				"<strong>Балл санитарного состояния: </strong>"+ object.properties["Балл санитарного состояния"] +"<br/>"+
 				"<strong>Ступень толщины: </strong>"+ object.properties["Ступень толщины"] +"<br/>"+
 				"<strong>Пороки: </strong>"+ object.properties.Пороки +"<br/>"+
-				"<strong>Долгота: </strong>"+ a[0].toFixed(8) +" = "+ deg_dms3(a[0],5) +"<br/>"+
-				"<strong>Широта: </strong>"+ a[1].toFixed(8) +" = "+ deg_dms3(a[1],5);
+				("<strong>Долгота: </strong>"+ a[0].toFixed(8) +" = "+ deg_dms3(a[0],5) +"<br/>"+
+				  "<strong>Широта: </strong>"+ a[1].toFixed(8) +" = "+ deg_dms3(a[1],5)).replace(/[.]/g,',');
 		});
 		myMap.geoObjects.add(objectManager);	// Добавляем объекты на карту
 		objectManager.objects.each(function (object) { jdata.push(object.properties); jsdata.push(object) });

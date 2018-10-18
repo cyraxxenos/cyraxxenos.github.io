@@ -173,8 +173,8 @@ function defineFeaturePopup(feature, layer) {
 		"<strong>Балл санитарного состояния: </strong>"+ object.properties["Балл санитарного состояния"] +"<br/>"+
 		"<strong>Ступень толщины: </strong>"+ object.properties["Ступень толщины"] +"<br/>"+
 		"<strong>Пороки: </strong>"+ object.properties.Пороки +"<br/>"+
-		"<strong>Долгота: </strong>"+ a[0].toFixed(8) +" = "+ deg_dms3(a[0],5) +"<br/>"+
-		"<strong>Широта: </strong>"+ a[1].toFixed(8) +" = "+ deg_dms3(a[1],5);
+		("<strong>Долгота: </strong>"+ a[0].toFixed(8) +" = "+ deg_dms3(a[0],5) +"<br/>"+
+		  "<strong>Широта: </strong>"+ a[1].toFixed(8) +" = "+ deg_dms3(a[1],5)).replace(/[.]/g,',');
 	popupContent = '<div class="map-popup">'+popupContent+'</div>';
 	layer.bindPopup(popupContent,{offset: L.point(1,-2)});
 	layer.bindLabel(feature.properties.Название, {pane:'popupPane', direction:'auto'});
