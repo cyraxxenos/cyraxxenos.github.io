@@ -1,0 +1,26 @@
+﻿<body style="padding:15px">
+<br><button onclick="addElement();cl()" style="margin:15px">Добавить цвет</button><br>
+<output id="c" style="font:medium Consolas"></output>
+
+<style type="text/css">
+	input[type="color"] {width: 25pt; height: 150pt; border: none; padding:0}
+	input[type="color"]::-webkit-color-swatch-wrapper {padding:0}
+</style>
+</body>
+
+<script type="text/javascript">
+for (var j=0; j<5; j++) {addElement()}; cl();
+
+function cl() {
+	k = document.getElementsByTagName('input'), c ='';
+	for (var i=0; i<k.length; i++){c += k[i].value +'<br>'}
+	document.getElementById('c').innerHTML = c
+}
+
+function addElement() {
+	var i = document.createElement("input");
+	i.setAttribute("type","color");
+	i.setAttribute("onchange","cl()");
+	document.body.insertBefore(i, document.body.firstChild);
+}
+</script>
