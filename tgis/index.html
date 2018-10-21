@@ -9,13 +9,23 @@
 	<style type="text/css">
 		[class*="copyright"] {display:none}
 		.leaflet-popup-inner {border:1px solid White}
-		.leaflet-popup-content {color: White}
+		[class*="leaflet-popup-content"] {color: White}
 	</style>
 
 </head>
 <body style="margin:0">
 	<div id="map" style="width:100vw; height:100vh"></div>
 <script>
+function addElement(a) {
+	if (document.sr) {return false}
+	var img = document.createElement("img");
+	img.setAttribute("name","sr");
+	img.setAttribute("src",a);
+	img.setAttribute("style","position:absolute; left:50%; top:50%; transform: translate(-50%,-50%); display:block; max-width:80%; max-height:80%; border:3px outset Silver; border-radius:5px; z-index:998");
+	img.setAttribute("onclick","this.parentNode.removeChild(this)");
+	document.body.appendChild(img);
+}
+
 window.onload = function () {
 	function round_4(a) {return Math.round(parseFloat(a)*10000)/10000}
 	function rplN(a) {return (a+'').replace(/[,]/g,'.')}
@@ -77,8 +87,10 @@ var geoJsonLayer = DG.geoJson(data, {
 			"<strong>Ступень толщины: </strong>"+ object.properties["Ступень толщины"] +"<br/>"+
 			"<strong>Пороки: </strong>"+ object.properties.Пороки +"<br/>"+
 			("<strong>Долгота: </strong>"+ a[0].toFixed(8) +" = "+ deg_dms3(a[0],5) +"<br/>"+
-			  "<strong>Широта: </strong>"+ a[1].toFixed(8) +" = "+ deg_dms3(a[1],5)).replace(/[.]/g,',');
-	   })
+			  "<strong>Широта: </strong>"+ a[1].toFixed(8) +" = "+ deg_dms3(a[1],5)).replace(/[.]/g,',')+
+			'<p style="text-align:center; padding-top:15px"><img style="display:inline-block; max-width:100%" src="https://lh3.googleusercontent.com/-Ph_Za9opClc/VSG8TLtjXAI/AAAAAAAAAnY/lFXSLA4Lb2s/w1440-h958-p-e365-k-no/ItMightBeYou11_by_Echohowdy.jpg" onclick="addElement(\'https://lh3.googleusercontent.com/-Ph_Za9opClc/VSG8TLtjXAI/AAAAAAAAAnY/lFXSLA4Lb2s/w1440-h958-p-e365-k-no/ItMightBeYou11_by_Echohowdy.jpg\')"></p>';
+	   });
+
 	},
 	style: function (feature) {
 		return {color: feature.properties.color};	// Для линий и полигонов
@@ -93,6 +105,11 @@ map.addLayer(markers);
 DG.control.scale().addTo(map);
 DG.control.ruler({position: 'bottomright'}).addTo(map);
 	    });
-} ()
+} ();
+
+document.addEventListener("click", function(event) {
+	var w = document.querySelectorAll("[class*=popup-content-wrapper]");
+	for (var i in w) {w[i].style.maxHeight =""}
+});
 	</script>
 </body>
