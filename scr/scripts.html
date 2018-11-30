@@ -38,6 +38,7 @@
 	<span style="font: large Consolas; margin-bottom:25px; transform: rotate(-35deg); display: inline-block">QGIS</span>
 	<div class="tab" hidden><input><label>AFFINE &#149; Афинные преобразования</label><div tc>
 <textarea>
+# -*- coding: utf-8 -*-
 from PyQt4.QtGui import QDockWidget
 consoleWidget = iface.mainWindow().findChild( QDockWidget, 'PythonConsole' )
 consoleWidget.console.shellOut.clearConsole()
@@ -77,6 +78,7 @@ canvas.refresh()
 </textarea></div></div>
 	<div class="tab" hidden><input><label>AFFINE &#149; Афинные преобразования (поворот)</label><div tc>
 <textarea>
+# -*- coding: utf-8 -*-
 from PyQt4.QtGui import QDockWidget
 consoleWidget = iface.mainWindow().findChild( QDockWidget, 'PythonConsole' )
 consoleWidget.console.shellOut.clearConsole()
@@ -151,7 +153,7 @@ consoleWidget = iface.mainWindow().findChild( QDockWidget, 'PythonConsole' )
 consoleWidget.console.shellOut.clearConsole()
 
 from qgis.core import *
-import os
+import os           # the standard Python os library
  
 # Set the directory where the input files are stored
 directory = "e:/RU-VLG-725d99-20180721-ru/data/"
@@ -253,6 +255,29 @@ joinObject.setJoinFieldNamesSubset(['OSM_ID', 'ADMIN_L4'])
 joinObject.prefix = ''
 csv.addJoin(joinObject)
 </textarea></div></div>
+	<div class="tab" hidden><input><label> &#149; Топологическое объединение</label><div tc>
+<textarea>
+# -*- coding: utf-8 -*-
+from PyQt4.QtGui import QDockWidget
+consoleWidget = iface.mainWindow().findChild( QDockWidget, 'PythonConsole' )
+consoleWidget.console.shellOut.clearConsole()
+
+import processing   # utilize the Processing Framework
+
+layers = QgsMapLayerRegistry.instance().mapLayers().values()
+[ qgis.utils.iface.legendInterface().setLayerVisible(l, False) for l in layers ]
+
+name = u'Административные границы'
+layer = QgsMapLayerRegistry.instance().mapLayersByName( name )[0]
+qgis.utils.iface.legendInterface().setLayerVisible(layer, True)
+it = layer.getFeatures( QgsFeatureRequest().setFilterExpression ( u'"ADMIN_LVL" = \'6\'' ) )
+layer.setSelectedFeatures( [ f.id() for f in it ] )
+name = u'Здания'
+layerA = QgsMapLayerRegistry.instance().mapLayersByName( name )[0]
+qgis.utils.iface.legendInterface().setLayerVisible(layerA, True)
+
+processing.runalg("qgis:joinattributesbylocation",layerA,layer,['within'],0,0,"sum,mean,min,max,median",0,"d:/output.shp")
+</textarea></div></div>
 	<div class="tab" hidden><input><label>UPDATE &#149; Обновление колонки</label><div tc>
 <textarea>
 layer = iface.activeLayer()
@@ -344,6 +369,7 @@ print "Complete"
 </textarea></div></div>
 	<div class="tab" hidden><input><label>UPDATE &#149; Создание и обновление колонок с XY</label><div tc>
 <textarea>
+# -*- coding: utf-8 -*-
 from PyQt4.QtGui import QDockWidget
 consoleWidget = iface.mainWindow().findChild( QDockWidget, 'PythonConsole' )
 consoleWidget.console.shellOut.clearConsole()
