@@ -669,6 +669,72 @@ QObject::tr( "AutoCAD DXF" )	QStringLiteral( "*.dxf" )
 QObject::tr( "MS Office Open XML spreadsheet [XLSX]" )	QStringLiteral( "*.xlsx" )
 QObject::tr( "Comma Separated Value [CSV]" )	QStringLiteral( "*.csv" )
 QObject::tr( "Atlas BNA" )	QStringLiteral( "*.bna" )
+
+from qgis.core import *
+import os
+pathToFile = "d:\\5\\"
+trs = QgsCoordinateReferenceSystem()
+trs.createFromId(4326)
+suffix = "_"
+layers = iface.legendInterface().layers()
+for layer in layers:
+    newName = layer.name() + suffix + ".shp"
+    ret = QgsVectorFileWriter.writeAsVectorFormat(layer,pathToFile + newName,'utf-8',trs,'ESRI Shapefile')
+    if ret == QgsVectorFileWriter.NoError:
+        (print newName + " saved to " + pathToFile + "!")
+</textarea></div></div>
+	<div class="tab" hidden><input><label>ГСК-WM</label><div tc>
+<textarea>
+import math
+from PyQt4.QtGui import QDockWidget
+consoleWidget = iface.mainWindow().findChild( QDockWidget, 'PythonConsole' )
+consoleWidget.console.shellOut.clearConsole()
+
+def ogz_s(x1, x2, y1, y2):
+    return math.sqrt( math.pow(x2 - x1, 2) + math.pow(y2 - y1, 2) )
+
+def ogz_ur(x1, x2, y1, y2):
+    return math.atan((y2 - y1) / (x2 - x1))
+
+def SKtoSK(XY):
+    t1 = [-669.13, -120.89, 4438420.07994637, 8228726.23003649]
+    t2 = [4976.50, -16.970, 4449424.78508004, 8228923.442037]
+    m = ogz_s(t1[2], t2[2], t1[3], t2[3]) / ogz_s(t1[0], t2[0], t1[1], t2[1]);
+    U = ogz_ur(t1[2], t2[2], t1[3], t2[3]) - ogz_ur(t1[0], t2[0], t1[1], t2[1]);
+    K = [m * math.cos(U), m * math.sin(U)];
+    X = t1[2] + (XY[0] - t1[0]) * K[0] - (XY[1] - t1[1]) * K[1]
+    Y = t1[3] + (XY[1] - t1[1]) * K[0] + (XY[0] - t1[0]) * K[1]
+    return [X, Y]
+
+canvas = qgis.utils.iface.mapCanvas()
+j = 0
+for layer in canvas.layers():
+    # layer = qgis.utils.iface.activeLayer()
+    layer.removeSelection()
+    layer.invertSelection()
+    featids = layer.selectedFeaturesIds()
+    layer.startEditing()
+    canvas.refresh()
+    result = {}
+    features = {}
+    for fid in featids:
+        features[fid] = QgsFeature()
+        if not layer.getFeatures( QgsFeatureRequest().setFilterFid(fid) ).nextFeature( features[fid] ):
+            continue;
+        result[fid] = features[fid].geometry()
+        i = 0
+        vertex = result[fid].vertexAt(i)
+        while (vertex != QgsPoint(0,0)):
+            XY = [vertex.x(), vertex.y()]
+            layer.moveVertex(SKtoSK(XY)[0], SKtoSK(XY)[1], fid, i)
+            i += 1
+            vertex = result[fid].vertexAt(i)
+    layer.invertSelection()
+    layer.commitChanges()
+    j += 1
+    print (str(j) + ") layer '" + layer.name() + "' is ready")
+print ("Complete")
+canvas.refresh()
 </textarea></div></div>
 	<div class="tab" hidden><input><label>QGIS проекции МСК-35 Вологодская область</label><div tc>
 <textarea>
