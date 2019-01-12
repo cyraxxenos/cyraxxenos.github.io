@@ -4,12 +4,10 @@
 <style type="text/css">
 	body::-webkit-scrollbar, div::-webkit-scrollbar {display:none}
 	body {color: White; background: #050500; padding: 0 1em}
-	h1 {text-align: center; margin:0}
-	input[type=pas] {position:relative; left:-4500em}
 /* Acordeon styles */
 	.tab {position: relative; margin-bottom: 1px; color: #fff; overflow: hidden}
 	input[type=checkbox] {position: absolute; opacity: 0; z-index: -1}
-	label {position: relative; display: block; padding: 0 1em; background: Green; font: italic medium Consolas, Sans-Serif; line-height: 2; cursor: pointer}
+	label {position: relative; display: block; padding: 0 1em; background: Green; font: italic 0.85em Consolas, Sans-Serif; line-height: 2; cursor: pointer}
 	.tab > div {
 	  max-height: 0; padding: 0 1em 0 .6em; overflow: hidden; background: linear-gradient(Green, YellowGreen, Yellow);
 	  -webkit-transition: max-height .5s;
@@ -33,9 +31,12 @@
 </style>
 
 <body onkeydown="K(event)" onselectstart='return false'>
-	<h1>Scripts</h1><input type="pas" id="pass">
-	<div id="half" style="width:100%; margin-bottom:30px; position:relative; left:-5000em" hidden>
-	<span style="font: large Consolas; margin-bottom:25px; transform: rotate(-35deg); display: inline-block">QGIS</span>
+	<span style="font: large Consolas; margin-bottom:25px; transform: rotate(-35deg); display: inline-block">QGIS<br>   Scripts</span>
+	<div id="half" style="display:grid; grid-template-columns: 1fr minmax(550px, 100%); width:100%; margin-bottom:30px; position:relative; left:-500em" hidden>
+	<div id="left" style="margin-right:30px">
+<textarea id="ou" style="width:100%; white-space:pre; overflow:auto; background:Black; color:#cfb; padding:5px"></textarea>
+	</div>
+	<div id="right">
 	<div class="tab" hidden><input><label>AFFINE &#149; Афинные преобразования</label><div tc>
 <textarea>
 # -*- coding: utf-8 -*-
@@ -436,7 +437,7 @@ for feat in wb.selectedFeatures():
 print "Area is %.3f km2" % (a)
 </textarea></div></div>
 	<div class="tab" hidden><input><label> &#149; GeoJSON с атрибутами объекта</label><div tc>
-<textarea style="height:15em">
+<textarea>
 layer = qgis.utils.iface.activeLayer()
 selected_features = layer.selectedFeatures()
 for i in selected_features:
@@ -698,36 +699,34 @@ Proj4js["MB:6333505"] = Зона 5
 "МСК-35 зона 4", 8, 9999, 3, 23.57, -140.95, -79.8, 0, -0.35, -0.79, -0.22, 0, 7, 44.55, 0, 1, 4250000, -6214743.504
 "МСК-35 зона 5", 8, 9999, 3, 23.57, -140.95, -79.8, 0, -0.35, -0.79, -0.22, 0, 7, 47.55, 0, 1, 5250000, -6214743.504
 </textarea></div></div>
-	</div>
+</div></div>
 
 <script type="text/javascript">
-var ss = ["cs"], s;
-   for (var j=0; j<ss.length; j++) {
-	s = document.createElement("script");
-	s.src = ss[j] +".js";
-	s.type = "text/javascript";
-	document.body.appendChild(s)
-   }
+HTMLCollection.prototype.map = Array.prototype.map;
+var ID = a => document.getElementById(a);
+var K = (event) => { var k = event.keyCode, gT = a => document.getElementsByTagName(a);
+	if (k==192 && ID('half').hidden == true) {
+		ID('half').style.left = 0;
+		gT('input').map((a,b) => {if (a.id != "pass") a.id = "tab"+ b; a.type = "checkbox"});
+		gT('label').map((a,b) => a.htmlFor = "tab"+ b);
+		gT('textarea').map(a => {var s = a.value.split('\n').length + 2; a.style.height = (s>35?35:s) +"em"});
+		gT('*').map(a => a.hidden = false);
+		ID('ou').style.minHeight = ID('ou').style.maxHeight = ID('right').scrollHeight-12 +"px";
+}	}
+//qS = a => window.document.querySelector(a);
+//qS("textarea").addEventListener("keydown", function() {
+//	qS = a => window.document.querySelector(a);
+//	qS("#divContainer").innerHTML = qS("textarea").value;
+//	qS("textarea").style.height = qS("#divContainer").scrollHeight +"px";
+//}, false);
 
-var K = (event) => { var k = event.keyCode;
-	if (k==13 && document.getElementById('half').hidden == true) { k = document.getElementById('pass').value;
-	if (md5(k)=='101222f5de28a8ada8477a7dd32d01ac') {
-		document.getElementById('half').style.left = 0;
-		k = document.getElementsByTagName('input');
-		for (var i=k.length-1; i>=0; i--){if (k[i].id != "pass") {k[i].id = "tab"+ (i-1); k[i].type = "checkbox"}}
-		k = document.getElementsByTagName('label');
-		for (var i=k.length-1; i>=0; i--){k[i].htmlFor = "tab"+ i}
-		k = document.getElementsByTagName('textarea');
-		for (var i=k.length-1; i>=0; i--){var s = k[i].value.split('\n').length + 2; k[i].style.height = (s>35?35:s) +"em"}
-		k = document.getElementsByTagName('*');
-		for (var i=k.length-1; i>=0; i--){k[i].hidden = false}
-}	}}
-
-	window.document.querySelector("textarea").addEventListener("keydown", function() {
-		var content = window.document.querySelector("textarea").value;
-		window.document.querySelector("#divContainer").innerHTML = content;
-		window.document.querySelector("textarea").style.height = window.document.querySelector("#divContainer").scrollHeight + "px";
-	}, false);
+document.addEventListener("contextmenu", function(event) { var et = event.target;
+	if (et.nodeName =="LABEL") {ID('ou').value = et.parentNode.querySelector('div').childNodes[1].innerHTML; stop(event)}
+});
+function stop(e) {
+	if (e.preventDefault) {e.preventDefault(); e.stopPropagation()} // стандарт
+	else {e.returnValue = false; e.cancelBubble = true} // IE8-
+}
 </script>
 
 </body>
