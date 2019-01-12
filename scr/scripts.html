@@ -45,36 +45,36 @@ consoleWidget = iface.mainWindow().findChild( QDockWidget, 'PythonConsole' )
 consoleWidget.console.shellOut.clearConsole()
 
 canvas = qgis.utils.iface.mapCanvas()
-j=0
+j = 0
 for layer in canvas.layers():
     # layer = qgis.utils.iface.activeLayer()
     layer.removeSelection()
     layer.invertSelection()
-    featids=layer.selectedFeaturesIds()
+    featids = layer.selectedFeaturesIds()
     layer.startEditing()
     canvas.refresh()
-    result={}
-    features={}
+    result = {}
+    features = {}
     for fid in featids:
-        features[fid]=QgsFeature()
+        features[fid] = QgsFeature()
         if not layer.getFeatures( QgsFeatureRequest().setFilterFid(fid) ).nextFeature( features[fid] ):
             continue;
-        result[fid]=features[fid].geometry()
-        i=0
-        vertex=result[fid].vertexAt(i)
-        while (vertex!=QgsPoint(0,0)):
+        result[fid] = features[fid].geometry()
+        i = 0
+        vertex = result[fid].vertexAt(i)
+        while (vertex != QgsPoint(0,0)):
             # x' = a*x + b*y + tx
             # y' = c*x + d*y + ty
-            newx = 1*vertex.x() + 0*vertex.y() + (39.8786866355167-39.878629149894)
-            newy = 0*vertex.x() + 1*vertex.y() + (59.2195422486874-59.2195283432763)
+            newx = 1*vertex.x() + 0*vertex.y() + (39.8786866355167 - 39.878629149894)
+            newy = 0*vertex.x() + 1*vertex.y() + (59.2195422486874 - 59.2195283432763)
             layer.moveVertex(newx,newy,fid,i)
-            i+=1
-            vertex=result[fid].vertexAt(i)
+            i += 1
+            vertex = result[fid].vertexAt(i)
     layer.invertSelection()
     layer.commitChanges()
-    j+=1
-    print str(j)+") layer '"+layer.name()+"' is ready"
-print "Complete"
+    j += 1
+    print (str(j) + ") layer '" + layer.name() + "' is ready")
+print ("Complete")
 canvas.refresh()
 </textarea></div></div>
 	<div class="tab" hidden><input><label>AFFINE &#149; Афинные преобразования (поворот)</label><div tc>
@@ -89,7 +89,7 @@ import math
 theta = 45
 x0 = 40.935985
 y0 = 60.045773
-theta_radians = 2*math.pi*theta/360
+theta_radians = 2 * math.pi * theta / 360
 a = math.cos(theta_radians)
 b = -math.sin(theta_radians)
 tx = (x0 - math.cos(theta_radians) * x0 + math.sin(theta_radians) * y0)
@@ -98,36 +98,36 @@ d = math.cos(theta_radians)
 ty = (y0 - math.sin(theta_radians) * x0 - math.cos(theta_radians) * y0)
 
 canvas = qgis.utils.iface.mapCanvas()
-j=0
+j = 0
 for layer in canvas.layers():
     # layer = qgis.utils.iface.activeLayer()
     layer.removeSelection()
     layer.invertSelection()
-    featids=layer.selectedFeaturesIds()
+    featids = layer.selectedFeaturesIds()
     layer.startEditing()
     canvas.refresh()
-    result={}
-    features={}
+    result = {}
+    features = {}
     for fid in featids:
-        features[fid]=QgsFeature()
-        if not layer.getFeatures( QgsFeatureRequest().setFilterFid( fid ) ).nextFeature( features[fid] ):
+        features[fid] = QgsFeature()
+        if not layer.getFeatures( QgsFeatureRequest().setFilterFid(fid) ).nextFeature( features[fid] ):
             continue;
-        result[fid]=features[fid].geometry()
-        i=0
-        vertex=result[fid].vertexAt(i)
-        while (vertex!=QgsPoint(0,0)):
+        result[fid] = features[fid].geometry()
+        i = 0
+        vertex = result[fid].vertexAt(i)
+        while (vertex != QgsPoint(0,0)):
             # x' = a*x + b*y + tx
             # y' = c*x + d*y + ty
             newx = a*vertex.x() + b*vertex.y() + tx
             newy = c*vertex.x() + d*vertex.y() + ty
             layer.moveVertex(newx,newy,fid,i)
-            i+=1
-            vertex=result[fid].vertexAt(i)
+            i += 1
+            vertex = result[fid].vertexAt(i)
     layer.invertSelection()
     layer.commitChanges()
-    j+=1
-    print str(j)+") layer '"+layer.name()+"' is ready"
-print "Complete"
+    j += 1
+    print (str(j) + ") layer '" + layer.name() + "' is ready")
+print ("Complete")
 canvas.refresh()
 </textarea></div></div>
 
@@ -180,11 +180,11 @@ crs = layer.crs().toWkt()
 field_list = layer.dataProvider().fields().toList()
  
 # Create the merged layer by checking the geometry type of  the input files (for other types, please see the API documentation)
-if layer.wkbType()==QGis.WKBPoint:
+if layer.wkbType() == QGis.WKBPoint:
     v_layer = QgsVectorLayer('Point?crs=' + crs, 'Merged', "memory")
-if layer.wkbType()==QGis.WKBLineString:
+if layer.wkbType() == QGis.WKBLineString:
     v_layer = QgsVectorLayer('LineString?crs=' + crs, 'Merged', "memory")
-if layer.wkbType()==QGis.WKBPolygon:
+if layer.wkbType() == QGis.WKBPolygon:
     v_layer = QgsVectorLayer('Polygon?crs=' + crs, 'Merged', "memory")
  
 # Add the features to the merged layer
@@ -243,11 +243,11 @@ processing.runalg('qgis:extractbyattribute', input, field, operator, value, outp
 </textarea></div></div>
 	<div class="tab" hidden><input><label> &#149; Связи</label><div tc>
 <textarea>
-shp=iface.activeLayer()
-csv=iface.mapCanvas().layers()[0]
+shp = iface.activeLayer()
+csv = iface.mapCanvas().layers()[0]
 
-shpField='NAME'
-csvField='NAME'
+shpField = 'NAME'
+csvField = 'NAME'
 joinObject = QgsVectorJoinInfo()
 joinObject.joinLayerId = shp.id()
 joinObject.joinFieldName = shpField
@@ -309,19 +309,19 @@ fieldindex = layer.fieldNameIndex("A_STRT")
 layer.startEditing()
 cou = layer.featureCount()
 for feat in layer.getFeatures():
-    if feat.id() % (cou/10) == 0:
-        print str(100*feat.id()/cou+1)+"%"
+    if feat.id() % (cou / 10) == 0:
+        print (str(100 * feat.id() / cou + 1) + "%")
     if feat[fieldindex]:
         fields = u'улица,переулок,проспект,проезд,площадь,шоссе,тракт,набережная'.split(',')
         for i in range(0, len(fields)):
-            feat[fieldindex] = feat[fieldindex].replace(fields[i]+' ','').replace(' '+fields[i],'')
+            feat[fieldindex] = feat[fieldindex].replace(fields[i] + ' ','').replace(' ' + fields[i],'')
         layer.updateFeature(feat)
     else:
         continue
 layer.commitChanges()
-print "Complete"
+print ("Complete")
 </textarea></div></div>
-	<div class="tab" hidden><input><label>UPDATE &#149; Обновление колонки, объединение через changeAttributeValue</label><div tc>
+	<div class="tab" hidden><input><label>UPDATE &#149; Объединение колонок через changeAttributeValue</label><div tc>
 <textarea>
 # -*- coding: utf-8 -*-
 from PyQt4.QtGui import QDockWidget
@@ -334,16 +334,16 @@ cou = layer.featureCount()
 layer.startEditing()
 for feat in it:
     if feat.id() % (cou/10) == 0:
-        print str(100*feat.id()/cou+1)+"%"
+        print str(100 * feat.id() / cou + 1) + "%"
     if feat[1]:
-        txt=[feat[1]]
-        if feat[2]: txt.append(', '+feat[2])
-        if feat[4]: txt.append(', '+feat[4])
+        txt = [feat[1]]
+        if feat[2]: txt.append(', ' + feat[2])
+        if feat[4]: txt.append(', ' + feat[4])
         layer.changeAttributeValue(feat.id(), 0, ''.join(txt))
 layer.commitChanges()
-print "Complete"
+print ("Complete")
 </textarea></div></div>
-	<div class="tab" hidden><input><label>UPDATE &#149; Обновление колонки, объединение через updateFeature</label><div tc>
+	<div class="tab" hidden><input><label>UPDATE &#149; Объединение колонок через updateFeature</label><div tc>
 <textarea>
 # -*- coding: utf-8 -*-
 from PyQt4.QtGui import QDockWidget
@@ -355,20 +355,20 @@ layer = iface.activeLayer()
 layer.startEditing()
 cou = layer.featureCount()
 for feat in layer.getFeatures():
-    if feat.id() % (cou/10) == 0:
-        print str(100*feat.id()/cou+1)+"%"
+    if feat.id() % (cou / 10) == 0:
+        print (str(100 * feat.id() / cou + 1) + "%")
     if feat[1]:
-        txt=[feat[1]]
-        if feat[2]: txt.append(', '+feat[2])
-        if feat[4]: txt.append(', '+feat[4])
+        txt = [feat[1]]
+        if feat[2]: txt.append(', ' + feat[2])
+        if feat[4]: txt.append(', ' + feat[4])
         feat[0] = ''.join(txt)
         layer.updateFeature(feat)
     else:
         continue
 layer.commitChanges()
-print "Complete"
+print ("Complete")
 </textarea></div></div>
-	<div class="tab" hidden><input><label>UPDATE &#149; Создание и обновление колонок с XY</label><div tc>
+	<div class="tab" hidden><input><label>UPDATE &#149; Создание колонок с XY</label><div tc>
 <textarea>
 # -*- coding: utf-8 -*-
 from PyQt4.QtGui import QDockWidget
@@ -387,8 +387,8 @@ fY = layer.fieldNameIndex("Y")
 layer.startEditing()
 cou = layer.featureCount()
 for feat in layer.getFeatures():
-    if feat.id() % (cou/10) == 0:
-        print str(100*feat.id()/cou)+"%"
+    if feat.id() % (cou / 10) == 0:
+        print (str(100 * feat.id() / cou) + "%")
     if feat[0]:
         k = feat.geometry().centroid().asPoint()
         feat[fX] = k.x()
@@ -397,7 +397,7 @@ for feat in layer.getFeatures():
     else:
         continue
 layer.commitChanges()
-print "Complete"
+print ("Complete")
 </textarea></div></div>
 	<div class="tab" hidden><input><label> &#149; Координаты центра выделенного объекта</label><div tc>
 <textarea>
@@ -405,8 +405,8 @@ layer = qgis.utils.iface.activeLayer()
 selected_features = layer.selectedFeatures()
 for feat in selected_features:
     k = feat.geometry().centroid().asPoint()
-    print k.x()
-    print k.y()
+    print (k.x())
+    print (k.y())
 </textarea></div></div>
 	<div class="tab" hidden><input><label> &#149; Площадь выделенных объектов</label><div tc>
 <textarea>
@@ -422,27 +422,31 @@ for feat in wb.selectedFeatures():
 
     if (multiPart is False):
         pol = feat.geometry().asPolygon()
-        s = area.measurePolygon(pol[0])/1e6
-        # print "area is %.2f km2" % (s)
+        s = area.measurePolygon(pol[0]) / 1e6
+        # print ("area is %.2f km2" % (s))
         a += s
     else:
         pol = feat.geometry().asMultiPolygon()
-        print "There are %d polygons" % len(pol)
-        i=1
+        print ("There are %d polygons" % len(pol))
+        i = 1
         for geom in pol:
-            s = area.measurePolygon(geom[0])/1e6
-            # print "area%d is %.2f km2" % (i,s)
-            i +=1
+            s = area.measurePolygon(geom[0]) / 1e6
+            # print ("area%d is %.2f km2" % (i, s))
+            i += 1
             a += s
-print "Area is %.3f km2" % (a)
+print ("Area is %.3f km2" % (a))
 </textarea></div></div>
 	<div class="tab" hidden><input><label> &#149; GeoJSON с атрибутами объекта</label><div tc>
 <textarea>
+from PyQt4.QtGui import QDockWidget
+consoleWidget = iface.mainWindow().findChild( QDockWidget, 'PythonConsole' )
+consoleWidget.console.shellOut.clearConsole()
+
 layer = qgis.utils.iface.activeLayer()
 selected_features = layer.selectedFeatures()
 for i in selected_features:
     attrs = i.__geo_interface__
-    print attrs
+    print (attrs)
 </textarea></div></div>
 	<div class="tab" hidden><input><label> &#149; Удаление колонок</label><div tc>
 <textarea>
@@ -454,7 +458,7 @@ provider.deleteAttributes(fields_to_delete)
 layer.updateFields()
 layer.commitChanges()
 </textarea></div></div>
-	<div class="tab" hidden><input><label>STYLE &#149; Стили, точки и полигоны по названию</label><div tc>
+	<div class="tab" hidden><input><label>STYLE &#149; Цвет точек и полигонов по названию</label><div tc>
 <textarea>
 # -*- coding: utf-8 -*-
 from PyQt4.QtGui import *
@@ -531,7 +535,7 @@ root_rule.removeChildAt(0)
 # apply the renderer to the layer
 layer.setRendererV2(renderer)
 </textarea></div></div>
-	<div class="tab" hidden><input><label>STYLE &#149; Стили, цвет по диапазону</label><div tc>
+	<div class="tab" hidden><input><label>STYLE &#149; Цвет по диапазону</label><div tc>
 <textarea>
 # -*- coding: utf-8 -*-
 from PyQt4.QtGui import *
@@ -652,9 +656,9 @@ suffix = "_J"
 layers = iface.legendInterface().layers()
 for layer in layers:
     newName = layer.name() + suffix + ".geojson"
-    ret = QgsVectorFileWriter.writeAsVectorFormat(layer,pathToFile + newName,'utf-8',trs,'GeoJSON')
+    ret = QgsVectorFileWriter.writeAsVectorFormat(layer, pathToFile + newName,'utf-8', trs,'GeoJSON')
     if ret == QgsVectorFileWriter.NoError:
-        print newName + " saved to " + pathToFile + "!"
+        print (newName + " saved to " + pathToFile + "!")
 
 Варианты сохранений в форматы
 QObject::tr( "GeoJSON" )	QStringLiteral( "*.geojson" )
