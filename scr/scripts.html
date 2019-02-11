@@ -5,15 +5,14 @@
 	body::-webkit-scrollbar, div::-webkit-scrollbar {display:none}
 	body {color: White; background: #050500; padding: 0 1em}
 /* Acordeon styles */
-	.tab {position: relative; margin-bottom: 1px; color: #fff; overflow: hidden}
+	.tab, .tab_b {position: relative; margin-bottom: 1px; color: #fff; overflow: hidden}
 	input[type=checkbox] {position: absolute; opacity: 0; z-index: -1}
-	label {position: relative; display: block; padding: 0 1em; background: Green; font: italic 0.85em Consolas, Sans-Serif; line-height: 2; cursor: pointer}
-	.tab > div {
-	  max-height: 0; padding: 0 1em 0 .6em; overflow: hidden; background: linear-gradient(Green, YellowGreen, Yellow);
-	  -webkit-transition: max-height .5s;
-	  -o-transition: max-height .5s;
-	  transition: max-height .5s;
+	label {position: relative; display: block; padding: 0 1em; background: Green; font: italic 0.85em Consolas, Sans-Serif; line-height: 25px; cursor: pointer}
+	.tab > div, .tab_b > div {
+		max-height: 0; padding: 0 1em 0 .6em; overflow: hidden; background: linear-gradient(Green, YellowGreen, Yellow);
+		-webkit-transition: max-height .5s; -o-transition: max-height .5s; transition: max-height .5s;
 	}
+	.tab_b > div {background: linear-gradient(MediumBlue, Aquamarine, Yellow)}
 	[tc] textarea {width: 100%; max-width: 100%; min-width: 45%; height: 30em; max-height: 50em; min-height: 5em; white-space: pre; overflow: auto}
 /* :checked */
 	input[type=checkbox]:checked ~ [tc] {max-height: 55em}
@@ -27,11 +26,12 @@
 	input[type=checkbox] + label::after {content: "+"}
 	input[type=checkbox]:checked + label::after {transform: rotate(315deg)}
 	input[type=checkbox]:checked + label {background: linear-gradient(DarkGreen, Green);}
-
+	input[type=checkbox]:checked + label[b] {background: linear-gradient(DarkBlue, MediumBlue);}
+	[b] {background: MediumBlue}
 </style>
 
 <body onkeydown="K(event)" onselectstart='return false'>
-	<span style="font: large Consolas; margin-bottom:25px; transform: rotate(-35deg); display: inline-block">QGIS<br>   Scripts</span>
+	<span style="font: large Consolas; margin-bottom:5px; transform: rotate(-35deg); display: inline-block">QGIS<br>   VBA<br>     Scripts</span>
 	<div id="half" style="display:grid; grid-template-columns: 1fr minmax(550px, 100%); width:100%; margin-bottom:30px; position:relative; left:-500em" hidden>
 	<div id="left" style="margin-right:30px">
 <textarea id="ou" style="width:100%; white-space:pre; overflow:auto; background:Black; color:#cfb; padding:5px"></textarea>
@@ -65,8 +65,8 @@ for layer in canvas.layers():
         while (vertex != QgsPoint(0,0)):
             # x' = a*x + b*y + tx
             # y' = c*x + d*y + ty
-            newx = 1*vertex.x() + 0*vertex.y() + (39.8786866355167 - 39.878629149894)
-            newy = 0*vertex.x() + 1*vertex.y() + (59.2195422486874 - 59.2195283432763)
+            newx = 1*vertex.x() + 0*vertex.y() + (39.893648824575 - 39.891595) # Вологда
+            newy = 0*vertex.x() + 1*vertex.y() + (59.2302972492193 - 59.230433)
             layer.moveVertex(newx,newy,fid,i)
             i += 1
             vertex = result[fid].vertexAt(i)
@@ -370,6 +370,34 @@ print ("Complete")
 </textarea></div></div>
 	<div class="tab" hidden><input><label>UPDATE &#149; Создание колонок с XY</label><div tc>
 <textarea>
+# -*- coding: utf-8 -*-
+from PyQt4.QtGui import QDockWidget
+consoleWidget = iface.mainWindow().findChild( QDockWidget, 'PythonConsole' )
+consoleWidget.console.shellOut.clearConsole()
+
+from PyQt4.QtCore import QVariant
+
+layer = iface.activeLayer()
+provider = layer.dataProvider()
+provider.addAttributes([QgsField('X', QVariant.Double), QgsField('Y', QVariant.Double)])
+layer.updateFields()
+
+fX = layer.fieldNameIndex("X")
+fY = layer.fieldNameIndex("Y")
+layer.startEditing()
+cou = layer.featureCount()
+for feat in layer.getFeatures():
+    if feat.id() % (cou / 10) == 0:
+        print (str(100 * feat.id() / cou) + "%")
+    k = feat.geometry().centroid().asPoint()
+    feat[fX] = k.x()
+    feat[fY] = k.y()
+    layer.updateFeature(feat)
+layer.commitChanges()
+print ("Complete")
+
+
+
 # -*- coding: utf-8 -*-
 from PyQt4.QtGui import QDockWidget
 consoleWidget = iface.mainWindow().findChild( QDockWidget, 'PythonConsole' )
@@ -736,8 +764,10 @@ for layer in canvas.layers():
 print ("Complete")
 canvas.refresh()
 </textarea></div></div>
-	<div class="tab" hidden><input><label>QGIS проекции МСК-35 Вологодская область</label><div tc>
+	<div class="tab" hidden><input><label>Проекции МСК-35</label><div tc>
 <textarea>
+QGIS
+
 Proj4js["MB:6333501"] = Зона 1
 "+proj=tmerc +lat_0=0 +lon_0=35.55 +k=1 +x_0=1250000 +y_0=-6214743.504 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs"
 
@@ -752,9 +782,11 @@ Proj4js["MB:6333504"] = Зона 4
 
 Proj4js["MB:6333505"] = Зона 5
 "+proj=tmerc +lat_0=0 +lon_0=47.55 +k=1 +x_0=5250000 +y_0=-6214743.504 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs"
-</textarea></div></div>
-	<div class="tab" hidden><input><label>MAPINFOW.PRJ</label><div tc>
-<textarea>
+
+
+
+MAPINFOW.PRJ
+
 "--- МСК-35 Вологодская область ---"
 "МСК-35 зона 1", 8, 1001, 7, 35.55, 0, 1, 1250000, -6214743.504
 "МСК-35 зона 2", 8, 1001, 7, 38.55, 0, 1, 2250000, -6214743.504
@@ -768,6 +800,38 @@ Proj4js["MB:6333505"] = Зона 5
 "МСК-35 зона 3", 8, 9999, 3, 23.57, -140.95, -79.8, 0, -0.35, -0.79, -0.22, 0, 7, 41.55, 0, 1, 3250000, -6214743.504
 "МСК-35 зона 4", 8, 9999, 3, 23.57, -140.95, -79.8, 0, -0.35, -0.79, -0.22, 0, 7, 44.55, 0, 1, 4250000, -6214743.504
 "МСК-35 зона 5", 8, 9999, 3, 23.57, -140.95, -79.8, 0, -0.35, -0.79, -0.22, 0, 7, 47.55, 0, 1, 5250000, -6214743.504
+</textarea></div></div>
+	<div class="tab_b" hidden><input><label b>Excel &#149; Change border thickness if line</label><div tc>
+<textarea>
+Sub Borders()
+    Application.ScreenUpdating = False
+    For Each cell In Selection
+        If cell.Borders(xlEdgeLeft).LineStyle <> -4142 Then
+            cell.Borders(xlEdgeLeft).Weight = xlThin
+        End If
+        If cell.Borders(xlEdgeRight).LineStyle <> -4142 Then
+            cell.Borders(xlEdgeRight).Weight = xlThin
+        End If
+        If cell.Borders(xlEdgeTop).LineStyle <> -4142 Then
+            cell.Borders(xlEdgeTop).Weight = xlThin
+        End If
+        If cell.Borders(xlEdgeBottom).LineStyle <> -4142 Then
+            cell.Borders(xlEdgeBottom).Weight = xlThin
+        End If
+    Next
+    Application.ScreenUpdating = True
+End Sub
+</textarea></div></div>
+	<div class="tab_b" hidden><input><label b>Excel &#149; Clear Spaces</label><div tc>
+<textarea>
+Sub Clear()
+    Dim c As Range
+    For Each c In Selection
+        c.Value = Application.WorksheetFunction.Trim(Replace(c.Value, "", " "))
+    Next
+End Sub
+
+' replace(replace("AVERAGE_DE" ,' ','') ,',','.')
 </textarea></div></div>
 </div></div>
 
