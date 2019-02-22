@@ -500,8 +500,12 @@ road_rules = (
     (u'Барбарис', u'"Название" = '+u"'Барбарис'", 'maroon', (0, minm,)),
     (u'Берёза', u'"Название" = '+u"'Берёза'", 'lime', (0, minm,)),
     (u'Вяз', u'"Название" = '+u"'Вяз'", 'green', (0, minm,)),
+    (u'Дерен_Белый', u'"Название" = '+u"'Дерен_Белый'", 'lavender', (0, minm,)),
     (u'Дуб', u'"Название" = '+u"'Дуб'", 'white', (0, minm,)),
     (u'Ива', u'"Название" = '+u"'Ива'", 'pink', (0, minm,)),
+    (u'Калина', u'"Название" = '+u"'Калина'", 'firebrick', (0, minm,)),
+    (u'Каштан', u'"Название" = '+u"'Каштан'", 'tan', (0, minm,)),
+    (u'Кедр', u'"Название" = '+u"'Кедр'", 'darkolivegreen', (0, minm,)),
     (u'Клён', u'"Название" = '+u"'Клён'", 'brown', (0, minm,)),
     (u'Лапчатка', u'"Название" = '+u"'Лапчатка'", 'teal', (0, minm,)),
     (u'Липа', u'"Название" = '+u"'Липа'", 'yellow', (0, minm,)),
@@ -509,7 +513,11 @@ road_rules = (
     (u'Ольха', u'"Название" = '+u"'Ольха'", 'magenta', (0, minm,)),
     (u'Осина', u'"Название" = '+u"'Осина'", 'purple', (0, minm,)),
     (u'Рябина', u'"Название" = '+u"'Рябина'", 'red', (0, minm,)),
+    (u'Сирень', u'"Название" = '+u"'Сирень'", 'mediumvioletred', (0, minm,)),
+    (u'Сосна', u'"Название" = '+u"'Сосна'", 'darkkhaki', (0, minm,)),
+    (u'Спирея', u'"Название" = '+u"'Спирея'", 'darkseagreen', (0, minm,)),
     (u'Тополь', u'"Название" = '+u"'Тополь'", 'cyan', (0, minm,)),
+    (u'Туя', u'"Название" = '+u"'Туя'", 'sienna', (0, minm,)),
     (u'Яблоня', u'"Название" = '+u"'Яблоня'", 'orange', (0, minm,)),
     (u'Ясень', u'"Название" = '+u"'Ясень'", 'blue', (0, minm,)),
     (u'Другие', u'"Название" = '+u"'Другие'", 'gray', (0, minm,))
@@ -680,10 +688,9 @@ import os
 pathToFile = "d:\\Scripts QGIS\\5\\"
 trs = QgsCoordinateReferenceSystem()
 trs.createFromId(4326)
-suffix = "_J"
 layers = iface.legendInterface().layers()
 for layer in layers:
-    newName = layer.name() + suffix + ".geojson"
+    newName = layer.name() + ".geojson"
     ret = QgsVectorFileWriter.writeAsVectorFormat(layer, pathToFile + newName,'utf-8', trs,'GeoJSON')
     if ret == QgsVectorFileWriter.NoError:
         print (newName + " saved to " + pathToFile + "!")
@@ -700,16 +707,28 @@ QObject::tr( "Atlas BNA" )	QStringLiteral( "*.bna" )
 
 from qgis.core import *
 import os
-pathToFile = "d:\\5\\"
-trs = QgsCoordinateReferenceSystem()
-trs.createFromId(4326)
-suffix = "_"
+pathToFile = "c:\\Users\\User\\Desktop\\5\\"
+crs = QgsCoordinateReferenceSystem()
+crs.createFromProj4("+proj=tmerc +lat_0=0 +lon_0=35.55 +k=1 +x_0=1250000 +y_0=-6214743.504 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs")
 layers = iface.legendInterface().layers()
 for layer in layers:
-    newName = layer.name() + suffix + ".shp"
-    ret = QgsVectorFileWriter.writeAsVectorFormat(layer,pathToFile + newName,'utf-8',trs,'ESRI Shapefile')
+    newName = layer.name() + ".shp"
+    ret = QgsVectorFileWriter.writeAsVectorFormat(layer,pathToFile + newName,'utf-8',crs,'ESRI Shapefile')
     if ret == QgsVectorFileWriter.NoError:
-        (print newName + " saved to " + pathToFile + "!")
+        print (newName + " saved to " + pathToFile)
+
+
+from qgis.core import *
+import os
+pathToFile = "c:\\Users\\User\\Desktop\\5\\"
+crs = QgsCoordinateReferenceSystem()
+crs.createFromProj4("+proj=tmerc +lat_0=0 +lon_0=35.55 +k=1 +x_0=1250000 +y_0=-6214743.504 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs")
+layers = iface.legendInterface().layers()
+for layer in layers:
+    newName = layer.name() + ".dxf"
+    ret = QgsVectorFileWriter.writeAsVectorFormat(layer,pathToFile + newName,'utf-8',crs,'AutoCAD DXF')
+    if ret == QgsVectorFileWriter.NoError:
+        print (newName + " saved to " + pathToFile)
 </textarea></div></div>
 	<div class="tab" hidden><input><label>ГСК-WM</label><div tc>
 <textarea>
