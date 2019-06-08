@@ -260,8 +260,12 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	listBoxItems.push(cl('maroon','Барбарис'));	// #800000
 	listBoxItems.push(cl('lime','Берёза'));		// #0f0
 	listBoxItems.push(cl('green','Вяз'));		// #008000
+	listBoxItems.push(cl('lavender','Дерен_Белый'));// #e6e6fa
 	listBoxItems.push(cl('white','Дуб'));		// #fff
 	listBoxItems.push(cl('pink','Ива'));		// #ffc0cb
+	listBoxItems.push(cl('firebrick','Калина'));	// #b22222
+	listBoxItems.push(cl('tan','Каштан'));		// #d2b48c
+	listBoxItems.push(cl('darkolivegreen','Кедр'));	// #556b2f
 	listBoxItems.push(cl('brown','Клён'));		// #a52a2a
 	listBoxItems.push(cl('teal','Лапчатка'));	// #008080
 	listBoxItems.push(cl('yellow','Липа'));		// #ff0
@@ -269,7 +273,12 @@ ymaps.mapType.storage.add('Concrete#mapType', new ymaps.MapType('Concrete', ['Co
 	listBoxItems.push(cl('magenta','Ольха'));	// #f0f
 	listBoxItems.push(cl('purple','Осина'));	// #800080
 	listBoxItems.push(cl('red','Рябина'));		// #f00
+	listBoxItems.push(cl('mediumvioletred','Сирень'));	// #c71585
+	listBoxItems.push(cl('darkkhaki','Сосна'));	// #bdb76b
+	listBoxItems.push(cl('darkseagreen','Спирея'));	// #8fbc8f
 	listBoxItems.push(cl('cyan','Тополь'));		// #0ff
+	listBoxItems.push(cl('sienna','Туя'));		// #a0522d
+	listBoxItems.push(cl('dodgerblue','Черёмуха'));	// #1e90ff
 	listBoxItems.push(cl('orange','Яблоня'));	// #ffa500
 	listBoxItems.push(cl('blue','Ясень'));		// #00f
 	listBoxItems.push(new ymaps.control.ListBoxItem({options: {type:'separator'}}));

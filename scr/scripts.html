@@ -33,17 +33,15 @@
 
 <body onkeydown="K(event)" onselectstart='return false'>
 	<span style="font: large Consolas; margin-bottom:5px; transform: rotate(-35deg); display: inline-block">QGIS<br>   VBA<br>     Scripts</span>
-	<div id="half" style="display:grid; grid-template-columns: 1fr minmax(550px, 100%); width:100%; margin-bottom:30px; position:relative; left:-500em" hidden>
+	<button style="height:65px; float: right" onclick="navigator.clipboard.writeText(ID('ou').value)">Копировать в буфер обмена<br>из текстового поля слева</button>
+	<div id="half" style="display:grid; grid-template-columns: 1fr minmax(450px, 100%); width:100%; margin-bottom:30px; position:relative; left:-500em" hidden>
 	<div id="left" style="margin-right:30px">
-<textarea id="ou" style="width:100%; white-space:pre; overflow:auto; background:Black; color:#cfb; padding:5px"></textarea>
+<textarea id="ou" style="width:800px; white-space:pre; overflow:auto; background:Black; color:#cfb; padding:5px"></textarea>
 	</div>
 	<div id="right">
 	<div class="tab" hidden><input><label>AFFINE &#149; Афинные преобразования</label><div tc>
 <textarea>
 # -*- coding: utf-8 -*-
-from PyQt4.QtGui import QDockWidget
-consoleWidget = iface.mainWindow().findChild( QDockWidget, 'PythonConsole' )
-consoleWidget.console.shellOut.clearConsole()
 
 canvas = qgis.utils.iface.mapCanvas()
 j = 0
@@ -56,6 +54,7 @@ for layer in canvas.layers():
     canvas.refresh()
     result = {}
     features = {}
+    j += 1
     for fid in featids:
         features[fid] = QgsFeature()
         if not layer.getFeatures( QgsFeatureRequest().setFilterFid(fid) ).nextFeature( features[fid] ):
@@ -71,9 +70,10 @@ for layer in canvas.layers():
             layer.moveVertex(newx,newy,fid,i)
             i += 1
             vertex = result[fid].vertexAt(i)
+        if fid % (len(featids) / 10) == 0:
+            print (str(j) + ") layer '" + layer.name() + " - " + str(100 * fid / len(featids)) + "%")
     layer.invertSelection()
     layer.commitChanges()
-    j += 1
     print (str(j) + ") layer '" + layer.name() + "' is ready")
 print ("Complete")
 canvas.refresh()
@@ -81,10 +81,6 @@ canvas.refresh()
 	<div class="tab" hidden><input><label>AFFINE &#149; Афинные преобразования (поворот)</label><div tc>
 <textarea>
 # -*- coding: utf-8 -*-
-from PyQt4.QtGui import QDockWidget
-consoleWidget = iface.mainWindow().findChild( QDockWidget, 'PythonConsole' )
-consoleWidget.console.shellOut.clearConsole()
-
 import math
 
 theta = 45
@@ -135,10 +131,6 @@ canvas.refresh()
 	<div class="tab" hidden><input><label>MERGE &#149; Объединение слоёв St</label><div tc>
 <textarea>
 # -*- coding: utf-8 -*-
-from PyQt4.QtGui import QDockWidget
-consoleWidget = iface.mainWindow().findChild( QDockWidget, 'PythonConsole' )
-consoleWidget.console.shellOut.clearConsole()
-
 import glob, processing
 
 path = "e:/RU-VLG-725d99-20180721-ru/data/"
@@ -150,12 +142,8 @@ processing.runandload("saga:mergelayers", files, True, True, output)
 	<div class="tab" hidden><input><label>MERGE &#149; Объединение слоёв</label><div tc>
 <textarea>
 # -*- coding: utf-8 -*-
-from PyQt4.QtGui import QDockWidget
-consoleWidget = iface.mainWindow().findChild( QDockWidget, 'PythonConsole' )
-consoleWidget.console.shellOut.clearConsole()
-
 from qgis.core import *
-import os           # the standard Python os library
+import os
  
 # Set the directory where the input files are stored
 directory = "e:/RU-VLG-725d99-20180721-ru/data/"
@@ -202,10 +190,6 @@ QgsMapLayerRegistry.instance().addMapLayer(v_layer)
 	<div class="tab" hidden><input><label>SPLIT &#149; Деление на слои по атрибуту</label><div tc>
 <textarea>
 # -*- coding: utf-8 -*-
-from PyQt4.QtGui import QDockWidget
-consoleWidget = iface.mainWindow().findChild( QDockWidget, 'PythonConsole' )
-consoleWidget.console.shellOut.clearConsole()
-
 import processing   # utilize the Processing Framework
 import os           # the standard Python os library
  
@@ -228,10 +212,6 @@ for value in values:
 	<div class="tab" hidden><input><label>SPLIT &#149; Деление на слои по значению атрибута</label><div tc>
 <textarea>
 # -*- coding: utf-8 -*-
-from PyQt4.QtGui import QDockWidget
-consoleWidget = iface.mainWindow().findChild( QDockWidget, 'PythonConsole' )
-consoleWidget.console.shellOut.clearConsole()
-
 import processing   # utilize the Processing Framework
 
 input = u'd:/Scripts QGIS/5/йцуке5.shp'
@@ -260,10 +240,6 @@ csv.addJoin(joinObject)
 	<div class="tab" hidden><input><label> &#149; Топологическое объединение</label><div tc>
 <textarea>
 # -*- coding: utf-8 -*-
-from PyQt4.QtGui import QDockWidget
-consoleWidget = iface.mainWindow().findChild( QDockWidget, 'PythonConsole' )
-consoleWidget.console.shellOut.clearConsole()
-
 import processing   # utilize the Processing Framework
 
 layers = QgsMapLayerRegistry.instance().mapLayers().values()
@@ -280,7 +256,7 @@ qgis.utils.iface.legendInterface().setLayerVisible(layerA, True)
 
 processing.runalg("qgis:joinattributesbylocation",layerA,layer,['within'],0,0,"sum,mean,min,max,median",0,"d:/output.shp")
 </textarea></div></div>
-	<div class="tab" hidden><input><label>UPDATE &#149; Обновление колонки</label><div tc>
+	<div class="tab" hidden><input><label>UPDATE &#149; Обновление колонки, замена</label><div tc>
 <textarea>
 layer = iface.activeLayer()
 fieldindex = layer.fieldNameIndex("Tasks")
@@ -295,15 +271,12 @@ for feat in layer.getFeatures():
         continue
 layer.commitChanges()
 
-	e = QgsExpression('concat("NAME", ", ", "NAME")')
-	feat[1] = e.evaluate()
-</textarea></div></div>
-	<div class="tab" hidden><input><label>UPDATE &#149; Обновление колонки, замена</label><div tc>
-<textarea>
+#e = QgsExpression('concat("NAME", ", ", "NAME")')
+#feat[1] = e.evaluate()
+
+
+
 # -*- coding: utf-8 -*-
-from PyQt4.QtGui import QDockWidget
-consoleWidget = iface.mainWindow().findChild( QDockWidget, 'PythonConsole' )
-consoleWidget.console.shellOut.clearConsole()
 
 layer = iface.activeLayer()
 fieldindex = layer.fieldNameIndex("A_STRT")
@@ -322,34 +295,9 @@ for feat in layer.getFeatures():
 layer.commitChanges()
 print ("Complete")
 </textarea></div></div>
-	<div class="tab" hidden><input><label>UPDATE &#149; Объединение колонок через changeAttributeValue</label><div tc>
+	<div class="tab" hidden><input><label>UPDATE &#149; Объединение колонок</label><div tc>
 <textarea>
 # -*- coding: utf-8 -*-
-from PyQt4.QtGui import QDockWidget
-consoleWidget = iface.mainWindow().findChild( QDockWidget, 'PythonConsole' )
-consoleWidget.console.shellOut.clearConsole()
-
-layer = qgis.utils.iface.activeLayer()
-it = layer.getFeatures()
-cou = layer.featureCount()
-layer.startEditing()
-for feat in it:
-    if feat.id() % (cou/10) == 0:
-        print str(100 * feat.id() / cou + 1) + "%"
-    if feat[1]:
-        txt = [feat[1]]
-        if feat[2]: txt.append(', ' + feat[2])
-        if feat[4]: txt.append(', ' + feat[4])
-        layer.changeAttributeValue(feat.id(), 0, ''.join(txt))
-layer.commitChanges()
-print ("Complete")
-</textarea></div></div>
-	<div class="tab" hidden><input><label>UPDATE &#149; Объединение колонок через updateFeature</label><div tc>
-<textarea>
-# -*- coding: utf-8 -*-
-from PyQt4.QtGui import QDockWidget
-consoleWidget = iface.mainWindow().findChild( QDockWidget, 'PythonConsole' )
-consoleWidget.console.shellOut.clearConsole()
 
 layer = iface.activeLayer()
 #fieldindex = layer.fieldNameIndex("NAME")
@@ -362,20 +310,23 @@ for feat in layer.getFeatures():
         txt = [feat[1]]
         if feat[2]: txt.append(', ' + feat[2])
         if feat[4]: txt.append(', ' + feat[4])
-        feat[0] = ''.join(txt)
-        layer.updateFeature(feat)
+        layer.changeAttributeValue(feat.id(), 0, ''.join(txt))
     else:
         continue
 layer.commitChanges()
 print ("Complete")
+
+
+
+        txt = [feat[1]]
+        if feat[2]: txt.append(', ' + feat[2])
+        if feat[4]: txt.append(', ' + feat[4])
+        feat[0] = ''.join(txt)
+        layer.updateFeature(feat)
 </textarea></div></div>
 	<div class="tab" hidden><input><label>UPDATE &#149; Создание колонок с XY</label><div tc>
 <textarea>
 # -*- coding: utf-8 -*-
-from PyQt4.QtGui import QDockWidget
-consoleWidget = iface.mainWindow().findChild( QDockWidget, 'PythonConsole' )
-consoleWidget.console.shellOut.clearConsole()
-
 from PyQt4.QtCore import QVariant
 
 layer = iface.activeLayer()
@@ -400,10 +351,6 @@ print ("Complete")
 
 
 # -*- coding: utf-8 -*-
-from PyQt4.QtGui import QDockWidget
-consoleWidget = iface.mainWindow().findChild( QDockWidget, 'PythonConsole' )
-consoleWidget.console.shellOut.clearConsole()
-
 from PyQt4.QtCore import QVariant
 
 layer = iface.activeLayer()
@@ -465,6 +412,36 @@ for feat in wb.selectedFeatures():
             a += s
 print ("Area is %.3f km2" % (a))
 </textarea></div></div>
+	<div class="tab" hidden><input><label>DELETE &#149; Удаление колонок</label><div tc>
+<textarea>
+canvas = qgis.utils.iface.mapCanvas()
+j = 0
+for layer in canvas.layers():
+    provider = layer.dataProvider()
+    fieldnames = [ layer.fieldNameIndex(li) for li in ["Block_Area","Block_KN","Color"] ]
+    fields_to_delete = [fid for fid in range(len(provider.fields())) if fid not in fieldnames]
+    provider.deleteAttributes(fields_to_delete)
+    layer.updateFields()
+    j += 1
+    print (str(j) + ") layer '" + layer.name() + "' is ready")
+print ("Complete")
+canvas.refresh()
+</textarea></div></div>
+	<div class="tab" hidden><input><label>DELETE &#149; Удаление объектов по значению в колонке</label><div tc>
+<textarea>
+canvas = qgis.utils.iface.mapCanvas()
+j = 0
+for layer in canvas.layers():
+    layer.removeSelection()
+    layer.startEditing()
+    it = layer.getFeatures( QgsFeatureRequest( QgsExpression("\"Color\" IS NONE") ) )
+    layer.deleteFeatures( [i.id() for i in it] )
+    layer.commitChanges()
+    j += 1
+    print (str(j) + ") layer '" + layer.name() + "' is ready")
+print ("Complete")
+canvas.refresh()
+</textarea></div></div>
 	<div class="tab" hidden><input><label> &#149; GeoJSON с атрибутами объекта</label><div tc>
 <textarea>
 from PyQt4.QtGui import QDockWidget
@@ -476,16 +453,6 @@ selected_features = layer.selectedFeatures()
 for i in selected_features:
     attrs = i.__geo_interface__
     print (attrs)
-</textarea></div></div>
-	<div class="tab" hidden><input><label> &#149; Удаление колонок</label><div tc>
-<textarea>
-layer = iface.activeLayer()
-provider = layer.dataProvider()
-layer.startEditing()
-fields_to_delete = [fid for fid in range(len(provider.fields())) if fid > 13]
-provider.deleteAttributes(fields_to_delete)
-layer.updateFields()
-layer.commitChanges()
 </textarea></div></div>
 	<div class="tab" hidden><input><label>STYLE &#149; Цвет точек и полигонов по названию</label><div tc>
 <textarea>
@@ -608,7 +575,6 @@ from qgis.core import *
 from qgis.gui import *
 
 registry = QgsMapLayerRegistry.instance()
-
 n = registry.count()
 
 layers = registry.mapLayers().values() 
@@ -678,6 +644,7 @@ rast_src = None
 	<div class="tab" hidden><input><label> &#149; Открытие shp из zip</label><div tc>
 <textarea>
 # -*- coding: utf-8 -*-
+
 zip_uri = '/vsizip/d:/Scripts QGIS/55555.zip'
 shp =  QgsVectorLayer(zip_uri, u'Слой', 'ogr')
 QgsMapLayerRegistry.instance().addMapLayer(shp)
@@ -686,6 +653,7 @@ QgsMapLayerRegistry.instance().addMapLayer(shp)
 <textarea>
 from qgis.core import *
 import os
+
 pathToFile = "d:\\Scripts QGIS\\5\\"
 trs = QgsCoordinateReferenceSystem()
 trs.createFromId(4326)
@@ -696,15 +664,18 @@ for layer in layers:
     if ret == QgsVectorFileWriter.NoError:
         print (newName + " saved to " + pathToFile + "!")
 
-Варианты сохранений в форматы
+
+
 QObject::tr( "GeoJSON" )	QStringLiteral( "*.geojson" )
 QObject::tr( "ESRI Shapefile" )	QStringLiteral( "*.shp" )
 QObject::tr( "Mapinfo TAB" )	QStringLiteral( "*.tab" )
 QObject::tr( "Mapinfo MIF" )	QStringLiteral( "*.mif" )
 QObject::tr( "AutoCAD DXF" )	QStringLiteral( "*.dxf" )
 QObject::tr( "MS Office Open XML spreadsheet [XLSX]" )	QStringLiteral( "*.xlsx" )
-QObject::tr( "Comma Separated Value [CSV]" )	QStringLiteral( "*.csv" )
+QObject::tr( "Comma Separated Value [CSV]" )		QStringLiteral( "*.csv" )
 QObject::tr( "Atlas BNA" )	QStringLiteral( "*.bna" )
+
+
 
 from qgis.core import *
 import os
@@ -717,6 +688,7 @@ for layer in layers:
     ret = QgsVectorFileWriter.writeAsVectorFormat(layer,pathToFile + newName,'utf-8',crs,'ESRI Shapefile')
     if ret == QgsVectorFileWriter.NoError:
         print (newName + " saved to " + pathToFile)
+
 
 
 from qgis.core import *
@@ -784,24 +756,35 @@ for layer in canvas.layers():
 print ("Complete")
 canvas.refresh()
 </textarea></div></div>
-	<div class="tab" hidden><input><label>Проекции МСК-35</label><div tc>
+	<div class="tab" hidden><input><label>Проекции</label><div tc>
 <textarea>
-QGIS
+# -*- coding: utf-8 -*-
+def CRS(name, s):
+    crs = QgsCoordinateReferenceSystem()
+    crs.createFromProj4(s)
+    crs.saveAsUserCRS(name)
 
-Proj4js["MB:6333501"] = Зона 1
-"+proj=tmerc +lat_0=0 +lon_0=35.55 +k=1 +x_0=1250000 +y_0=-6214743.504 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs"
+CRS(u'МСК-35 зона 1', u'+proj=tmerc +lat_0=0 +lon_0=35.55 +k=1 +x_0=1250000 +y_0=-6214743.504 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs')
+CRS(u'МСК-35 зона 2', u'+proj=tmerc +lat_0=0 +lon_0=38.55 +k=1 +x_0=2250000 +y_0=-6214743.504 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs')
+CRS(u'МСК-35 зона 3', u'+proj=tmerc +lat_0=0 +lon_0=41.55 +k=1 +x_0=3250000 +y_0=-6214743.504 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs')
+CRS(u'МСК-35 зона 4', u'+proj=tmerc +lat_0=0 +lon_0=44.55 +k=1 +x_0=4250000 +y_0=-6214743.504 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs')
+CRS(u'МСК-35 зона 5', u'+proj=tmerc +lat_0=0 +lon_0=47.55 +k=1 +x_0=5250000 +y_0=-6214743.504 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs')
 
-Proj4js["MB:6333502"] = Зона 2
-"+proj=tmerc +lat_0=0 +lon_0=38.55 +k=1 +x_0=2250000 +y_0=-6214743.504 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs"
+CRS(u'МСК-44 зона 1', u'+proj=tmerc +lat_0=0 +lon_0=41.55 +k=1 +x_0=1250000 +y_0=-6114743.504 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs')
+CRS(u'МСК-44 зона 2', u'+proj=tmerc +lat_0=0 +lon_0=44.55 +k=1 +x_0=2250000 +y_0=-6114743.504 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs')
+CRS(u'МСК-44 зона 3', u'+proj=tmerc +lat_0=0 +lon_0=47.55 +k=1 +x_0=3250000 +y_0=-6114743.504 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs')
 
-Proj4js["MB:6333503"] = Зона 3
-"+proj=tmerc +lat_0=0 +lon_0=41.55 +k=1 +x_0=3250000 +y_0=-6214743.504 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs"
-
-Proj4js["MB:6333504"] = Зона 4
-"+proj=tmerc +lat_0=0 +lon_0=44.55 +k=1 +x_0=4250000 +y_0=-6214743.504 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs"
-
-Proj4js["MB:6333505"] = Зона 5
-"+proj=tmerc +lat_0=0 +lon_0=47.55 +k=1 +x_0=5250000 +y_0=-6214743.504 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs"
+CRS(u'СК-1963 район C зона 1', u'+proj=tmerc +lat_0=0 +lon_0=24.95 +k=1 +x_0=1250000 +y_0=-11057.628 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs')
+CRS(u'СК-1963 район C зона 2', u'+proj=tmerc +lat_0=0 +lon_0=27.95 +k=1 +x_0=2250000 +y_0=-11057.628 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs')
+CRS(u'СК-1963 район C зона 3', u'+proj=tmerc +lat_0=0 +lon_0=30.95 +k=1 +x_0=3250000 +y_0=-11057.628 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs')
+CRS(u'СК-1963 район C зона 4', u'+proj=tmerc +lat_0=0 +lon_0=33.95 +k=1 +x_0=4250000 +y_0=-11057.628 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs')
+CRS(u'СК-1963 район C зона 5', u'+proj=tmerc +lat_0=0 +lon_0=36.95 +k=1 +x_0=5250000 +y_0=-11057.628 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs')
+CRS(u'СК-1963 район D зона 1', u'+proj=tmerc +lat_0=0 +lon_0=38.55 +k=1 +x_0=1250000 +y_0=-14743.504 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs')
+CRS(u'СК-1963 район D зона 2', u'+proj=tmerc +lat_0=0 +lon_0=41.55 +k=1 +x_0=2250000 +y_0=-14743.504 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs')
+CRS(u'СК-1963 район D зона 3', u'+proj=tmerc +lat_0=0 +lon_0=44.55 +k=1 +x_0=3250000 +y_0=-14743.504 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs')
+CRS(u'СК-1963 район D зона 4', u'+proj=tmerc +lat_0=0 +lon_0=47.55 +k=1 +x_0=4250000 +y_0=-14743.504 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs')
+CRS(u'СК-1963 район P зона 1', u'+proj=tmerc +lat_0=0 +lon_0=32.48333333333 +k=1 +x_0=1250000 +y_0=-12900.566 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs')
+CRS(u'СК-1963 район P зона 2', u'+proj=tmerc +lat_0=0 +lon_0=35.48333333333 +k=1 +x_0=2250000 +y_0=-12900.566 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs')
 
 
 
