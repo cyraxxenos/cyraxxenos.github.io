@@ -27,19 +27,6 @@ function addElement(a) {
 }
 
 window.onload = function () {
-	function round_4(a) {return Math.round(parseFloat(a)*10000)/10000}
-	function rplN(a) {return (a+'').replace(/[,]/g,'.')}
-	function z2(a){var b=a; if (parseFloat(rplN(a))<10){b ='0'+ b} return b}
-	function deg_dms3(val,a) {var R = deg_dms(val); return (R[0]==0?R[3]:"")+R[0]+"&#176;"+z2(R[1])+"&#8242;"+z2(R[2].toFixed(3))+(a?"&#8242;&#8242;":"&#8243;")}
-	function deg_dms(val) {
-		var val_s = (val<0?"-":""), val_u = Math.abs(val);
-		var g = Math.floor(val_u);
-		var m = Math.floor((val_u-g)*60);
-		var s = round_4((val_u-g-m/60)*3600);
-		if (s==60) {s=0; m++}
-		if (m==60) {m=0; g++}
-		return [(val_s+g)*1, m, s, val_s]
-	}
 
 	DG.then(function() {	// загрузка кода модуля
 		return DG.plugin('leaflet.markercluster-src.js'); // https://2gis.github.io/mapsapi/vendors/Leaflet.markerCluster/leaflet.markercluster-src.js
@@ -47,8 +34,8 @@ window.onload = function () {
 
 	    DG.then(function() {	// API карт использует сферическую проекцию Меркатора (EPSG:3857)
 		var map = DG.map('map', {
-			center: (location.href.split('?')[1]=='r' ? [59.207, 39.83] : [59.2118, 39.8323]),
-			zoom: (location.href.split('?')[1]=='r' ? 15 : 17),
+			center: (location.href.split('?')[1]=='r' ? [59.207, 39.83] : [59.205, 39.828]),
+			zoom: (location.href.split('?')[1]=='r' ? 15 : 15),
 			dragging : true,
 			touchZoom: true,
 			scrollWheelZoom: true,
@@ -61,7 +48,8 @@ window.onload = function () {
 DG.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}').addTo(map);
 
 var clr = function (a) { return "<svg width='8' height='8' style='position:relative'><rect width='8' height='8' style='fill:"+a+"; stroke:black; stroke-width:1'/></svg>"};
-
+var picSrc = function (a) { return '"https://cyraxxenos.github.io/tgisrk/pic/'+ a +'.jpg"'};
+var str = function (a,b) { return b=='–'?'':'<strong>'+ a +'</strong>: '+ b +'<br/>'};
 var geoJsonLayer = DG.geoJson(data, {
 	pointToLayer: function (feature, latlng) {
 		return DG.marker(latlng, {icon: DG.icon({
@@ -72,18 +60,18 @@ var geoJsonLayer = DG.geoJson(data, {
 		})});
 	},
 	onEachFeature: function (feature, layer) {
-	   layer.bindLabel(feature.properties.Название);
+	   layer.bindLabel(feature.properties.ID);
 
 	   layer.bindPopup(function (layer) { var object = layer.feature, a = object.geometry.coordinates;
-		return "<strong>Обозначение: </strong>"+ object.properties.ID +"<br/>"+
-			"<strong>Вид: </strong>"+ object.properties.Виды_РК +"<br/>"+
-			"<strong>Номер_в_схеме: </strong>"+ object.properties.Номер_в_схеме +"<br/>"+
-			"<strong>Нарушения: </strong>"+ object.properties.Нарушения +"<br/>"+
-			"<strong>Размер_щита: </strong>"+ object.properties.Размер_щита +"<br/>"+
-			"<strong>Адрес: </strong>"+ object.properties.Адрес +"<br/>"+
-			("<strong>Долгота: </strong>"+ a[0].toFixed(8) +" = "+ deg_dms3(a[0],5) +"<br/>"+
-			  "<strong>Широта: </strong>"+ a[1].toFixed(8) +" = "+ deg_dms3(a[1],5)).replace(/[.]/g,',')+
-			'<p style="text-align:center; padding-top:15px"><img style="display:inline-block; max-width:100%" src="https://cyraxxenos.github.io/tgisrk/pic/'+ object.properties.Фотография +'.jpg" onclick="addElement(\'https://cyraxxenos.github.io/tgisrk/pic/'+ object.properties.Фотография +'.jpg\')"></p>';
+		return str('Обозначение',object.properties.ID)+
+			str('Вид',object.properties.Виды_РК)+
+			str('Номер в схеме',object.properties.Номер_в_схеме)+
+			str('Нарушение',object.properties.Нарушение)+
+			str('Размер щита',object.properties.Размер_щита)+
+			str('Адрес',object.properties.Адрес)+
+			("<strong>Долгота</strong>: "+ a[0].toFixed(8)+"<br/>"+
+			  "<strong>Широта</strong>: "+ a[1].toFixed(8)).replace(/[.]/g,',')+
+			'<p style="text-align:center; padding-top:15px"><img style="display:inline-block; max-width:100%" src='+ picSrc(object.properties.ID) +' onclick="addElement('+ picSrc(object.properties.ID) +')"></p>';
 	   });
 
 	},
