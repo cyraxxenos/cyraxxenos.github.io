@@ -61,7 +61,7 @@ var colors = function (a) { var c;
 };
 var geoJsonLayer = DG.geoJson(data, {
 	pointToLayer: function (feature, latlng) {
-		return DG.marker(latlng, {icon: DG.icon({
+		return DG.marker([latlng.lat - 0.00005, latlng.lng + 0.00011], {icon: DG.icon({
 			iconUrl:'https://cyraxxenos.github.io/gis/icon/'+ colors(feature.properties.Нарушение) +'.svg',
 			iconSize:     [8, 8],	// размер значка
 			iconAnchor:   [4, 4],	// точка значка, которая будет соответствовать местоположению маркера
