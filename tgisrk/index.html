@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<head>
+	<title>GeoJSON</title>
+	<script src="datark.js" type="text/javascript"></script>
+	<link rel="stylesheet" href="MarkerCluster.css" />
+	<link rel="stylesheet" href="MarkerCluster.Default.css" />
+	<script src="d3.v3.min.js" charset="utf-8"></script>
+	<script src="loader.js?pkg=full"></script>
+	<style type="text/css">
+		[class*="copyright"] {display:none}
+		.leaflet-popup-inner {border:1px solid White}
+		[class*="leaflet-popup-content"] {color: White}
+	</style>
+
+</head>
+<body style="margin:0">
+	<div id="map" style="width:100vw; height:100vh"></div>
+<script>
+function addElement(a) {
+	if (document.sr) {return false}
+	var img = document.createElement("img");
+	img.setAttribute("name","sr");
+	img.setAttribute("src",a);
+	img.setAttribute("style","position:absolute; left:50%; top:50%; transform: translate(-50%,-50%); display:block; max-width:80%; max-height:80%; border:3px outset Silver; border-radius:5px; z-index:998");
+	img.setAttribute("onclick","this.parentNode.removeChild(this)");
+	document.body.appendChild(img);
+}
+
+window.onload = function () {
+	function round_4(a) {return Math.round(parseFloat(a)*10000)/10000}
+	function rplN(a) {return (a+'').replace(/[,]/g,'.')}
+	function z2(a){var b=a; if (parseFloat(rplN(a))<10){b ='0'+ b} return b}
+	function deg_dms3(val,a) {var R = deg_dms(val); return (R[0]==0?R[3]:"")+R[0]+"&#176;"+z2(R[1])+"&#8242;"+z2(R[2].toFixed(3))+(a?"&#8242;&#8242;":"&#8243;")}
+	function deg_dms(val) {
+		var val_s = (val<0?"-":""), val_u = Math.abs(val);
+		var g = Math.floor(val_u);
+		var m = Math.floor((val_u-g)*60);
+		var s = round_4((val_u-g-m/60)*3600);
+		if (s==60) {s=0; m++}
+		if (m==60) {m=0; g++}
+		return [(val_s+g)*1, m, s, val_s]
+	}
+
+	DG.then(function() {	// загрузка кода модуля
+		return DG.plugin('leaflet.markercluster-src.js'); // https://2gis.github.io/mapsapi/vendors/Leaflet.markerCluster/leaflet.markercluster-src.js
+	});
+
+	    DG.then(function() {	// API карт использует сферическую проекцию Меркатора (EPSG:3857)
+		var map = DG.map('map', {
+			center: (location.href.split('?')[1]=='r' ? [59.207, 39.83] : [59.2118, 39.8323]),
+			zoom: (location.href.split('?')[1]=='r' ? 15 : 17),
+			dragging : true,
+			touchZoom: true,
+			scrollWheelZoom: true,
+			doubleClickZoom: false,
+			boxZoom: true,
+			geoclicker: false,
+			zoomControl: true,
+			fullscreenControl: true
+		});
+DG.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}').addTo(map);
+
+var clr = function (a) { return "<svg width='8' height='8' style='position:relative'><rect width='8' height='8' style='fill:"+a+"; stroke:black; stroke-width:1'/></svg>"};
+
+var geoJsonLayer = DG.geoJson(data, {
+	pointToLayer: function (feature, latlng) {
+		return DG.marker(latlng, {icon: DG.icon({
+			iconUrl:'https://cyraxxenos.github.io/gis/icon/yellow.svg',
+			iconSize:     [8, 8],	// размер значка
+			iconAnchor:   [4, 4],	// точка значка, которая будет соответствовать местоположению маркера
+			popupAnchor:  [0, 0]	// точка, из которой всплывающее окно должно открываться относительно значка
+		})});
+	},
+	onEachFeature: function (feature, layer) {
+	   layer.bindLabel(feature.properties.Название);
+
+	   layer.bindPopup(function (layer) { var object = layer.feature, a = object.geometry.coordinates;
+		return "<strong>Обозначение: </strong>"+ object.properties.ID +"<br/>"+
+			"<strong>Вид: </strong>"+ object.properties.Виды_РК +"<br/>"+
+			"<strong>Номер_в_схеме: </strong>"+ object.properties.Номер_в_схеме +"<br/>"+
+			"<strong>Нарушения: </strong>"+ object.properties.Нарушения +"<br/>"+
+			"<strong>Размер_щита: </strong>"+ object.properties.Размер_щита +"<br/>"+
+			"<strong>Адрес: </strong>"+ object.properties.Адрес +"<br/>"+
+			("<strong>Долгота: </strong>"+ a[0].toFixed(8) +" = "+ deg_dms3(a[0],5) +"<br/>"+
+			  "<strong>Широта: </strong>"+ a[1].toFixed(8) +" = "+ deg_dms3(a[1],5)).replace(/[.]/g,',')+
+			'<p style="text-align:center; padding-top:15px"><img style="display:inline-block; max-width:100%" src="https://cyraxxenos.github.io/tgisrk/pic/'+ object.properties.Фотография +'.jpg" onclick="addElement(\'https://cyraxxenos.github.io/tgisrk/pic/'+ object.properties.Фотография +'.jpg\')"></p>';
+	   });
+
+	},
+	style: function (feature) {
+		return {color: feature.properties.color};	// Для линий и полигонов
+	}
+});
+
+//geoJsonLayer.addTo(map);
+var markers = DG.markerClusterGroup({maxClusterRadius:80, disableClusteringAtZoom:18});
+markers.addLayer(geoJsonLayer);
+map.addLayer(markers);
+
+DG.control.scale().addTo(map);
+DG.control.ruler({position: 'bottomright'}).addTo(map);
+	    });
+} ();
+
+document.addEventListener("click", function(event) {
+	var w = document.querySelectorAll("[class*=popup-content-wrapper]");
+	for (var i in w) {w[i].style.maxHeight =""}
+});
+	</script>
+</body>
