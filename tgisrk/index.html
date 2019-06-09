@@ -23,6 +23,7 @@ function addElement(a) {
 	img.setAttribute("src",a);
 	img.setAttribute("style","position:absolute; left:50%; top:50%; transform: translate(-50%,-50%); display:block; max-width:80%; max-height:80%; border:3px outset Silver; border-radius:5px; z-index:998");
 	img.setAttribute("onclick","this.parentNode.removeChild(this)");
+	img.setAttribute("onerror","this.parentNode.removeChild(this)");
 	document.body.appendChild(img);
 }
 
@@ -35,7 +36,7 @@ window.onload = function () {
 	    DG.then(function() {	// API карт использует сферическую проекцию Меркатора (EPSG:3857)
 		var map = DG.map('map', {
 			center: (location.href.split('?')[1]=='r' ? [59.207, 39.83] : [59.205, 39.828]),
-			zoom: (location.href.split('?')[1]=='r' ? 15 : 15),
+			zoom: (location.href.split('?')[1]=='r' ? 15 : 14),
 			dragging : true,
 			touchZoom: true,
 			scrollWheelZoom: true,
@@ -48,12 +49,20 @@ window.onload = function () {
 DG.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}').addTo(map);
 
 var clr = function (a) { return "<svg width='8' height='8' style='position:relative'><rect width='8' height='8' style='fill:"+a+"; stroke:black; stroke-width:1'/></svg>"};
-var picSrc = function (a) { return '"https://cyraxxenos.github.io/tgisrk/pic/'+ a +'.jpg"'};
+var picSr = function (a) { return '"https://cyraxxenos.github.io/tgisrk/pic/'+ a +'.jpg"'};
+var picSrc = function (a) { return '"addElement(\'https://cyraxxenos.github.io/tgisrk/pic/'+ a +'.jpg\')"'};
 var str = function (a,b) { return b=='–'?'':'<strong>'+ a +'</strong>: '+ b +'<br/>'};
+var colors = function (a) { var c;
+	if (a=='да') {c = 'red'}
+	else if (a=='нет') {c = 'lime'}
+	else if (a=='–') {c = 'yellow'}
+	else {c = 'grey'}
+	return c
+};
 var geoJsonLayer = DG.geoJson(data, {
 	pointToLayer: function (feature, latlng) {
 		return DG.marker(latlng, {icon: DG.icon({
-			iconUrl:'https://cyraxxenos.github.io/gis/icon/yellow.svg',
+			iconUrl:'https://cyraxxenos.github.io/gis/icon/'+ colors(feature.properties.Нарушение) +'.svg',
 			iconSize:     [8, 8],	// размер значка
 			iconAnchor:   [4, 4],	// точка значка, которая будет соответствовать местоположению маркера
 			popupAnchor:  [0, 0]	// точка, из которой всплывающее окно должно открываться относительно значка
@@ -71,7 +80,7 @@ var geoJsonLayer = DG.geoJson(data, {
 			str('Адрес',object.properties.Адрес)+
 			("<strong>Долгота</strong>: "+ a[0].toFixed(8)+"<br/>"+
 			  "<strong>Широта</strong>: "+ a[1].toFixed(8)).replace(/[.]/g,',')+
-			'<p style="text-align:center; padding-top:15px"><img style="display:inline-block; max-width:100%" src='+ picSrc(object.properties.ID) +' onclick="addElement('+ picSrc(object.properties.ID) +')"></p>';
+			'<p style="text-align:center; padding-top:15px"><img style="display:inline-block; max-width:100%" src='+ picSr(object.properties.ID) +' onclick='+ picSrc(object.properties.ID) +'></p>';
 	   });
 
 	},
@@ -81,7 +90,7 @@ var geoJsonLayer = DG.geoJson(data, {
 });
 
 //geoJsonLayer.addTo(map);
-var markers = DG.markerClusterGroup({maxClusterRadius:80, disableClusteringAtZoom:18});
+var markers = DG.markerClusterGroup({maxClusterRadius:80, disableClusteringAtZoom:17});
 markers.addLayer(geoJsonLayer);
 map.addLayer(markers);
 
