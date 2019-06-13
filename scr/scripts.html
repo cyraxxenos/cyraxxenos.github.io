@@ -133,7 +133,7 @@ canvas.refresh()
 # -*- coding: utf-8 -*-
 import glob, processing
 
-path = "e:/RU-VLG-725d99-20180721-ru/data/"
+path = "d:/!DATA/RU-VLG-725d99-20180721-ru/data/"
 files = glob.glob(path + "*.shp")
 output = path + "merged.shp"
 
@@ -146,7 +146,7 @@ from qgis.core import *
 import os
  
 # Set the directory where the input files are stored
-directory = "e:/RU-VLG-725d99-20180721-ru/data/"
+directory = "d:/!DATA/RU-VLG-725d99-20180721-ru/data/"
  
 # Get the list of input files
 fileList = os.listdir(directory)
@@ -187,16 +187,16 @@ v_layer.commitChanges()
 QgsMapLayerRegistry.instance().addMapLayer(v_layer)
 </textarea></div></div>
 
-	<div class="tab" hidden><input><label>SPLIT &#149; Деление на слои по атрибуту</label><div tc>
+	<div class="tab" hidden><input><label>SPLIT &#149; Деление на слои по атрибутам</label><div tc>
 <textarea>
 # -*- coding: utf-8 -*-
 import processing   # utilize the Processing Framework
 import os           # the standard Python os library
  
-input = u'd:/Scripts QGIS/5/йцуке5.shp'
-field = 'TypeObjRus'
+input = u'c:/Users/User/Desktop/4/5.shp'
+field = 'GeomType'
 operator = 0   # enumerator for equals (=)
-output = u'd:/Scripts QGIS/8/'
+output = u'c:/Users/User/Desktop/4/'
  
 # obtain dictionary object that contains unique values from specified field
 unique = processing.runalg('qgis:listuniquevalues', input, field, None)
@@ -209,16 +209,16 @@ for value in values:
     # run the extract by attribute tool
     processing.runalg('qgis:extractbyattribute', input, field, operator, value, layer_path)
 </textarea></div></div>
-	<div class="tab" hidden><input><label>SPLIT &#149; Деление на слои по значению атрибута</label><div tc>
+	<div class="tab" hidden><input><label>SPLIT &#149; Деление (экспорт слоя) по атрибуту</label><div tc>
 <textarea>
 # -*- coding: utf-8 -*-
-import processing   # utilize the Processing Framework
+import processing
 
-input = u'd:/Scripts QGIS/5/йцуке5.shp'
-field = 'TypeObjRus'
+input = u'c:/Users/User/Desktop/4/5.shp'
+field = 'GeomType'
 operator = 0   # enumerator for equals (=)
-value = u'Кадастровый квартал'
-output = u'd:/Scripts QGIS/8/Кадастровый квартал.shp'
+value = u'Parcel'
+output = u'c:/Users/User/Desktop/4/Parcel.shp'
 
 processing.runalg('qgis:extractbyattribute', input, field, operator, value, output)
 </textarea></div></div>
@@ -707,7 +707,7 @@ for layer in layers:
 <textarea>
 import math
 from PyQt4.QtGui import QDockWidget
-consoleWidget = iface.mainWindow().findChild( QDockWidget, 'PythonConsole' )
+consoleWidget = iface.mainWindow().findChild(QDockWidget, 'PythonConsole')
 consoleWidget.console.shellOut.clearConsole()
 
 def ogz_s(x1, x2, y1, y2):
@@ -739,7 +739,7 @@ for layer in canvas.layers():
     features = {}
     for fid in featids:
         features[fid] = QgsFeature()
-        if not layer.getFeatures( QgsFeatureRequest().setFilterFid(fid) ).nextFeature( features[fid] ):
+        if not layer.getFeatures( QgsFeatureRequest().setFilterFid(fid) ).nextFeature(features[fid]):
             continue;
         result[fid] = features[fid].geometry()
         i = 0
@@ -758,6 +758,35 @@ canvas.refresh()
 </textarea></div></div>
 	<div class="tab" hidden><input><label>Проекции</label><div tc>
 <textarea>
+def CRS(name, s):
+    crs = QgsCoordinateReferenceSystem()
+    crs.createFromProj4(s)
+    crs.saveAsUserCrs(name)
+
+CRS('МСК-35 зона 1', '+proj=tmerc +lat_0=0 +lon_0=35.55 +k=1 +x_0=1250000 +y_0=-6214743.504 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs')
+CRS('МСК-35 зона 2', '+proj=tmerc +lat_0=0 +lon_0=38.55 +k=1 +x_0=2250000 +y_0=-6214743.504 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs')
+CRS('МСК-35 зона 3', '+proj=tmerc +lat_0=0 +lon_0=41.55 +k=1 +x_0=3250000 +y_0=-6214743.504 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs')
+CRS('МСК-35 зона 4', '+proj=tmerc +lat_0=0 +lon_0=44.55 +k=1 +x_0=4250000 +y_0=-6214743.504 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs')
+CRS('МСК-35 зона 5', '+proj=tmerc +lat_0=0 +lon_0=47.55 +k=1 +x_0=5250000 +y_0=-6214743.504 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs')
+
+CRS('МСК-44 зона 1', '+proj=tmerc +lat_0=0 +lon_0=41.55 +k=1 +x_0=1250000 +y_0=-6114743.504 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs')
+CRS('МСК-44 зона 2', '+proj=tmerc +lat_0=0 +lon_0=44.55 +k=1 +x_0=2250000 +y_0=-6114743.504 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs')
+CRS('МСК-44 зона 3', '+proj=tmerc +lat_0=0 +lon_0=47.55 +k=1 +x_0=3250000 +y_0=-6114743.504 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs')
+
+CRS('СК-1963 район C зона 1', '+proj=tmerc +lat_0=0 +lon_0=24.95 +k=1 +x_0=1250000 +y_0=-11057.628 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs')
+CRS('СК-1963 район C зона 2', '+proj=tmerc +lat_0=0 +lon_0=27.95 +k=1 +x_0=2250000 +y_0=-11057.628 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs')
+CRS('СК-1963 район C зона 3', '+proj=tmerc +lat_0=0 +lon_0=30.95 +k=1 +x_0=3250000 +y_0=-11057.628 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs')
+CRS('СК-1963 район C зона 4', '+proj=tmerc +lat_0=0 +lon_0=33.95 +k=1 +x_0=4250000 +y_0=-11057.628 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs')
+CRS('СК-1963 район C зона 5', '+proj=tmerc +lat_0=0 +lon_0=36.95 +k=1 +x_0=5250000 +y_0=-11057.628 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs')
+CRS('СК-1963 район D зона 1', '+proj=tmerc +lat_0=0 +lon_0=38.55 +k=1 +x_0=1250000 +y_0=-14743.504 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs')
+CRS('СК-1963 район D зона 2', '+proj=tmerc +lat_0=0 +lon_0=41.55 +k=1 +x_0=2250000 +y_0=-14743.504 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs')
+CRS('СК-1963 район D зона 3', '+proj=tmerc +lat_0=0 +lon_0=44.55 +k=1 +x_0=3250000 +y_0=-14743.504 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs')
+CRS('СК-1963 район D зона 4', '+proj=tmerc +lat_0=0 +lon_0=47.55 +k=1 +x_0=4250000 +y_0=-14743.504 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs')
+CRS('СК-1963 район P зона 1', '+proj=tmerc +lat_0=0 +lon_0=32.48333333333 +k=1 +x_0=1250000 +y_0=-12900.566 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs')
+CRS('СК-1963 район P зона 2', '+proj=tmerc +lat_0=0 +lon_0=35.48333333333 +k=1 +x_0=2250000 +y_0=-12900.566 +ellps=krass +towgs84=23.57,-140.95,-79.8,0,0.35,0.79,-0.22 +units=m +no_defs')
+
+
+
 # -*- coding: utf-8 -*-
 def CRS(name, s):
     crs = QgsCoordinateReferenceSystem()
