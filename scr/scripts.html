@@ -131,13 +131,17 @@ canvas.refresh()
 	<div class="tab" hidden><input><label>MERGE &#149; Объединение слоёв St</label><div tc>
 <textarea>
 # -*- coding: utf-8 -*-
-import glob, processing
+import glob, processing, os
 
-path = "d:/!DATA/RU-VLG-725d99-20180721-ru/data/"
-files = glob.glob(path + "*.shp")
-output = path + "merged.shp"
-
-processing.runandload("saga:mergelayers", files, True, True, output)
+for j in ["08","09","21","24"]:
+    path = "c:/Users/User/Desktop/data/" + j + "/"
+    files = glob.glob(path + "*.shp")
+    if not os.path.isdir(path + "merged/"):
+        os.makedirs(path + "merged/")
+    output = path + "merged/merged.shp"
+    processing.runandload("saga:mergelayers", files, True, True, output)
+    print (str(j) + ") layer is ready")
+print ("Complete")
 </textarea></div></div>
 	<div class="tab" hidden><input><label>MERGE &#149; Объединение слоёв</label><div tc>
 <textarea>
