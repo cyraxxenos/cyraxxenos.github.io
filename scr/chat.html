@@ -217,7 +217,7 @@ firebase.database().ref("messages").on("child_added", function (snapshot) {
 	res = JSON.parse(JSON.stringify(snapshot)); res.message = t(res.message,-1,'');
     if (res.sender == myName) {
 	QS('.messages-content').insertAdjacentHTML("beforeend",'<div class="message message-personal"><div id="message-'+ snapshot.key +'">'+
-		res.message +'<button class="btn-delete" data-id="'+ snapshot.key +'" onclick="deleteMessage(this);" title="Удалить сообщение">X</button></div><div class="timestamp">'+ res.time +'</div></div>');
+		res.message +'<button class="btn-delete" data-id="'+ snapshot.key +'" onclick="deleteMessage(this);" title="Удалить сообщение">x</button></div><div class="timestamp">'+ res.time +'</div></div>');
 	QS('.message-input').value ='';
     } else {
 	QS('.messages-content').insertAdjacentHTML("beforeend",'<div class="message"><div id="message-'+ snapshot.key +'">'+ res.sender +':: '+ res.message +'</div><div class="timestamp">'+ res.time +'</div></div>');
