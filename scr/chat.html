@@ -211,7 +211,7 @@ function stop(e) {
 	if (e.preventDefault) {e.preventDefault(); e.stopPropagation()} // стандарт
 	else {e.returnValue = false; e.cancelBubble = true} // IE8-
 }
-myName = location.href.split('?')[1]; //prompt("Enter your name");
+myName = location.href.split('?')[1] || 'A'; //prompt("Enter your name");
 
 firebase.database().ref("messages").on("child_added", function (snapshot) {
 	res = JSON.parse(JSON.stringify(snapshot)); res.message = t(res.message,-1,'');
