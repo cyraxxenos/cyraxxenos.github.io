@@ -220,7 +220,7 @@ firebase.database().ref("messages").on("child_added", function (snapshot) {
 		res.message +'<button class="btn-delete" data-id="'+ snapshot.key +'" onclick="deleteMessage(this);" title="Удалить сообщение">X</button></div><div class="timestamp">'+ res.time +'</div></div>');
 	QS('.message-input').value ='';
     } else {
-	QS('.messages-content').insertAdjacentHTML("beforeend",'<div class="message"><div id="message-'+ snapshot.key +'">'+ res.sender +' > '+ res.message +'</div><div class="timestamp">'+ res.time +'</div></div>');
+	QS('.messages-content').insertAdjacentHTML("beforeend",'<div class="message"><div id="message-'+ snapshot.key +'">'+ res.sender +':: '+ res.message +'</div><div class="timestamp">'+ res.time +'</div></div>');
     }
     try {QS('.messages').scrollTop = QS('.messages').scrollHeight} catch(e) {}
 });
