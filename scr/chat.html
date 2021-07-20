@@ -9,6 +9,7 @@
 
 /*-------------------- Body --------------------*/
 * {box-sizing: border-box}
+a, a:link, a:visited, a:focus, a:hover, a:active, [lnk], [tmenu]:hover {text-decoration:none; outline:none; user-select:none}
 html, body {height: 100%}
 body {
   background: Silver;
@@ -51,7 +52,8 @@ body {
   font-size: 14px;
   margin: 0; padding: 0;
 }
-.chat-title h2 {
+.chat-title a {
+  float:right;
   color: rgba(255, 255, 255, 0.5);
   font-size: 12px;
   letter-spacing: 1px;
@@ -128,7 +130,7 @@ body {
   font-size: 10px;
   text-transform: uppercase;
   line-height: 1;
-  padding: 8px 15px;
+  padding: 22px 15px;
   border-radius: 10px;
   outline: none !important;
 }
@@ -148,6 +150,13 @@ body {
 </style>
 <script>
 function QS(a) {return document.querySelector(a)}
+function td_dati(a) {a = new Date(a + 10800000).toISOString();
+	return a.slice(0,10).replace(/(\d+)-(\d+)-(\d+)/, '$3-$2-$1') +'_'+ a.slice(11,16)
+}
+function stop(e) {
+	if (e.preventDefault) {e.preventDefault(); e.stopPropagation()} // стандарт
+	else {e.returnValue = false; e.cancelBubble = true} // IE8-
+}
 var firebaseConfig = {
 	apiKey: "AIzaSyC7fYxUNGewjRcBiB8CE6DFG1sPRbYqHhA",
 	authDomain: "jade-b04a6.firebaseapp.com",
@@ -171,9 +180,12 @@ function deleteMessage(self) {
 }
 
 function sendMessage() {
-	var message = document.getElementById("message").value;
+	var message = document.getElementById("message").value, server_time;
+	firebase.database().ref(".info/serverTimeOffset").on("value", (offset) => {
+		server_time = new Date().getTime() + offset.val();
+	});
 	firebase.database().ref("messages").push().set({
-		"time": td_dati(new Date()),
+		"time": td_dati(server_time),
 		"message": t(message,1,''),
 		"sender": myName
 	}); return false;
@@ -191,8 +203,8 @@ function t(a,b,r) {
 </head>
 <div class="chat">
   <div class="chat-title">
-    <h1>Free</h1>
-    <h2>Chat Room</h2>
+    <h1>JP chat room</h1>
+    <a href="https://appr.tc/r/jades" target="_blank">Открыть голосовой чат</a>
   </div>
   <div class="messages">
     <div class="messages-content"></div>
@@ -204,30 +216,25 @@ function t(a,b,r) {
 </div>
 <script>
 var d, h, m, i = 0, myName ='';
-function td_dati(a) {a = new Date(a.getTime()+10800000).toISOString();
-	return a.slice(0,10).replace(/(\d+)-(\d+)-(\d+)/, '$3-$2-$1') +'_'+ a.slice(11,16)
-}
-function stop(e) {
-	if (e.preventDefault) {e.preventDefault(); e.stopPropagation()} // стандарт
-	else {e.returnValue = false; e.cancelBubble = true} // IE8-
-}
 myName = location.href.split('?')[1] || 'A'; //prompt("Enter your name");
 
 firebase.database().ref("messages").on("child_added", function (snapshot) {
 	res = JSON.parse(JSON.stringify(snapshot)); res.message = t(res.message,-1,'');
     if (res.sender == myName) {
 	QS('.messages-content').insertAdjacentHTML("beforeend",'<div class="message message-personal"><div id="message-'+ snapshot.key +'">'+
-		res.message +'<button class="btn-delete" data-id="'+ snapshot.key +'" onclick="deleteMessage(this);" title="Удалить сообщение">x</button></div><div class="timestamp">'+ res.time +'</div></div>');
+		res.message +'<button class="btn-delete" data-id="'+ snapshot.key +'" onclick="deleteMessage(this);" title="Удалить сообщение">x</button>'+
+			'</div><div class="timestamp">'+ res.time +'</div></div>');
 	QS('.message-input').value ='';
     } else {
-	QS('.messages-content').insertAdjacentHTML("beforeend",'<div class="message"><div id="message-'+ snapshot.key +'">'+ res.sender +':: '+ res.message +'</div><div class="timestamp">'+ res.time +'</div></div>');
+	QS('.messages-content').insertAdjacentHTML("beforeend",'<div class="message"><div id="message-'+ snapshot.key +'">'+
+		'<span style="color:White">'+ res.sender +': </span>'+ res.message +'</div><div class="timestamp">'+ res.time +'</div></div>');
     }
     try {QS('.messages').scrollTop = QS('.messages').scrollHeight} catch(e) {}
 });
 
 function insertMessage() {
 	msg = QS('.message-input').value;
-	if (msg == '') {return false} sendMessage();
+	if (msg =='') {return false} sendMessage();
 }
 
 QS('.message-submit').onclick = function() {insertMessage()}
