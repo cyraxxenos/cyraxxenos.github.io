@@ -1,11 +1,10 @@
 ﻿<script type="text/javascript">
 if (navigator.geolocation){
     navigator.geolocation.getCurrentPosition(function(location){
-        var positionDetails = "Your position: <br/>" + "Latitude: <strong>" + location.coords.latitude + "</strong> and " + "Longitude: <strong>" + location.coords.longitude+"</strong>";
-        document.getElementById("location_content").innerHTML = positionDetails;
+        document.getElementById("location").innerHTML = "["+ location.coords.latitude +","+ location.coords.longitude +"]";
     });
 } else {
-    document.getElementById("location_content").innerHTML = 0;
+    document.getElementById("location").innerHTML = [];
 }
 </script>
-<div id="location_content"></div>
+<div id="location"></div>
