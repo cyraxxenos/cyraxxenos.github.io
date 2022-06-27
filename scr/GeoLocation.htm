@@ -1,10 +1,9 @@
 ﻿<script type="text/javascript">
 if (navigator.geolocation){
     navigator.geolocation.getCurrentPosition(function(location){
-        document.getElementById("location").innerHTML = "["+ location.coords.latitude +","+ location.coords.longitude +"]";
+        document.body.innerHTML = "["+ location.coords.latitude +","+ location.coords.longitude +"]";
     });
 } else {
-    document.getElementById("location").innerHTML = [];
+    document.body.innerHTML = [];
 }
 </script>
-<div id="location"></div>
