@@ -1,16 +1,11 @@
 ﻿<script type="text/javascript">
-    function get_position(){
-        if(navigator.geolocation){
-            navigator.geolocation.getCurrentPosition(function(location){
-                var positionDetails = "Your position: <br/>" + "Latitude: <strong>" + location.coords.latitude + "</strong> and " + "Longitude: <strong>" + location.coords.longitude+"</strong>";
-                document.getElementById("location_content").innerHTML = positionDetails;
-            });
-        } else{
-            document.getElementById("location_content").innerHTML = "This browser does not support HTML5 geolocation.";
-        }
-    }
+if (navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(function(location){
+        var positionDetails = "Your position: <br/>" + "Latitude: <strong>" + location.coords.latitude + "</strong> and " + "Longitude: <strong>" + location.coords.longitude+"</strong>";
+        document.getElementById("location_content").innerHTML = positionDetails;
+    });
+} else {
+    document.getElementById("location_content").innerHTML = 0;
+}
 </script>
-</head>
-<body>
-    <div id="location_content"></div>
-    <button type="button" onclick="get_position();">See My Position</button>
+<div id="location_content"></div>
