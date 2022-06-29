@@ -1,7 +1,7 @@
 ﻿<script type="text/javascript">
 if (navigator.geolocation){
     navigator.geolocation.getCurrentPosition(function(location){
-        document.body.innerHTML = '<a href="map\leaflet171\map_f.php?loc='+ location.coords.latitude +","+ location.coords.longitude +'">L171_GL</a>';
+        document.body.innerHTML = '<a href="map/leaflet171/map_f.php?loc='+ location.coords.latitude +","+ location.coords.longitude +'">L171_GeoLoc</a>';
     });
 } else {
     document.body.innerHTML = [];
